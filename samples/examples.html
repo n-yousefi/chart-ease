@@ -7,6 +7,31 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
-    <connect-it> </connect-it>
+    <chart-it width="200" height="200" margin="50">
+      <path is="path-type" stroke="black" fill="none"></path>
+      <rect
+        rx="10"
+        ry="10"
+        width="5"
+        height="5"
+        stroke="black"
+        strokeWidth="5"
+      />
+    </chart-it>
+    <script>
+      const data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0 },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7 },
+        { x: 8, y: 3 },
+      ];
+      window.onload = function () {
+        document.querySelector("chart-it").data = data;
+      };
+    </script>
   </body>
 </html>
