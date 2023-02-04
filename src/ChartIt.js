@@ -1,26 +1,60 @@
 import normalize from "./normalize";
-import Axes from "./Axes";
+import Element from "./Element";
 import loadPathData from "./loadPathData";
 
 class ChartIt extends HTMLElement {
   constructor() {
     super();
-    this.axes = new Axes(this).Axes;
+    this.element = new Element(this);
   }
 
   connectedCallback() {}
   disconnectedCallback() {}
 
   draw(data) {
-    const svg = this.createSVG(this.axes[0].length, this.axes[1].length);
-    const path = this.querySelector(`path[is="path-type"]`);
-    loadPathData(path, data);
-    svg.appendChild(path);
+    const svg = this.createSVG(this.element.width, this.element.height);
+    this.drawPath(svg, data);
+    this.drawPoints(svg, data);
     this.outerHTML = svg.outerHTML;
   }
 
+  drawPoints(svg, data) {
+    data.forEach((point) => {
+      this.drawPoint(svg, point);
+    });
+  }
+
+  drawPoint(svg, point) {
+    this.element.pointTypes.forEach((pointType) => {
+      const tag = pointType.cloneNode(true);
+      this.setDefaultPosition(tag, point.x, point.y);
+      svg.appendChild(tag);
+    });
+  }
+
+  setDefaultPosition(tag, x, y) {
+    switch (tag.tagName) {
+      case "RECT":
+        tag.setAttribute("x", x - Number(tag.getAttribute("width")) / 2);
+        tag.setAttribute("y", y - Number(tag.getAttribute("height")) / 2);
+        break;
+      case "CIRCLE":
+      case "ELLIPSE":
+      default:
+        tag.setAttribute("cx", x);
+        tag.setAttribute("cy", y);
+        break;
+    }
+  }
+
+  drawPath(svg, data) {
+    const path = this.element.pathType.cloneNode(true);
+    loadPathData(path, data);
+    svg.appendChild(path);
+  }
+
   set data(data) {
-    this.draw(normalize(data, this.axes));
+    this.draw(normalize(data, this.element.axes));
   }
 
   createSVG(width, height) {

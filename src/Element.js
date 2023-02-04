@@ -1,20 +1,27 @@
-export default class Axes {
+export default class Element {
   constructor(chartIt) {
     this.chartIt = chartIt;
   }
-  get Axes() {
+
+  get pathType() {
+    return this.chartIt.querySelector(`path[is="path-type"]`);
+  }
+
+  get pointTypes() {
+    return this.chartIt.querySelectorAll(`:not(path[is="path-type"])`);
+  }
+
+  get axes() {
     return [
       {
         cols: this.hAxis,
         lowerBound: this.margins.left,
         upperBound: this.width - this.margins.right,
-        length: this.width,
       },
       {
         cols: this.vAxis,
         lowerBound: this.margins.top,
         upperBound: this.height - this.margins.bottom,
-        length: this.height,
       },
     ];
   }
