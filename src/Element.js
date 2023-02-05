@@ -35,11 +35,13 @@ export default class Element {
   }
 
   get hAxis() {
-    return this.chartIt.getAttribute("horizontalAxis") || ["x"];
+    const axis = this.chartIt.getAttribute("horizontalAxis") || "x";
+    return axis.split(",").filter((q) => q);
   }
 
   get vAxis() {
-    return this.chartIt.getAttribute("verticalAxis") || ["y"];
+    const axis = this.chartIt.getAttribute("verticalAxis") || "y";
+    return axis.split(",").filter((q) => q);
   }
 
   get margins() {
@@ -60,5 +62,22 @@ export default class Element {
       top: marginTop,
       bottom: marginBottom,
     };
+  }
+
+  get id() {
+    return this.chartIt.getAttribute("id");
+  }
+
+  get class() {
+    return this.chartIt.getAttribute("clas");
+  }
+
+  createSVG() {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    if (this.id) svg.setAttribute("id", this.id);
+    if (this.class) svg.setAttribute("class", this.class);
+    svg.setAttribute("width", this.width);
+    svg.setAttribute("height", this.height);
+    return svg;
   }
 }

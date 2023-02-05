@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Examples</title>
+    <link rel="shortcut icon" href="#" />
+    <script src="../dist/chart-it.js" defer></script>
+  </head>
+  <body>
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient id="pathGradient">
+          <stop offset="0%" stop-color="white"></stop>
+          <stop offset="20%" stop-color="aqua"></stop>
+        </linearGradient>
+        <linearGradient
+          id="pointGradient"
+          gradientUnits="userSpaceOnUse"
+          x1="-3.41%"
+          y1="96.04%"
+          x2="103.41%"
+          y2="3.96%"
+        >
+          <stop offset=".163" stop-color="#359bf0" stop-opacity="0"></stop>
+          <stop offset=".692" stop-color="#007be0"></stop>
+        </linearGradient>
+        <radialGradient id="radiantGlow">
+          <stop stop-color="#00f" offset="0.1"></stop>
+          <stop stop-color="rgba(227,80,125, 0.2)" offset="0.3"></stop>
+        </radialGradient>
+        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
+          <feGaussianBlur
+            in="thicken"
+            stdDeviation="5"
+            result="blurred"
+          ></feGaussianBlur>
+        </filter>
+      </defs>
+    </svg>
+
+    <chart-it
+      id="candlestick"
+      horizontalAxis="x"
+      verticalAxis="low,open,close,high"
+    >
+      <line ondraw="onDrawLine(e)" />
+      <rect ondraw="onDrawRect(e)" />
+    </chart-it>
+    <script>
+      const data = [
+        { x: 1, low: 2, open: 5, close: 3, high: 5 },
+        { x: 2, low: 5, open: 6, close: 7, high: 16 },
+        { x: 3, low: 9, open: 9, close: 10, high: 10 },
+        { x: 4, low: 15, open: 15, close: 5, high: 5 },
+        { x: 5, low: 9, open: 10, close: 12, high: 20 },
+        { x: 6, low: 9, open: 11, close: 13, high: 25 },
+        { x: 7, low: 9, open: 12, close: 14, high: 15 },
+        { x: 8, low: 1, open: 13, close: 10, high: 15 },
+      ];
+      window.onload = function () {
+        document.querySelector("#candlestick").data = data;
+      };
+
+      onDrawLine = function ({ point }) {
+        let obj = {
+          x1: point.x + 5,
+          x2: point.x + 5,
+          y1: point.low,
+          y2: point.high,
+          stroke: point.open > point.close ? "#28A69A" : "#EE5355",
+        };
+        return obj;
+      };
+
+      onDrawRect = function ({ point }) {
+        let obj = {
+          width: 10,
+          height: Math.abs(point.open - point.close),
+          x: point.x,
+          y: point.open,
+          fill: point.open > point.close ? "#28A69A" : "#EE5355",
+        };
+        return obj;
+      };
+    </script>
+  </body>
+</html>
