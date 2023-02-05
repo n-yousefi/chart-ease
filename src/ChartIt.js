@@ -2,6 +2,7 @@ import normalize from "./normalize";
 import Element from "./Element";
 import drawPoints from "./drawPoints";
 import drawPath from "./drawPath";
+import { createSVG } from "./svg";
 
 class ChartIt extends HTMLElement {
   constructor() {
@@ -13,13 +14,12 @@ class ChartIt extends HTMLElement {
   disconnectedCallback() {}
 
   draw(data) {
-    const svg = this.element.createSVG();
+    const svg = createSVG(this.element);
     const pathType = this.element.pathType;
     const pointTypes = this.element.pointTypes;
-    //this.outerHTML = svg.outerHTML;
     this.parentElement.insertBefore(svg, this);
     drawPath(svg, pathType, data);
-    drawPoints(svg, pointTypes, data);
+    drawPoints(svg, pointTypes, data, this["ondraw"]);
     this.parentElement.removeChild(this);
   }
 

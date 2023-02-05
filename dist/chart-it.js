@@ -154,30 +154,15 @@
     get class() {
       return this.chartIt.getAttribute("clas");
     }
-
-    createSVG() {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      if (this.id) svg.setAttribute("id", this.id);
-      if (this.class) svg.setAttribute("class", this.class);
-      svg.setAttribute("width", this.width);
-      svg.setAttribute("height", this.height);
-      return svg;
-    }
   }
 
-  function dispatchOnDrawEvent(element, row, orginalRow, index) {
-    const onDraw = new CustomEvent("draw", {
-      bubbles: true,
-      detail: {
-        element,
-        point: {
-          row,
-          orginalRow,
-        },
-        index,
-      },
-    });
-    element.dispatchEvent(onDraw);
+  function createSVG(element) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    if (element.id) svg.setAttribute("id", element.id);
+    if (element.class) svg.setAttribute("class", element.class);
+    svg.setAttribute("width", element.width);
+    svg.setAttribute("height", element.height);
+    return svg;
   }
 
   function cloneElement(element) {
@@ -185,37 +170,51 @@
       "http://www.w3.org/2000/svg",
       element.tagName.toLowerCase()
     );
-    Array.from(element.attributes).forEach((attr) =>
-      tag.setAttribute(attr.name, attr.value)
-    );
-    tag.style.cssText = element.style.cssText;
+    Array.from(element.attributes).forEach((attr) => {
+      if (attr.value) tag.setAttribute(attr.name, attr.value);
+    });
+    if (tag.style.cssText) tag.style.cssText = element.style.cssText;
     return tag;
   }
 
-  function drawPoints(svg, pointTypes, data) {
-    data.forEach((point, index) => {
+  function drawPoints(svg, pointTypes, data, ondraw) {
+    data.forEach((row, index) => {
       pointTypes.forEach((pointType) => {
-        //const tag = pointType.cloneNode(true);
-        const tag = cloneElement(pointType);
-        if (!tag.hasAttribute("ondraw"))
-          setDefaultPosition(tag, point.x, point.y);
-        svg.appendChild(tag);
-        dispatchOnDrawEvent(tag, point, null, index);
+        const shape = cloneElement(pointType);
+        if (!ondraw) setDefaultPosition(shape, row.x, row.y);
+        else
+          ondraw({
+            shape,
+            row,
+            orginalRow: null,
+            index,
+          });
+        svg.appendChild(shape);
       });
     });
   }
 
-  function setDefaultPosition(tag, x, y) {
-    switch (tag.tagName.toLowerCase()) {
+  function setDefaultPosition(shape, x, y) {
+    switch (shape.shapeName.toLowerCase()) {
       case "rect":
-        tag.setAttribute("x", x - Number(tag.getAttribute("width")) / 2);
-        tag.setAttribute("y", y - Number(tag.getAttribute("height")) / 2);
+        if (x > 0) {
+          const width = Number(shape.getAttribute("width"));
+          const adjustWidth = width > 0 ? x - width / 2 : x;
+          shape.setAttribute("x", adjustWidth);
+        }
+        if (y > 0) {
+          const height = Number(shape.getAttribute("height"));
+          const adjustHeight = height > 0 ? y - height / 2 : x;
+          shape.setAttribute("y", adjustHeight);
+        }
         break;
       case "circle":
       case "ellipse":
+        if (x > 0) shape.setAttribute("cx", x);
+        if (y > 0) shape.setAttribute("cy", y);
       default:
-        tag.setAttribute("cx", x);
-        tag.setAttribute("cy", y);
+        if (x > 0) shape.setAttribute("x", x);
+        if (y > 0) shape.setAttribute("y", y);
         break;
     }
   }
@@ -249,13 +248,12 @@
     disconnectedCallback() {}
 
     draw(data) {
-      const svg = this.element.createSVG();
+      const svg = createSVG(this.element);
       const pathType = this.element.pathType;
       const pointTypes = this.element.pointTypes;
-      //this.outerHTML = svg.outerHTML;
       this.parentElement.insertBefore(svg, this);
       drawPath(svg, pathType, data);
-      drawPoints(svg, pointTypes, data);
+      drawPoints(svg, pointTypes, data, this["ondraw"]);
       this.parentElement.removeChild(this);
     }
 

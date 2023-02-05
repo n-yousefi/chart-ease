@@ -71,13 +71,4 @@ export default class Element {
   get class() {
     return this.chartIt.getAttribute("clas");
   }
-
-  createSVG() {
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    if (this.id) svg.setAttribute("id", this.id);
-    if (this.class) svg.setAttribute("class", this.class);
-    svg.setAttribute("width", this.width);
-    svg.setAttribute("height", this.height);
-    return svg;
-  }
 }

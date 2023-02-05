@@ -1,30 +1,43 @@
-import dispatchOnDrawEvent from "./events";
 import { cloneElement } from "./svg";
 
-export default function drawPoints(svg, pointTypes, data) {
-  data.forEach((point, index) => {
+export default function drawPoints(svg, pointTypes, data, ondraw) {
+  data.forEach((row, index) => {
     pointTypes.forEach((pointType) => {
-      //const tag = pointType.cloneNode(true);
-      const tag = cloneElement(pointType);
-      if (!tag.hasAttribute("ondraw"))
-        setDefaultPosition(tag, point.x, point.y);
-      svg.appendChild(tag);
-      dispatchOnDrawEvent(tag, point, null, index);
+      const shape = cloneElement(pointType);
+      if (!ondraw) setDefaultPosition(shape, row.x, row.y);
+      else
+        ondraw({
+          shape,
+          row,
+          orginalRow: null,
+          index,
+        });
+      svg.appendChild(shape);
     });
   });
 }
 
-function setDefaultPosition(tag, x, y) {
-  switch (tag.tagName.toLowerCase()) {
+function setDefaultPosition(shape, x, y) {
+  switch (shape.shapeName.toLowerCase()) {
     case "rect":
-      tag.setAttribute("x", x - Number(tag.getAttribute("width")) / 2);
-      tag.setAttribute("y", y - Number(tag.getAttribute("height")) / 2);
+      if (x > 0) {
+        const width = Number(shape.getAttribute("width"));
+        const adjustWidth = width > 0 ? x - width / 2 : x;
+        shape.setAttribute("x", adjustWidth);
+      }
+      if (y > 0) {
+        const height = Number(shape.getAttribute("height"));
+        const adjustHeight = height > 0 ? y - height / 2 : x;
+        shape.setAttribute("y", adjustHeight);
+      }
       break;
     case "circle":
     case "ellipse":
+      if (x > 0) shape.setAttribute("cx", x);
+      if (y > 0) shape.setAttribute("cy", y);
     default:
-      tag.setAttribute("cx", x);
-      tag.setAttribute("cy", y);
+      if (x > 0) shape.setAttribute("x", x);
+      if (y > 0) shape.setAttribute("y", y);
       break;
   }
 }

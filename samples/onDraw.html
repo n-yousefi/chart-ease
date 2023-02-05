@@ -43,44 +43,47 @@
       horizontalAxis="x"
       verticalAxis="low,open,close,high"
     >
-      <line ondraw="onDrawLine(e)" />
-      <rect ondraw="onDrawRect(e)" />
+      <line />
+      <rect />
     </chart-it>
     <script>
-      const data = [
-        { x: 1, low: 2, open: 5, close: 3, high: 5 },
-        { x: 2, low: 5, open: 6, close: 7, high: 16 },
-        { x: 3, low: 9, open: 9, close: 10, high: 10 },
-        { x: 4, low: 15, open: 15, close: 5, high: 5 },
-        { x: 5, low: 9, open: 10, close: 12, high: 20 },
-        { x: 6, low: 9, open: 11, close: 13, high: 25 },
-        { x: 7, low: 9, open: 12, close: 14, high: 15 },
-        { x: 8, low: 1, open: 13, close: 10, high: 15 },
-      ];
       window.onload = function () {
-        document.querySelector("#candlestick").data = data;
-      };
-
-      onDrawLine = function ({ point }) {
-        let obj = {
-          x1: point.x + 5,
-          x2: point.x + 5,
-          y1: point.low,
-          y2: point.high,
-          stroke: point.open > point.close ? "#28A69A" : "#EE5355",
+        const data = [
+          { x: 1, low: 2, open: 5, close: 3, high: 5 },
+          { x: 2, low: 5, open: 6, close: 7, high: 16 },
+          { x: 3, low: 9, open: 9, close: 10, high: 10 },
+          { x: 4, low: 15, open: 15, close: 5, high: 5 },
+          { x: 5, low: 9, open: 10, close: 12, high: 20 },
+          { x: 6, low: 9, open: 11, close: 13, high: 25 },
+          { x: 7, low: 9, open: 12, close: 14, high: 15 },
+          { x: 8, low: 1, open: 13, close: 10, high: 15 },
+        ];
+        const chart = document.querySelector("#candlestick");
+        chart.ondraw = ({ shape, row }) => {
+          switch (shape.tagName) {
+            case "line":
+              shape.setAttribute("x1", row.x + 5);
+              shape.setAttribute("x2", row.x + 5);
+              shape.setAttribute("y1", row.low);
+              shape.setAttribute("y2", row.high);
+              shape.setAttribute(
+                "stroke",
+                row.open > row.close ? "#28A69A" : "#EE5355"
+              );
+              break;
+            case "rect":
+              shape.setAttribute("width", 10);
+              shape.setAttribute("height", Math.abs(row.open - row.close));
+              shape.setAttribute("x", row.x);
+              shape.setAttribute("y", row.open);
+              shape.setAttribute(
+                "fill",
+                row.open > row.close ? "#28A69A" : "#EE5355"
+              );
+              break;
+          }
         };
-        return obj;
-      };
-
-      onDrawRect = function ({ point }) {
-        let obj = {
-          width: 10,
-          height: Math.abs(point.open - point.close),
-          x: point.x,
-          y: point.open,
-          fill: point.open > point.close ? "#28A69A" : "#EE5355",
-        };
-        return obj;
+        chart.data = data;
       };
     </script>
   </body>
