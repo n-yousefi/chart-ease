@@ -27,11 +27,11 @@ export default class Element {
   }
 
   get height() {
-    return Number(this.chartIt.getAttribute("height") || 200);
+    return Number(this.chartIt.getAttribute("height") ?? 150);
   }
 
   get width() {
-    return Number(this.chartIt.getAttribute("width") || 200);
+    return Number(this.chartIt.getAttribute("width") ?? 150);
   }
 
   get hAxis() {
@@ -45,7 +45,7 @@ export default class Element {
   }
 
   get margins() {
-    const margin = Number(this.chartIt.getAttribute("margin") || 10);
+    const margin = Number(this.chartIt.getAttribute("margin") || 20);
     const marginLeft = Number(
       this.chartIt.getAttribute("marginLeft") || margin
     );

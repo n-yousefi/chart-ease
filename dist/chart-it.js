@@ -110,11 +110,11 @@
     }
 
     get height() {
-      return Number(this.chartIt.getAttribute("height") || 200);
+      return Number(this.chartIt.getAttribute("height") ?? 150);
     }
 
     get width() {
-      return Number(this.chartIt.getAttribute("width") || 200);
+      return Number(this.chartIt.getAttribute("width") ?? 150);
     }
 
     get hAxis() {
@@ -128,7 +128,7 @@
     }
 
     get margins() {
-      const margin = Number(this.chartIt.getAttribute("margin") || 10);
+      const margin = Number(this.chartIt.getAttribute("margin") || 20);
       const marginLeft = Number(
         this.chartIt.getAttribute("marginLeft") || margin
       );
@@ -177,7 +177,13 @@
     return tag;
   }
 
-  function drawPoints(svg, pointTypes, data, ondraw) {
+  function drawPoints(
+    svg,
+    pointTypes,
+    data,
+    originalData,
+    ondraw
+  ) {
     data.forEach((row, index) => {
       pointTypes.forEach((pointType) => {
         const shape = cloneElement(pointType);
@@ -186,7 +192,7 @@
           ondraw({
             shape,
             row,
-            orginalRow: null,
+            orginalRow: originalData[index],
             index,
           });
         svg.appendChild(shape);
@@ -195,7 +201,7 @@
   }
 
   function setDefaultPosition(shape, x, y) {
-    switch (shape.shapeName.toLowerCase()) {
+    switch (shape.nodeName) {
       case "rect":
         if (x > 0) {
           const width = Number(shape.getAttribute("width"));
@@ -247,19 +253,19 @@
     connectedCallback() {}
     disconnectedCallback() {}
 
-    draw(data) {
+    draw(data, originalData) {
       const svg = createSVG(this.element);
       const pathType = this.element.pathType;
       const pointTypes = this.element.pointTypes;
       this.parentElement.insertBefore(svg, this);
       drawPath(svg, pathType, data);
-      drawPoints(svg, pointTypes, data, this["ondraw"]);
+      drawPoints(svg, pointTypes, data, originalData, this["ondraw"]);
       this.parentElement.removeChild(this);
     }
 
-    set data(data) {
-      const nd = normalize(data, this.element.axes);
-      this.draw(nd);
+    set data(originalData) {
+      const data = normalize(originalData, this.element.axes);
+      this.draw(data, originalData);
     }
   }
 

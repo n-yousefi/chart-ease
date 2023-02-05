@@ -13,19 +13,19 @@ class ChartIt extends HTMLElement {
   connectedCallback() {}
   disconnectedCallback() {}
 
-  draw(data) {
+  draw(data, originalData) {
     const svg = createSVG(this.element);
     const pathType = this.element.pathType;
     const pointTypes = this.element.pointTypes;
     this.parentElement.insertBefore(svg, this);
     drawPath(svg, pathType, data);
-    drawPoints(svg, pointTypes, data, this["ondraw"]);
+    drawPoints(svg, pointTypes, data, originalData, this["ondraw"]);
     this.parentElement.removeChild(this);
   }
 
-  set data(data) {
-    const nd = normalize(data, this.element.axes);
-    this.draw(nd);
+  set data(originalData) {
+    const data = normalize(originalData, this.element.axes);
+    this.draw(data, originalData);
   }
 }
 

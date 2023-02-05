@@ -1,6 +1,12 @@
 import { cloneElement } from "./svg";
 
-export default function drawPoints(svg, pointTypes, data, ondraw) {
+export default function drawPoints(
+  svg,
+  pointTypes,
+  data,
+  originalData,
+  ondraw
+) {
   data.forEach((row, index) => {
     pointTypes.forEach((pointType) => {
       const shape = cloneElement(pointType);
@@ -9,7 +15,7 @@ export default function drawPoints(svg, pointTypes, data, ondraw) {
         ondraw({
           shape,
           row,
-          orginalRow: null,
+          orginalRow: originalData[index],
           index,
         });
       svg.appendChild(shape);
@@ -18,7 +24,7 @@ export default function drawPoints(svg, pointTypes, data, ondraw) {
 }
 
 function setDefaultPosition(shape, x, y) {
-  switch (shape.shapeName.toLowerCase()) {
+  switch (shape.nodeName) {
     case "rect":
       if (x > 0) {
         const width = Number(shape.getAttribute("width"));
