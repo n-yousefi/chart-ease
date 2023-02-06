@@ -15,7 +15,7 @@ export default function drawPoints(
         ondraw({
           shape,
           row,
-          orginalRow: originalData[index],
+          originalRow: originalData[index],
           index,
         });
       svg.appendChild(shape);

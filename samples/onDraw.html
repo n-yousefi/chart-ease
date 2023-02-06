@@ -96,10 +96,13 @@
       window.onload = function () {
         //### text type ###
         const textType = document.querySelector("#textType");
-        textType.ondraw = ({ shape, row, index, orginalRow }) => {
-          shape.setAttribute("x", row.x - orginalRow.y.toString().length * 2.5);
+        textType.ondraw = ({ shape, row, index, originalRow }) => {
+          shape.setAttribute(
+            "x",
+            row.x - originalRow.y.toString().length * 2.5
+          );
           shape.setAttribute("y", row.y);
-          shape.innerHTML = orginalRow.y;
+          shape.innerHTML = originalRow.y;
           if (index === 0) shape.setAttribute("opacity", 0.1);
           if (index === 1) shape.setAttribute("opacity", 0.5);
         };

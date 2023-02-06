@@ -5,11 +5,9 @@ export default function normalize(arr, normalizeKeys) {
   const nGroups = [];
   normalizeKeys.forEach((nGroup) => {
     nGroups.push({
-      cols: nGroup.cols,
+      ...nGroup,
       min: getKeysMin(arr, nGroup.cols),
       max: getKeysMax(arr, nGroup.cols),
-      lowerBound: nGroup.lowerBound,
-      upperBound: nGroup.upperBound,
     });
   });
   const arrKeys = Object.keys(arr[0]);
@@ -26,7 +24,13 @@ export default function normalize(arr, normalizeKeys) {
     });
   });
 
-  return flipY(normalizedArr, nGroups[1].lowerBound);
+  nGroups
+    .filter((group) => group.flip)
+    .forEach((group) => {
+      flip(normalizedArr, group);
+    });
+
+  return normalizedArr;
 }
 
 function getKeysMin(arr, keys) {
@@ -65,15 +69,12 @@ function getKeyMax(arr, key) {
   return max;
 }
 
-function flipY(arr, yLowerBound) {
-  const keys = Object.keys(arr[0]).filter((x) => x !== "x");
+function flip(arr, nGroup) {
+  const keys = nGroup.cols;
   let max = getKeysMax(arr, keys);
-  const newArr = arr.map((item) => {
-    const res = { x: item.x };
+  arr.forEach((item) => {
     keys.forEach((key) => {
-      res[key] = max - item[key] + yLowerBound;
+      item[key] = max - item[key] + nGroup.lowerBound;
     });
-    return res;
   });
-  return newArr;
 }

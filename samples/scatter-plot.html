@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>scatter plot</title>
+    <link rel="shortcut icon" href="#" />
+    <script src="../dist/chart-it.js" defer></script>
+  </head>
+  <body>
+    <chart-it
+      id="chart"
+      horizontalAxis="x"
+      verticalAxis="y"
+      width="400"
+      height="400"
+    >
+      <circle fill="aqua" opacity=".2" />
+    </chart-it>
+    <script>
+      window.onload = function () {
+        const chart = document.querySelector("#chart");
+        chart.ondraw = ({ shape, row, originalRow }) => {
+          shape.setAttribute("cx", row.x);
+          shape.setAttribute("cy", row.y);
+          shape.setAttribute("r", row.r);
+        };
+        chart.axes = [
+          { cols: ["x"], length: 200, margin: 50 },
+          { cols: ["y"], length: 200, margin: 50, flip: true },
+          { cols: ["r"], length: 50, margin: 0 },
+        ];
+        chart.data = [
+          { x: 1, y: 6, r: 20 },
+          { x: 2, y: 4, r: 100 },
+          { x: 3, y: 9, r: 40 },
+          { x: 4, y: 3, r: 60 },
+          { x: 5, y: 5, r: 25 },
+          { x: 6, y: 2, r: 73 },
+          { x: 7, y: 7, r: 50 },
+          { x: 8, y: 3, r: 13 },
+        ];
+      };
+    </script>
+  </body>
+</html>

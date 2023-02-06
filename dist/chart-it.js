@@ -8,11 +8,9 @@
     const nGroups = [];
     normalizeKeys.forEach((nGroup) => {
       nGroups.push({
-        cols: nGroup.cols,
+        ...nGroup,
         min: getKeysMin(arr, nGroup.cols),
         max: getKeysMax(arr, nGroup.cols),
-        lowerBound: nGroup.lowerBound,
-        upperBound: nGroup.upperBound,
       });
     });
     const arrKeys = Object.keys(arr[0]);
@@ -29,7 +27,13 @@
       });
     });
 
-    return flipY(normalizedArr, nGroups[1].lowerBound);
+    nGroups
+      .filter((group) => group.flip)
+      .forEach((group) => {
+        flip(normalizedArr, group);
+      });
+
+    return normalizedArr;
   }
 
   function getKeysMin(arr, keys) {
@@ -68,17 +72,14 @@
     return max;
   }
 
-  function flipY(arr, yLowerBound) {
-    const keys = Object.keys(arr[0]).filter((x) => x !== "x");
+  function flip(arr, nGroup) {
+    const keys = nGroup.cols;
     let max = getKeysMax(arr, keys);
-    const newArr = arr.map((item) => {
-      const res = { x: item.x };
+    arr.forEach((item) => {
       keys.forEach((key) => {
-        res[key] = max - item[key] + yLowerBound;
+        item[key] = max - item[key] + nGroup.lowerBound;
       });
-      return res;
     });
-    return newArr;
   }
 
   class Element {
@@ -86,65 +87,39 @@
       this.chartIt = chartIt;
     }
 
-    get pathType() {
-      return this.chartIt.querySelector(`path[is="path-type"]`);
-    }
-
-    get pointTypes() {
-      return this.chartIt.querySelectorAll(`:not(path[is="path-type"])`);
-    }
-
     get axes() {
+      if (this.chartIt["axes"]) {
+        return this.chartIt["axes"].map((axis) => {
+          const margin = axis.margin || 10;
+          return {
+            cols: axis.cols,
+            lowerBound: axis.marginStart || margin,
+            upperBound: axis.length - (axis.marginEnd || margin),
+            flip: axis.flip,
+          };
+        });
+      }
       return [
         {
-          cols: this.hAxis,
-          lowerBound: this.margins.left,
-          upperBound: this.width - this.margins.right,
+          cols: ["x"],
+          lowerBound: 10,
+          upperBound: 190,
         },
         {
-          cols: this.vAxis,
-          lowerBound: this.margins.top,
-          upperBound: this.height - this.margins.bottom,
+          cols: ["y"],
+          lowerBound: 10,
+          upperBound: 190,
+          flip: true,
         },
       ];
     }
 
     get height() {
-      return Number(this.chartIt.getAttribute("height") ?? 150);
+      return Number(this.chartIt.getAttribute("height") ?? 200);
     }
 
     get width() {
-      return Number(this.chartIt.getAttribute("width") ?? 150);
-    }
-
-    get hAxis() {
-      const axis = this.chartIt.getAttribute("horizontalAxis") || "x";
-      return axis.split(",").filter((q) => q);
-    }
-
-    get vAxis() {
-      const axis = this.chartIt.getAttribute("verticalAxis") || "y";
-      return axis.split(",").filter((q) => q);
-    }
-
-    get margins() {
-      const margin = Number(this.chartIt.getAttribute("margin") || 20);
-      const marginLeft = Number(
-        this.chartIt.getAttribute("marginLeft") || margin
-      );
-      const marginRight = Number(
-        this.chartIt.getAttribute("marginRight") || margin
-      );
-      const marginTop = Number(this.chartIt.getAttribute("marginTop") || margin);
-      const marginBottom = Number(
-        this.chartIt.getAttribute("marginBottom") || margin
-      );
-      return {
-        left: marginLeft,
-        right: marginRight,
-        top: marginTop,
-        bottom: marginBottom,
-      };
+      return Number(this.chartIt.getAttribute("width") ?? 200);
     }
 
     get id() {
@@ -153,6 +128,14 @@
 
     get class() {
       return this.chartIt.getAttribute("clas");
+    }
+
+    get pathType() {
+      return this.chartIt.querySelector(`path[is="path-type"]`);
+    }
+
+    get pointTypes() {
+      return this.chartIt.querySelectorAll(`:not(path[is="path-type"])`);
     }
   }
 
@@ -192,7 +175,7 @@
           ondraw({
             shape,
             row,
-            orginalRow: originalData[index],
+            originalRow: originalData[index],
             index,
           });
         svg.appendChild(shape);
