@@ -4,12 +4,7 @@ export default class Element {
   }
 
   get axes() {
-    const axesArr = this.chartIt["extraAxes"] ? this.chartIt["extraAxes"] : [];
-    if (this.chartIt["hAxis"]) axesArr.push(this.chartIt["hAxis"]);
-    if (this.chartIt["vAxis"]) {
-      this.chartIt["vAxis"].flip = true;
-      axesArr.push(this.chartIt["vAxis"]);
-    }
+    const axesArr = this.chartIt["axes"] ? this.chartIt["axes"] : [];
     if (axesArr.length > 0) {
       return axesArr.map((axis) => {
         const margin = axis.margin || 10;
