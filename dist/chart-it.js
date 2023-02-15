@@ -85,42 +85,48 @@
   class Element {
     constructor(chartIt) {
       this.chartIt = chartIt;
+      this.defaultWidth = 200;
+      this.defaultHeight = 200;
+      this.defaultMargin = 10;
     }
 
     get axes() {
       const axesArr = this.chartIt["axes"] ? this.chartIt["axes"] : [];
       if (axesArr.length > 0) {
         return axesArr.map((axis) => {
-          const margin = axis.margin || 10;
+          const margin = axis.margin || this.defaultMargin;
           return {
             cols: axis.cols,
             lowerBound: axis.marginStart || margin,
             upperBound: axis.length - (axis.marginEnd || margin),
             flip: axis.flip,
+            length: axis.length,
           };
         });
       }
       return [
         {
           cols: ["x"],
-          lowerBound: 10,
-          upperBound: 190,
+          lowerBound: this.defaultMargin,
+          upperBound: this.defaultWidth - this.defaultMargin,
+          length: this.defaultWidth,
         },
         {
           cols: ["y"],
-          lowerBound: 10,
-          upperBound: 190,
+          lowerBound: this.defaultMargin,
+          upperBound: this.defaultHeight - this.defaultMargin,
+          length: this.defaultHeight,
           flip: true,
         },
       ];
     }
 
-    get height() {
-      return Number(this.chartIt.getAttribute("height") ?? 200);
+    get width() {
+      return this.axes[1].length || this.defaultWidth;
     }
 
-    get width() {
-      return Number(this.chartIt.getAttribute("width") ?? 200);
+    get height() {
+      return this.axes[0].length || this.defaultHeight;
     }
 
     get id() {
@@ -128,7 +134,7 @@
     }
 
     get class() {
-      return this.chartIt.getAttribute("clas");
+      return this.chartIt.getAttribute("class");
     }
 
     get pathType() {
