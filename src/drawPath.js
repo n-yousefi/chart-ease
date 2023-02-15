@@ -1,10 +1,10 @@
 import { cloneElement } from "./svg";
 
-export default function drawPath(svg, pathType, data) {
+export default function drawPath(parent, pathType, data) {
   if (!pathType) return;
   const path = cloneElement(pathType);
   loadPathData(path, data);
-  svg.appendChild(path);
+  parent.appendChild(path);
 }
 
 function loadPathData(path, data) {

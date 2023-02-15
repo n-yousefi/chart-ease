@@ -4,7 +4,7 @@ import drawPoints from "./drawPoints";
 import drawPath from "./drawPath";
 import { createSVG } from "./svg";
 
-class ChartIt extends HTMLElement {
+class DataSet extends HTMLElement {
   constructor() {
     super();
     this.element = new Element(this);
@@ -14,11 +14,9 @@ class ChartIt extends HTMLElement {
   disconnectedCallback() {}
 
   draw(data, originalData) {
-    const svg = createSVG(this.element);
-    this.parentElement.insertBefore(svg, this);
-    drawPath(svg, this.element.pathType, data);
+    drawPath(this.parentElement, this.element.pathType, data);
     drawPoints(
-      svg,
+      this.parentElement,
       this.element.pointTypes,
       data,
       originalData,
@@ -33,4 +31,4 @@ class ChartIt extends HTMLElement {
   }
 }
 
-customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+customElements.get("data-set") || customElements.define("data-set", DataSet);

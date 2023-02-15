@@ -38,11 +38,19 @@ export default class Element {
   }
 
   get width() {
-    return this.axes[1].length || this.defaultWidth;
+    return (
+      this.chartIt.getAttribute("width") ||
+      this.axes[1].length ||
+      this.defaultWidth
+    );
   }
 
   get height() {
-    return this.axes[0].length || this.defaultHeight;
+    return (
+      this.chartIt.getAttribute("height") ||
+      this.axes[0].length ||
+      this.defaultHeight
+    );
   }
 
   get id() {

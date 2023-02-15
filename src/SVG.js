@@ -18,3 +18,7 @@ export function cloneElement(element) {
   if (tag.style.cssText) tag.style.cssText = element.style.cssText;
   return tag;
 }
+
+export function createSvgTag(tagName) {
+  return document.createElementNS("http://www.w3.org/2000/svg", tagName);
+}
