@@ -38,72 +38,79 @@
       </defs>
     </svg>
 
-    <chart-it id="pathType" width="200" height="200">
-      <path is="path-type" stroke="black" fill="none"></path>
+    <chart-it width="200" height="200">
+      <data-set>
+        <path is="path-type" stroke="black" fill="none"></path>
+      </data-set>
     </chart-it>
 
     <chart-it id="rectType" width="200" height="200">
-      <path is="path-type" stroke="url(#pathGradient)" fill="none"></path>
-      <rect
-        rx="10"
-        ry="10"
-        width="5"
-        height="5"
-        stroke="black"
-        stroke-width="5"
-      />
+      <data-set>
+        <path is="path-type" stroke="url(#pathGradient)" fill="none"></path>
+        <rect
+          rx="10"
+          ry="10"
+          width="5"
+          height="5"
+          stroke="black"
+          stroke-width="5"
+        />
+      </data-set>
     </chart-it>
 
     <chart-it id="circleType" width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <circle
-        r="5"
-        fill="aqua"
-        filter="url(#softGlow)"
-        fill-opacity=".3"
-      ></circle>
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="url(#pathGradient)"
+          stroke-width="2.5"
+          fill="none"
+        ></path>
+        <circle
+          r="5"
+          fill="aqua"
+          filter="url(#softGlow)"
+          fill-opacity=".3"
+        ></circle>
+      </data-set>
     </chart-it>
 
-    <chart-it id="ellipseType" width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <ellipse
-        cx="75"
-        cy="75"
-        rx="10"
-        ry="2"
-        stroke="red"
-        fill="transparent"
-        stroke-width="1"
-      />
+    <chart-it width="200" height="200">
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="url(#pathGradient)"
+          stroke-width="2.5"
+          fill="none"
+        ></path>
+        <ellipse
+          cx="75"
+          cy="75"
+          rx="10"
+          ry="2"
+          stroke="red"
+          fill="transparent"
+          stroke-width="1"
+        />
+      </data-set>
     </chart-it>
     <script>
       window.onload = function () {
-        const data = [
-          { x: 1, y: 6 },
-          { x: 2, y: 4 },
-          { x: 3, y: 0 },
-          { x: 4, y: 3 },
-          { x: 5, y: 5 },
-          { x: 6, y: 2 },
-          { x: 7, y: 7 },
-          { x: 8, y: 3 },
-        ];
-        document.querySelector("#pathType").data = data;
-        document.querySelector("#rectType").data = data;
-        document.querySelector("#ellipseType").data = data;
-        document.querySelector("#circleType").data = data;
+        document.querySelectorAll("data-set").forEach(
+          (item) =>
+            (item.data = [
+              { x: 1, y: 6 },
+              { x: 2, y: 4 },
+              { x: 3, y: 0 },
+              { x: 4, y: 3 },
+              { x: 5, y: 5 },
+              { x: 6, y: 2 },
+              { x: 7, y: 7 },
+              { x: 8, y: 3 },
+            ])
+        );
       };
     </script>
   </body>

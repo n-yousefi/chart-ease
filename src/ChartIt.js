@@ -1,36 +1,23 @@
-import normalize from "./normalize";
 import Element from "./Element";
-import drawPoints from "./drawPoints";
-import drawPath from "./drawPath";
 import { createSVG } from "./svg";
+import DataSet from "./DataSet";
 
 class ChartIt extends HTMLElement {
   constructor() {
     super();
     this.element = new Element(this);
+    this.draw();
   }
 
   connectedCallback() {}
   disconnectedCallback() {}
 
-  draw(data, originalData) {
+  draw() {
     const svg = createSVG(this.element);
+    Array.from(this.children).forEach((child) => svg.appendChild(child));
     this.parentElement.insertBefore(svg, this);
-    drawPath(svg, this.element.pathType, data);
-    drawPoints(
-      svg,
-      this.element.pointTypes,
-      data,
-      originalData,
-      this["ondraw"]
-    );
-    this.parentElement.removeChild(this);
-  }
-
-  set data(originalData) {
-    const data = normalize(originalData, this.element.axes);
-    this.draw(data, originalData);
   }
 }
 
 customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+customElements.get("data-set") || customElements.define("data-set", DataSet);

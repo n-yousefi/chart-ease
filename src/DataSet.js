@@ -2,7 +2,6 @@ import normalize from "./normalize";
 import Element from "./Element";
 import drawPoints from "./drawPoints";
 import drawPath from "./drawPath";
-import { createSVG } from "./svg";
 
 class DataSet extends HTMLElement {
   constructor() {
@@ -31,4 +30,4 @@ class DataSet extends HTMLElement {
   }
 }
 
-customElements.get("data-set") || customElements.define("data-set", DataSet);
+export default DataSet;
