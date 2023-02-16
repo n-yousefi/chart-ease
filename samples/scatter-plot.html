@@ -7,14 +7,8 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
-    <chart-it
-      id="chart"
-      horizontalAxis="x"
-      verticalAxis="y"
-      width="400"
-      height="400"
-    >
-      <circle fill="aqua" opacity=".2" />
+    <chart-it width="400" height="400">
+      <data-set id="chart"> <circle fill="aqua" opacity=".2" /></data-set>
     </chart-it>
     <script>
       window.onload = function () {

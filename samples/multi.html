@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>point-types</title>
+    <title>multi charts</title>
     <link rel="shortcut icon" href="#" />
     <script src="../dist/chart-it.js" defer></script>
   </head>
@@ -39,27 +39,21 @@
     </svg>
 
     <chart-it width="200" height="200">
-      <data-set id="pathType">
+      <data-set id="chart1">
         <path is="path-type" stroke="black" fill="none"></path>
       </data-set>
-    </chart-it>
-
-    <chart-it width="200" height="200">
-      <data-set id="pathType">
+      <data-set id="chart2">
         <path is="path-type" stroke="url(#pathGradient)" fill="none"></path>
         <rect
           rx="10"
           ry="10"
-          width="5"
-          height="5"
-          stroke="black"
+          width="2"
+          height="2"
+          stroke="aqua"
           stroke-width="5"
         />
       </data-set>
-    </chart-it>
-
-    <chart-it width="200" height="200">
-      <data-set id="circleType">
+      <data-set id="chart3">
         <path
           is="path-type"
           stroke-linecap="round"
@@ -75,42 +69,38 @@
         ></circle>
       </data-set>
     </chart-it>
-
-    <chart-it width="200" height="200">
-      <data-set id="ellipseType">
-        <path
-          is="path-type"
-          stroke-linecap="round"
-          stroke="url(#pathGradient)"
-          stroke-width="2.5"
-          fill="none"
-        ></path>
-        <ellipse
-          cx="75"
-          cy="75"
-          rx="10"
-          ry="2"
-          stroke="red"
-          fill="transparent"
-          stroke-width="1"
-        />
-      </data-set>
-    </chart-it>
     <script>
       window.onload = function () {
-        document.querySelectorAll("data-set").forEach(
-          (item) =>
-            (item.data = [
-              { x: 1, y: 6 },
-              { x: 2, y: 4 },
-              { x: 3, y: 0 },
-              { x: 4, y: 3 },
-              { x: 5, y: 5 },
-              { x: 6, y: 2 },
-              { x: 7, y: 7 },
-              { x: 8, y: 3 },
-            ])
-        );
+        document.getElementById("chart1").data = [
+          { x: 1, y: 6 },
+          { x: 2, y: 4 },
+          { x: 3, y: 0 },
+          { x: 4, y: 3 },
+          { x: 5, y: 5 },
+          { x: 6, y: 2 },
+          { x: 7, y: 7 },
+          { x: 8, y: 3 },
+        ];
+        document.getElementById("chart2").data = [
+          { x: 1, y: 2 },
+          { x: 2, y: 5 },
+          { x: 3, y: 3 },
+          { x: 4, y: 1 },
+          { x: 5, y: 0 },
+          { x: 6, y: 3 },
+          { x: 7, y: 9 },
+          { x: 8, y: 12 },
+        ];
+        document.getElementById("chart3").data = [
+          { x: 1, y: 1 },
+          { x: 2, y: 2 },
+          { x: 3, y: 3 },
+          { x: 4, y: 7 },
+          { x: 5, y: 6 },
+          { x: 6, y: 5 },
+          { x: 7, y: 2 },
+          { x: 8, y: 1 },
+        ];
       };
     </script>
   </body>

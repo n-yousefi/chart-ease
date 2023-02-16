@@ -1,15 +1,17 @@
 import Element from "./Element";
 import { createSVG } from "./svg";
 import DataSet from "./DataSet";
+import CandleStick from "./CandleStick";
 
 class ChartIt extends HTMLElement {
   constructor() {
     super();
     this.element = new Element(this);
-    this.draw();
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.draw();
+  }
   disconnectedCallback() {}
 
   draw() {
@@ -21,3 +23,5 @@ class ChartIt extends HTMLElement {
 
 customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
 customElements.get("data-set") || customElements.define("data-set", DataSet);
+customElements.get("candle-stick") ||
+  customElements.define("candle-stick", CandleStick);

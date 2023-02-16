@@ -5,15 +5,20 @@ class CandleStick extends HTMLElement {
     super();
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.draw();
+  }
   disconnectedCallback() {}
 
   draw() {
     const chart = document.createElement("chart-it");
-    chart.appendChild(createSvgTag("line"));
-    chart.appendChild(createSvgTag("rect"));
+    const dataSet = document.createElement("data-set");
+    dataSet.appendChild(createSvgTag("line"));
+    dataSet.appendChild(createSvgTag("rect"));
+    chart.appendChild(dataSet);
     this.parentElement.insertBefore(chart, this);
     this.parentElement.removeChild(this);
+    this.adjust(dataSet);
   }
   adjust(chart) {
     chart.ondraw = ({ shape, row }) => {
@@ -61,6 +66,4 @@ class CandleStick extends HTMLElement {
     ];
   }
 }
-
-customElements.get("candle-stick") ||
-  customElements.define("candle-stick", CandleStick);
+export default CandleStick;
