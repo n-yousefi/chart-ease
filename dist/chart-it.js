@@ -1,101 +1,17 @@
 (function () {
   'use strict';
 
-  class Element {
-    constructor(chartIt) {
-      this.chartIt = chartIt;
-      this.defaultWidth = 200;
-      this.defaultHeight = 200;
-      this.defaultMargin = 10;
-    }
+  const Width = 200;
+  const Height = 200;
+  const Margin = 10;
 
-    get axes() {
-      const axesArr = this.chartIt["axes"] ? this.chartIt["axes"] : [];
-      if (axesArr.length > 0) {
-        return axesArr.map((axis) => {
-          const margin = axis.margin || this.defaultMargin;
-          return {
-            cols: axis.cols,
-            lowerBound: axis.marginStart || margin,
-            upperBound: axis.length - (axis.marginEnd || margin),
-            flip: axis.flip,
-            length: axis.length,
-          };
-        });
-      }
-      return [
-        {
-          cols: ["x"],
-          lowerBound: this.defaultMargin,
-          upperBound: this.defaultWidth - this.defaultMargin,
-          length: this.defaultWidth,
-        },
-        {
-          cols: ["y"],
-          lowerBound: this.defaultMargin,
-          upperBound: this.defaultHeight - this.defaultMargin,
-          length: this.defaultHeight,
-          flip: true,
-        },
-      ];
-    }
-
-    get width() {
-      return (
-        this.chartIt.getAttribute("width") ||
-        this.axes[1].length ||
-        this.defaultWidth
-      );
-    }
-
-    get height() {
-      return (
-        this.chartIt.getAttribute("height") ||
-        this.axes[0].length ||
-        this.defaultHeight
-      );
-    }
-
-    get id() {
-      return this.chartIt.getAttribute("id");
-    }
-
-    get class() {
-      return this.chartIt.getAttribute("class");
-    }
-
-    get pathType() {
-      return this.chartIt.querySelector(`path[is="path-type"]`);
-    }
-
-    get pointTypes() {
-      return this.chartIt.querySelectorAll(`:not(path[is="path-type"])`);
-    }
-  }
-
-  function createSVG(element) {
+  function createSVG(id, className, width, height) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    if (element.id) svg.setAttribute("id", element.id);
-    if (element.class) svg.setAttribute("class", element.class);
-    svg.setAttribute("width", element.width);
-    svg.setAttribute("height", element.height);
+    if (id) svg.setAttribute("id", id);
+    if (className) svg.setAttribute("class", className);
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
     return svg;
-  }
-
-  function cloneElement(element) {
-    const tag = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      element.tagName.toLowerCase()
-    );
-    Array.from(element.attributes).forEach((attr) => {
-      if (attr.value) tag.setAttribute(attr.name, attr.value);
-    });
-    if (tag.style.cssText) tag.style.cssText = element.style.cssText;
-    return tag;
-  }
-
-  function createSvgTag(tagName) {
-    return document.createElementNS("http://www.w3.org/2000/svg", tagName);
   }
 
   function normalize(arr, normalizeKeys) {
@@ -179,6 +95,18 @@
     });
   }
 
+  function cloneElement(element) {
+    const tag = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      element.tagName.toLowerCase()
+    );
+    Array.from(element.attributes).forEach((attr) => {
+      if (attr.value) tag.setAttribute(attr.name, attr.value);
+    });
+    if (tag.style.cssText) tag.style.cssText = element.style.cssText;
+    return tag;
+  }
+
   function drawPoints(
     svg,
     pointTypes,
@@ -249,17 +177,16 @@
   class DataSet extends HTMLElement {
     constructor() {
       super();
-      this.element = new Element(this);
     }
 
     connectedCallback() {}
     disconnectedCallback() {}
 
     draw(data, originalData) {
-      drawPath(this.parentElement, this.element.pathType, data);
+      drawPath(this.parentElement, this.pathType, data);
       drawPoints(
         this.parentElement,
-        this.element.pointTypes,
+        this.pointTypes,
         data,
         originalData,
         this["ondraw"]
@@ -268,9 +195,54 @@
     }
 
     set data(originalData) {
-      const data = normalize(originalData, this.element.axes);
+      const axesArr = this["axes"] ? this["axes"] : [];
+      let axes =
+        axesArr.length > 0
+          ? axesArr.map(this.getAxesObj)
+          : this.getDefaultAxesObj();
+      const data = normalize(originalData, axes);
       this.draw(data, originalData);
     }
+
+    getAxesObj(axis) {
+      const margin = axis.margin || Margin;
+      return {
+        cols: axis.cols,
+        lowerBound: axis.marginStart || margin,
+        upperBound: axis.length - (axis.marginEnd || margin),
+        flip: axis.flip,
+        length: axis.length,
+      };
+    }
+    getDefaultAxesObj() {
+      return [
+        {
+          cols: ["x"],
+          lowerBound: Margin,
+          upperBound: Width - Margin,
+          length: Width,
+        },
+        {
+          cols: ["y"],
+          lowerBound: Margin,
+          upperBound: Height - Margin,
+          length: Height,
+          flip: true,
+        },
+      ];
+    }
+
+    get pathType() {
+      return this.querySelector(`path[is="path-type"]`);
+    }
+
+    get pointTypes() {
+      return this.querySelectorAll(`:not(path[is="path-type"])`);
+    }
+  }
+
+  function createSVGElements(tagName) {
+    return document.createElementNS("http://www.w3.org/2000/svg", tagName);
   }
 
   class CandleStick extends HTMLElement {
@@ -286,15 +258,15 @@
     draw() {
       const chart = document.createElement("chart-it");
       const dataSet = document.createElement("data-set");
-      dataSet.appendChild(createSvgTag("line"));
-      dataSet.appendChild(createSvgTag("rect"));
+      dataSet.appendChild(createSVGElements("line"));
+      dataSet.appendChild(createSVGElements("rect"));
       chart.appendChild(dataSet);
       this.parentElement.insertBefore(chart, this);
       this.parentElement.removeChild(this);
       this.adjust(dataSet);
     }
-    adjust(chart) {
-      chart.ondraw = ({ shape, row }) => {
+    adjust(dataSet) {
+      dataSet.ondraw = ({ shape, row }) => {
         switch (shape.tagName) {
           case "line":
             shape.setAttribute("x1", row.x + 5);
@@ -318,7 +290,7 @@
             break;
         }
       };
-      chart.axes = [
+      dataSet.axes = [
         { cols: ["x"], length: 200, margin: 10 },
         {
           cols: ["low", "open", "close", "high"],
@@ -327,7 +299,7 @@
           flip: true,
         },
       ];
-      chart.data = [
+      dataSet.data = [
         { x: 1, low: 2, open: 5, close: 3, high: 5 },
         { x: 2, low: 5, open: 6, close: 7, high: 16 },
         { x: 3, low: 9, open: 9, close: 10, high: 10 },
@@ -343,7 +315,6 @@
   class ChartIt extends HTMLElement {
     constructor() {
       super();
-      this.element = new Element(this);
     }
 
     connectedCallback() {
@@ -352,9 +323,22 @@
     disconnectedCallback() {}
 
     draw() {
-      const svg = createSVG(this.element);
+      const svg = createSVG(this.id, this.className, this.width, this.height);
       Array.from(this.children).forEach((child) => svg.appendChild(child));
       this.parentElement.insertBefore(svg, this);
+    }
+
+    get id() {
+      return this.getAttribute("id");
+    }
+    get className() {
+      return this.getAttribute("class");
+    }
+    get width() {
+      return this.getAttribute("width") || Width;
+    }
+    get height() {
+      return this.getAttribute("height") || Height;
     }
   }
 

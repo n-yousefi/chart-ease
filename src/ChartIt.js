@@ -1,12 +1,11 @@
-import Element from "./Element";
-import { createSVG } from "./svg";
-import DataSet from "./DataSet";
-import CandleStick from "./CandleStick";
+import { Height, Width } from "./main/defaults";
+import createSVG from "./main/draw/createSVG";
+import DataSet from "./main/DataSet";
+import CandleStick from "./main/CandleStick";
 
 class ChartIt extends HTMLElement {
   constructor() {
     super();
-    this.element = new Element(this);
   }
 
   connectedCallback() {
@@ -15,9 +14,22 @@ class ChartIt extends HTMLElement {
   disconnectedCallback() {}
 
   draw() {
-    const svg = createSVG(this.element);
+    const svg = createSVG(this.id, this.className, this.width, this.height);
     Array.from(this.children).forEach((child) => svg.appendChild(child));
     this.parentElement.insertBefore(svg, this);
+  }
+
+  get id() {
+    return this.getAttribute("id");
+  }
+  get className() {
+    return this.getAttribute("class");
+  }
+  get width() {
+    return this.getAttribute("width") || Width;
+  }
+  get height() {
+    return this.getAttribute("height") || Height;
   }
 }
 

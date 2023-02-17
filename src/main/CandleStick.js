@@ -1,4 +1,4 @@
-import { createSvgTag } from "./svg";
+import createSVGElements from "./draw/createSVGElements";
 
 class CandleStick extends HTMLElement {
   constructor() {
@@ -13,15 +13,15 @@ class CandleStick extends HTMLElement {
   draw() {
     const chart = document.createElement("chart-it");
     const dataSet = document.createElement("data-set");
-    dataSet.appendChild(createSvgTag("line"));
-    dataSet.appendChild(createSvgTag("rect"));
+    dataSet.appendChild(createSVGElements("line"));
+    dataSet.appendChild(createSVGElements("rect"));
     chart.appendChild(dataSet);
     this.parentElement.insertBefore(chart, this);
     this.parentElement.removeChild(this);
     this.adjust(dataSet);
   }
-  adjust(chart) {
-    chart.ondraw = ({ shape, row }) => {
+  adjust(dataSet) {
+    dataSet.ondraw = ({ shape, row }) => {
       switch (shape.tagName) {
         case "line":
           shape.setAttribute("x1", row.x + 5);
@@ -45,7 +45,7 @@ class CandleStick extends HTMLElement {
           break;
       }
     };
-    chart.axes = [
+    dataSet.axes = [
       { cols: ["x"], length: 200, margin: 10 },
       {
         cols: ["low", "open", "close", "high"],
@@ -54,7 +54,7 @@ class CandleStick extends HTMLElement {
         flip: true,
       },
     ];
-    chart.data = [
+    dataSet.data = [
       { x: 1, low: 2, open: 5, close: 3, high: 5 },
       { x: 2, low: 5, open: 6, close: 7, high: 16 },
       { x: 3, low: 9, open: 9, close: 10, high: 10 },

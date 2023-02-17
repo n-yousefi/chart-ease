@@ -1,4 +1,4 @@
-import { cloneElement } from "./svg";
+import cloneElement from "./cloneElement";
 
 export default function drawPoints(
   svg,
