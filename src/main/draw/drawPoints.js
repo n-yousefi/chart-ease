@@ -1,4 +1,4 @@
-import cloneElement from "./cloneElement";
+import cloneSVGElement from "./cloneSVGElement";
 
 export default function drawPoints(
   svg,
@@ -9,7 +9,7 @@ export default function drawPoints(
 ) {
   data.forEach((row, index) => {
     pointTypes.forEach((pointType) => {
-      const shape = cloneElement(pointType);
+      const shape = cloneSVGElement(pointType);
       if (!ondraw) setDefaultPosition(shape, row.x, row.y);
       else
         ondraw({

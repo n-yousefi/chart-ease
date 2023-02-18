@@ -14,6 +14,36 @@
     return svg;
   }
 
+  class MultiChart extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      const svg = createSVG(null, null, this.width, this.height);
+      if (this.id) this.querySelector("data-set").setAttribute("id", this.id);
+      if (this.className)
+        this.querySelector("data-set").setAttribute("class", this.className);
+      Array.from(this.children).forEach((child) => svg.appendChild(child));
+      this.parentElement.insertBefore(svg, this);
+      this.parentElement.removeChild(this);
+    }
+    disconnectedCallback() {}
+
+    get id() {
+      return this.getAttribute("id");
+    }
+    get className() {
+      return this.getAttribute("class");
+    }
+    get width() {
+      return this.getAttribute("width") || Width;
+    }
+    get height() {
+      return this.getAttribute("height") || Height;
+    }
+  }
+
   function normalize(arr, normalizeKeys) {
     const normalizedArr = arr.map((item) => {
       return { ...item };
@@ -95,16 +125,24 @@
     });
   }
 
-  function cloneElement(element) {
-    const tag = document.createElementNS(
+  function copyAttrs(from, to) {
+    Array.from(from.attributes).forEach((attr) => {
+      if (attr.value) to.setAttribute(attr.name, attr.value);
+    });
+  }
+
+  function copyStyles(from, to) {
+    if (from.style.cssText) to.style.cssText = from.style.cssText;
+  }
+
+  function cloneSVGElement(element) {
+    const newElement = document.createElementNS(
       "http://www.w3.org/2000/svg",
       element.tagName.toLowerCase()
     );
-    Array.from(element.attributes).forEach((attr) => {
-      if (attr.value) tag.setAttribute(attr.name, attr.value);
-    });
-    if (tag.style.cssText) tag.style.cssText = element.style.cssText;
-    return tag;
+    copyAttrs(element, newElement);
+    copyStyles(element, newElement);
+    return newElement;
   }
 
   function drawPoints(
@@ -116,7 +154,7 @@
   ) {
     data.forEach((row, index) => {
       pointTypes.forEach((pointType) => {
-        const shape = cloneElement(pointType);
+        const shape = cloneSVGElement(pointType);
         if (!ondraw) setDefaultPosition(shape, row.x, row.y);
         else
           ondraw({
@@ -157,7 +195,7 @@
 
   function drawPath(parent, pathType, data) {
     if (!pathType) return;
-    const path = cloneElement(pathType);
+    const path = cloneSVGElement(pathType);
     loadPathData(path, data);
     parent.appendChild(path);
   }
@@ -251,22 +289,19 @@
     }
 
     connectedCallback() {
-      this.draw();
+      const chart = document.createElement("chart-it");
+      this.dataSet = document.createElement("data-set");
+      this.dataSet.appendChild(createSVGElements("line"));
+      this.dataSet.appendChild(createSVGElements("rect"));
+      chart.appendChild(this.dataSet);
+      this.parentElement.insertBefore(chart, this);
+      this.parentElement.removeChild(this);
+      this.adjust();
     }
     disconnectedCallback() {}
 
-    draw() {
-      const chart = document.createElement("chart-it");
-      const dataSet = document.createElement("data-set");
-      dataSet.appendChild(createSVGElements("line"));
-      dataSet.appendChild(createSVGElements("rect"));
-      chart.appendChild(dataSet);
-      this.parentElement.insertBefore(chart, this);
-      this.parentElement.removeChild(this);
-      this.adjust(dataSet);
-    }
-    adjust(dataSet) {
-      dataSet.ondraw = ({ shape, row }) => {
+    adjust() {
+      this.dataSet.ondraw = ({ shape, row }) => {
         switch (shape.tagName) {
           case "line":
             shape.setAttribute("x1", row.x + 5);
@@ -290,7 +325,7 @@
             break;
         }
       };
-      dataSet.axes = [
+      this.dataSet.axes = [
         { cols: ["x"], length: 200, margin: 10 },
         {
           cols: ["low", "open", "close", "high"],
@@ -299,16 +334,10 @@
           flip: true,
         },
       ];
-      dataSet.data = [
-        { x: 1, low: 2, open: 5, close: 3, high: 5 },
-        { x: 2, low: 5, open: 6, close: 7, high: 16 },
-        { x: 3, low: 9, open: 9, close: 10, high: 10 },
-        { x: 4, low: 15, open: 15, close: 5, high: 5 },
-        { x: 5, low: 9, open: 10, close: 12, high: 20 },
-        { x: 6, low: 9, open: 11, close: 13, high: 25 },
-        { x: 7, low: 9, open: 12, close: 14, high: 15 },
-        { x: 8, low: 1, open: 13, close: 10, high: 15 },
-      ];
+    }
+
+    set data(data) {
+      this.dataSet.data = data;
     }
   }
 
@@ -318,32 +347,49 @@
     }
 
     connectedCallback() {
-      this.draw();
+      const multiChart = document.createElement("multi-chart");
+      copyAttrs(this, multiChart);
+      copyStyles(this, multiChart);
+      this.appendDataSet(multiChart);
+      this.parentElement.insertBefore(multiChart, this);
     }
     disconnectedCallback() {}
 
-    draw() {
-      const svg = createSVG(this.id, this.className, this.width, this.height);
-      Array.from(this.children).forEach((child) => svg.appendChild(child));
-      this.parentElement.insertBefore(svg, this);
+    appendDataSet(multiChart) {
+      const dataSets = this.querySelectorAll("data-set");
+      if (dataSets.length == 0) {
+        this.createDataSet();
+        multiChart.appendChild(this.dataSet);
+      } else if (dataSets.length == 1) {
+        this.dataSet = dataSets[0];
+        multiChart.appendChild(this.dataSet);
+      } else
+        Array.from(this.children).forEach((child) =>
+          multiChart.appendChild(child)
+        );
     }
-
-    get id() {
-      return this.getAttribute("id");
+    createDataSet() {
+      this.dataSet = document.createElement("data-set");
+      Array.from(this.children).forEach((child) =>
+        this.dataSet.appendChild(child)
+      );
     }
-    get className() {
-      return this.getAttribute("class");
+    set axes(axes) {
+      this.dataSet.axes = axes;
     }
-    get width() {
-      return this.getAttribute("width") || Width;
+    set ondraw(ondraw) {
+      this.dataSet.ondraw = ondraw;
     }
-    get height() {
-      return this.getAttribute("height") || Height;
+    set data(data) {
+      this.dataSet.data = data;
+      this.parentElement.removeChild(this);
     }
   }
 
-  customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+  customElements.get("multi-chart") ||
+    customElements.define("multi-chart", MultiChart);
   customElements.get("data-set") || customElements.define("data-set", DataSet);
+  customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
   customElements.get("candle-stick") ||
     customElements.define("candle-stick", CandleStick);
 

@@ -1,8 +1,8 @@
-import cloneElement from "./cloneElement";
+import cloneSVGElement from "./cloneSVGElement";
 
 export default function drawPath(parent, pathType, data) {
   if (!pathType) return;
-  const path = cloneElement(pathType);
+  const path = cloneSVGElement(pathType);
   loadPathData(path, data);
   parent.appendChild(path);
 }

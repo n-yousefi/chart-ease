@@ -1,7 +1,8 @@
-import { Height, Width } from "./main/defaults";
-import createSVG from "./main/draw/createSVG";
+import MultiChart from "./main/MultiChart";
 import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
+import copyAttrs from "./main/draw/copyAttrs";
+import copyStyles from "./main/draw/copyStyles";
 
 class ChartIt extends HTMLElement {
   constructor() {
@@ -9,31 +10,48 @@ class ChartIt extends HTMLElement {
   }
 
   connectedCallback() {
-    this.draw();
+    const multiChart = document.createElement("multi-chart");
+    copyAttrs(this, multiChart);
+    copyStyles(this, multiChart);
+    this.appendDataSet(multiChart);
+    this.parentElement.insertBefore(multiChart, this);
   }
   disconnectedCallback() {}
 
-  draw() {
-    const svg = createSVG(this.id, this.className, this.width, this.height);
-    Array.from(this.children).forEach((child) => svg.appendChild(child));
-    this.parentElement.insertBefore(svg, this);
+  appendDataSet(multiChart) {
+    const dataSets = this.querySelectorAll("data-set");
+    if (dataSets.length == 0) {
+      this.createDataSet();
+      multiChart.appendChild(this.dataSet);
+    } else if (dataSets.length == 1) {
+      this.dataSet = dataSets[0];
+      multiChart.appendChild(this.dataSet);
+    } else
+      Array.from(this.children).forEach((child) =>
+        multiChart.appendChild(child)
+      );
   }
-
-  get id() {
-    return this.getAttribute("id");
+  createDataSet() {
+    this.dataSet = document.createElement("data-set");
+    Array.from(this.children).forEach((child) =>
+      this.dataSet.appendChild(child)
+    );
   }
-  get className() {
-    return this.getAttribute("class");
+  set axes(axes) {
+    this.dataSet.axes = axes;
   }
-  get width() {
-    return this.getAttribute("width") || Width;
+  set ondraw(ondraw) {
+    this.dataSet.ondraw = ondraw;
   }
-  get height() {
-    return this.getAttribute("height") || Height;
+  set data(data) {
+    this.dataSet.data = data;
+    this.parentElement.removeChild(this);
   }
 }
 
-customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+customElements.get("multi-chart") ||
+  customElements.define("multi-chart", MultiChart);
 customElements.get("data-set") || customElements.define("data-set", DataSet);
+customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
 customElements.get("candle-stick") ||
   customElements.define("candle-stick", CandleStick);
