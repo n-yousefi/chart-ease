@@ -1,55 +1,41 @@
-import MultiChart from "./main/MultiChart";
 import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
-import copyAttrs from "./main/draw/copyAttrs";
-import copyStyles from "./main/draw/copyStyles";
+import { Height, Width } from "./main/defaults";
+import createSVG from "./main/draw/createSVG";
 
-class ChartIt extends HTMLElement {
+export default class ChartIt extends HTMLElement {
   constructor() {
     super();
+    const shadow = this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
-    this.multiChart = document.createElement("multi-chart");
-    copyAttrs(this, this.multiChart);
-    copyStyles(this, this.multiChart);
-    this.appendDataSet(this.multiChart);
-    this.parentElement.insertBefore(this.multiChart, this);
+    const template = this.querySelector("template");
+    this.dataSet = this.querySelector("data-set");
+    this.svg = createSVG(this.width, this.height);
+    this.shadowRoot.appendChild(this.svg);
+    if (template) this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
   disconnectedCallback() {}
 
-  appendDataSet(multiChart) {
-    let dataSets = this.querySelectorAll("data-set");
-    if (dataSets.length == 0) {
-      const dataSet = document.createElement("data-set");
-      Array.from(this.children).forEach((child) => dataSet.appendChild(child));
-      multiChart.appendChild(dataSet);
-    } else if (dataSets.length == 1) multiChart.appendChild(dataSets[0]);
-    else {
-      Array.from(this.children).forEach((child) =>
-        multiChart.appendChild(child)
-      );
-    }
-  }
-
   set axes(axes) {
-    this.multiChart.axes = axes;
+    this.dataSet.axes = axes;
   }
   set ondraw(ondraw) {
-    this.multiChart.ondraw = ondraw;
+    this.dataSet.ondraw = ondraw;
   }
   set data(data) {
-    this.multiChart.data = data;
-    this.finalize();
+    this.dataSet.data = data;
   }
 
-  finalize() {
-    this.parentElement.removeChild(this);
+  get width() {
+    return this.getAttribute("width") || Width;
+  }
+  get height() {
+    return this.getAttribute("height") || Height;
   }
 }
 
-customElements.get("multi-chart") ||
-  customElements.define("multi-chart", MultiChart);
 customElements.get("data-set") || customElements.define("data-set", DataSet);
 customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
 customElements.get("candle-stick") ||

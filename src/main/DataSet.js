@@ -12,15 +12,9 @@ class DataSet extends HTMLElement {
   disconnectedCallback() {}
 
   draw(data, originalData) {
-    drawPath(this.parentElement, this.pathType, data);
-    drawPoints(
-      this.parentElement,
-      this.pointTypes,
-      data,
-      originalData,
-      this["ondraw"]
-    );
-    this.parentElement.removeChild(this);
+    const svg = this.parentElement.shadowRoot.querySelector("svg");
+    drawPath(svg, this.pathType, data);
+    drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
   }
 
   set data(originalData) {
@@ -44,18 +38,21 @@ class DataSet extends HTMLElement {
     };
   }
   getDefaultAxesObj() {
+    const width = Number(this.parentElement.getAttribute("width") || Width);
+    const height = Number(this.parentElement.getAttribute("height") || Height);
+    const margin = Number(this.parentElement.getAttribute("margin") || Margin);
     return [
       {
         cols: ["x"],
-        lowerBound: Margin,
-        upperBound: Width - Margin,
-        length: Width,
+        lowerBound: margin,
+        upperBound: width - margin,
+        length: width,
       },
       {
         cols: ["y"],
-        lowerBound: Margin,
-        upperBound: Height - Margin,
-        length: Height,
+        lowerBound: margin,
+        upperBound: height - margin,
+        length: height,
         flip: true,
       },
     ];
@@ -66,7 +63,7 @@ class DataSet extends HTMLElement {
   }
 
   get pointTypes() {
-    return this.querySelectorAll(`:not(path[is="path-type"])`);
+    return this.querySelectorAll(`:not(path[is="path-type"]):not(template)`);
   }
 }
 

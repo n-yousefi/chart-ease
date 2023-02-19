@@ -7,71 +7,56 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
-    <svg width="0" height="0">
-      <defs>
-        <linearGradient id="pathGradient">
-          <stop offset="0%" stop-color="white"></stop>
-          <stop offset="20%" stop-color="aqua"></stop>
-        </linearGradient>
-        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
-          <feGaussianBlur
-            in="thicken"
-            stdDeviation="5"
-            result="blurred"
-          ></feGaussianBlur>
-        </filter>
-      </defs>
-    </svg>
-
     <chart-it id="chart1" class="class1" width="200" height="200">
-      <path is="path-type" stroke="black" fill="none"></path>
+      <data-set>
+        <path is="path-type" stroke="black" fill="none"></path>
+      </data-set>
     </chart-it>
 
     <chart-it width="200" height="200">
-      <path is="path-type" stroke="url(#pathGradient)" fill="none"></path>
-      <rect
-        rx="10"
-        ry="10"
-        width="5"
-        height="5"
-        stroke="black"
-        stroke-width="5"
-      />
+      <data-set>
+        <path is="path-type" stroke="black" fill="none"></path>
+        <rect
+          rx="10"
+          ry="10"
+          width="5"
+          height="5"
+          stroke="black"
+          stroke-width="5"
+        />
+      </data-set>
     </chart-it>
 
     <chart-it width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <circle
-        r="5"
-        fill="aqua"
-        filter="url(#softGlow)"
-        fill-opacity=".3"
-      ></circle>
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="black"
+          fill="none"
+        ></path>
+        <circle r="5" fill="aqua" fill-opacity=".3"></circle
+      ></data-set>
     </chart-it>
 
     <chart-it width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <ellipse
-        cx="75"
-        cy="75"
-        rx="10"
-        ry="2"
-        stroke="red"
-        fill="transparent"
-        stroke-width="1"
-      />
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="black"
+          fill="none"
+        ></path>
+        <ellipse
+          cx="75"
+          cy="75"
+          rx="10"
+          ry="2"
+          stroke="red"
+          fill="transparent"
+          stroke-width="1"
+        />
+      </data-set>
     </chart-it>
     <script>
       window.onload = function () {

@@ -7,81 +7,74 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
-    <svg width="0" height="0">
-      <defs>
-        <linearGradient id="pathGradient">
-          <stop offset="0%" stop-color="white"></stop>
-          <stop offset="20%" stop-color="aqua"></stop>
-        </linearGradient>
-        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
-          <feGaussianBlur
-            in="thicken"
-            stdDeviation="5"
-            result="blurred"
-          ></feGaussianBlur>
-        </filter>
-      </defs>
-    </svg>
-
-    
     <chart-it id="textType" width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <text x="0" y="15" fill="black" font-size="10px"></text>
-  </chart-it>
-
-    <chart-it id="rectType" width="200" height="200">
+      <data-set>
         <path
           is="path-type"
           stroke-linecap="round"
-          stroke="url(#pathGradient)"
+          stroke="aqua"
+          stroke-width="2.5"
+          fill="none"
+        ></path>
+        <text x="0" y="15" fill="black" font-size="10px"></text>
+      </data-set>
+    </chart-it>
+
+    <chart-it id="rectType" width="200" height="200">
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="aqua"
           stroke-width="2.5"
           fill="none"
         ></path>
         <rect width="10" height="5" fill="#44ff44" />
+      </data-set>
     </chart-it>
 
     <chart-it id="pathType" width="200" height="200">
+      <data-set>
         <path
           is="path-type"
           stroke-linecap="round"
-          stroke="url(#pathGradient)"
+          stroke="aqua"
           stroke-width="2.5"
           fill="none"
         ></path>
         <path fill="none" stroke="blue" stroke-width="2" />
+      </data-set>
     </chart-it>
 
-    <chart-it  id="polylineType" width="200" height="200">
+    <chart-it id="polylineType" width="200" height="200">
+      <data-set>
         <path
           is="path-type"
           stroke-linecap="round"
-          stroke="url(#pathGradient)"
+          stroke="aqua"
           stroke-width="2.5"
           fill="none"
         ></path>
         <polyline stroke="orange" fill="transparent" stroke-width="1" />
+      </data-set>
     </chart-it>
 
     <chart-it id="lineType" width="200" height="200">
-      <path
-        is="path-type"
-        stroke-linecap="round"
-        stroke="url(#pathGradient)"
-        stroke-width="2.5"
-        fill="none"
-      ></path>
-      <line stroke="orange" stroke-width="2" />
-
+      <data-set>
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="aqua"
+          stroke-width="2.5"
+          fill="none"
+        ></path>
+        <line stroke="orange" stroke-width="2" />
+      </data-set>
+    </chart-it>
     <script>
       window.onload = function () {
         //### text type ###
-        const textType = document.querySelector("#textType");        
+        const textType = document.querySelector("#textType");
         textType.ondraw = ({ shape, row, index, originalRow }) => {
           shape.setAttribute(
             "x",

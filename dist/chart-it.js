@@ -1,64 +1,6 @@
 (function () {
   'use strict';
 
-  const Width = 200;
-  const Height = 200;
-  const Margin = 10;
-
-  function createSVG(width, height, id, className) {
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    if (id) svg.setAttribute("id", id);
-    if (className) svg.setAttribute("class", className);
-    svg.setAttribute("width", width);
-    svg.setAttribute("height", height);
-    return svg;
-  }
-
-  class MultiChart extends HTMLElement {
-    constructor() {
-      super();
-    }
-
-    connectedCallback() {
-      this.dataSet = this.querySelector("data-set");
-      this.svg = createSVG(this.width, this.height);
-
-      Array.from(this.children).forEach((child) => this.svg.appendChild(child));
-      this.parentElement.insertBefore(this.svg, this);
-    }
-    disconnectedCallback() {}
-
-    set axes(axes) {
-      this.dataSet.axes = axes;
-    }
-    set ondraw(ondraw) {
-      this.dataSet.ondraw = ondraw;
-    }
-    set data(data) {
-      this.dataSet.data = data;
-      this.finalize();
-    }
-
-    finalize() {
-      if (this.id) this.svg.setAttribute("id", this.id);
-      if (this.className) this.svg.setAttribute("class", this.className);
-      this.parentElement.removeChild(this);
-    }
-
-    get id() {
-      return this.getAttribute("id");
-    }
-    get className() {
-      return this.getAttribute("class");
-    }
-    get width() {
-      return this.getAttribute("width") || Width;
-    }
-    get height() {
-      return this.getAttribute("height") || Height;
-    }
-  }
-
   function normalize(arr, normalizeKeys) {
     const normalizedArr = arr.map((item) => {
       return { ...item };
@@ -227,6 +169,10 @@
     path.removeAttribute("is");
   }
 
+  const Width = 200;
+  const Height = 200;
+  const Margin = 10;
+
   class DataSet extends HTMLElement {
     constructor() {
       super();
@@ -236,15 +182,9 @@
     disconnectedCallback() {}
 
     draw(data, originalData) {
-      drawPath(this.parentElement, this.pathType, data);
-      drawPoints(
-        this.parentElement,
-        this.pointTypes,
-        data,
-        originalData,
-        this["ondraw"]
-      );
-      this.parentElement.removeChild(this);
+      const svg = this.parentElement.shadowRoot.querySelector("svg");
+      drawPath(svg, this.pathType, data);
+      drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
     }
 
     set data(originalData) {
@@ -268,18 +208,21 @@
       };
     }
     getDefaultAxesObj() {
+      const width = Number(this.parentElement.getAttribute("width") || Width);
+      const height = Number(this.parentElement.getAttribute("height") || Height);
+      const margin = Number(this.parentElement.getAttribute("margin") || Margin);
       return [
         {
           cols: ["x"],
-          lowerBound: Margin,
-          upperBound: Width - Margin,
-          length: Width,
+          lowerBound: margin,
+          upperBound: width - margin,
+          length: width,
         },
         {
           cols: ["y"],
-          lowerBound: Margin,
-          upperBound: Height - Margin,
-          length: Height,
+          lowerBound: margin,
+          upperBound: height - margin,
+          length: height,
           flip: true,
         },
       ];
@@ -290,7 +233,7 @@
     }
 
     get pointTypes() {
-      return this.querySelectorAll(`:not(path[is="path-type"])`);
+      return this.querySelectorAll(`:not(path[is="path-type"]):not(template)`);
     }
   }
 
@@ -301,18 +244,16 @@
   class CandleStick extends HTMLElement {
     constructor() {
       super();
-    }
 
-    connectedCallback() {
-      const chart = document.createElement("chart-it");
       this.dataSet = document.createElement("data-set");
       this.dataSet.appendChild(createSVGElements("line"));
       this.dataSet.appendChild(createSVGElements("rect"));
-      chart.appendChild(this.dataSet);
-      this.parentElement.insertBefore(chart, this);
+      this.parentElement.insertBefore(this.dataSet, this);
       this.parentElement.removeChild(this);
       this.adjust();
     }
+
+    connectedCallback() {}
     disconnectedCallback() {}
 
     adjust() {
@@ -356,56 +297,54 @@
     }
   }
 
+  function createSVG(width, height) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    //if (id) svg.setAttribute("id", id);
+    //if (className) svg.setAttribute("class", className);
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+    return svg;
+  }
+
   class ChartIt extends HTMLElement {
     constructor() {
       super();
+      this.attachShadow({ mode: "open" });
     }
 
     connectedCallback() {
-      this.multiChart = document.createElement("multi-chart");
-      copyAttrs(this, this.multiChart);
-      copyStyles(this, this.multiChart);
-      this.appendDataSet(this.multiChart);
-      this.parentElement.insertBefore(this.multiChart, this);
+      const template = this.querySelector("template");
+      this.dataSet = this.querySelector("data-set");
+      this.svg = createSVG(this.width, this.height);
+      this.shadowRoot.appendChild(this.svg);
+      if (template) this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
     disconnectedCallback() {}
 
-    appendDataSet(multiChart) {
-      let dataSets = this.querySelectorAll("data-set");
-      if (dataSets.length == 0) {
-        const dataSet = document.createElement("data-set");
-        Array.from(this.children).forEach((child) => dataSet.appendChild(child));
-        multiChart.appendChild(dataSet);
-      } else if (dataSets.length == 1) multiChart.appendChild(dataSets[0]);
-      else {
-        Array.from(this.children).forEach((child) =>
-          multiChart.appendChild(child)
-        );
-      }
-    }
-
     set axes(axes) {
-      this.multiChart.axes = axes;
+      this.dataSet.axes = axes;
     }
     set ondraw(ondraw) {
-      this.multiChart.ondraw = ondraw;
+      this.dataSet.ondraw = ondraw;
     }
     set data(data) {
-      this.multiChart.data = data;
-      this.finalize();
+      this.dataSet.data = data;
     }
 
-    finalize() {
-      this.parentElement.removeChild(this);
+    get width() {
+      return this.getAttribute("width") || Width;
+    }
+    get height() {
+      return this.getAttribute("height") || Height;
     }
   }
 
-  customElements.get("multi-chart") ||
-    customElements.define("multi-chart", MultiChart);
   customElements.get("data-set") || customElements.define("data-set", DataSet);
   customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
   customElements.get("candle-stick") ||
     customElements.define("candle-stick", CandleStick);
+
+  return ChartIt;
 
 })();
 //# sourceMappingURL=chart-it.js.map

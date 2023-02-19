@@ -3,18 +3,16 @@ import createSVGElements from "./draw/createSVGElements";
 class CandleStick extends HTMLElement {
   constructor() {
     super();
-  }
 
-  connectedCallback() {
-    const chart = document.createElement("chart-it");
     this.dataSet = document.createElement("data-set");
     this.dataSet.appendChild(createSVGElements("line"));
     this.dataSet.appendChild(createSVGElements("rect"));
-    chart.appendChild(this.dataSet);
-    this.parentElement.insertBefore(chart, this);
+    this.parentElement.insertBefore(this.dataSet, this);
     this.parentElement.removeChild(this);
     this.adjust();
   }
+
+  connectedCallback() {}
   disconnectedCallback() {}
 
   adjust() {
