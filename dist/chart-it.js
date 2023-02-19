@@ -5,7 +5,7 @@
   const Height = 200;
   const Margin = 10;
 
-  function createSVG(id, className, width, height) {
+  function createSVG(width, height, id, className) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     if (id) svg.setAttribute("id", id);
     if (className) svg.setAttribute("class", className);
@@ -20,15 +20,30 @@
     }
 
     connectedCallback() {
-      const svg = createSVG(null, null, this.width, this.height);
-      if (this.id) this.querySelector("data-set").setAttribute("id", this.id);
-      if (this.className)
-        this.querySelector("data-set").setAttribute("class", this.className);
-      Array.from(this.children).forEach((child) => svg.appendChild(child));
-      this.parentElement.insertBefore(svg, this);
-      this.parentElement.removeChild(this);
+      this.dataSet = this.querySelector("data-set");
+      this.svg = createSVG(this.width, this.height);
+
+      Array.from(this.children).forEach((child) => this.svg.appendChild(child));
+      this.parentElement.insertBefore(this.svg, this);
     }
     disconnectedCallback() {}
+
+    set axes(axes) {
+      this.dataSet.axes = axes;
+    }
+    set ondraw(ondraw) {
+      this.dataSet.ondraw = ondraw;
+    }
+    set data(data) {
+      this.dataSet.data = data;
+      this.finalize();
+    }
+
+    finalize() {
+      if (this.id) this.svg.setAttribute("id", this.id);
+      if (this.className) this.svg.setAttribute("class", this.className);
+      this.parentElement.removeChild(this);
+    }
 
     get id() {
       return this.getAttribute("id");
@@ -347,41 +362,40 @@
     }
 
     connectedCallback() {
-      const multiChart = document.createElement("multi-chart");
-      copyAttrs(this, multiChart);
-      copyStyles(this, multiChart);
-      this.appendDataSet(multiChart);
-      this.parentElement.insertBefore(multiChart, this);
+      this.multiChart = document.createElement("multi-chart");
+      copyAttrs(this, this.multiChart);
+      copyStyles(this, this.multiChart);
+      this.appendDataSet(this.multiChart);
+      this.parentElement.insertBefore(this.multiChart, this);
     }
     disconnectedCallback() {}
 
     appendDataSet(multiChart) {
-      const dataSets = this.querySelectorAll("data-set");
+      let dataSets = this.querySelectorAll("data-set");
       if (dataSets.length == 0) {
-        this.createDataSet();
-        multiChart.appendChild(this.dataSet);
-      } else if (dataSets.length == 1) {
-        this.dataSet = dataSets[0];
-        multiChart.appendChild(this.dataSet);
-      } else
+        const dataSet = document.createElement("data-set");
+        Array.from(this.children).forEach((child) => dataSet.appendChild(child));
+        multiChart.appendChild(dataSet);
+      } else if (dataSets.length == 1) multiChart.appendChild(dataSets[0]);
+      else {
         Array.from(this.children).forEach((child) =>
           multiChart.appendChild(child)
         );
+      }
     }
-    createDataSet() {
-      this.dataSet = document.createElement("data-set");
-      Array.from(this.children).forEach((child) =>
-        this.dataSet.appendChild(child)
-      );
-    }
+
     set axes(axes) {
-      this.dataSet.axes = axes;
+      this.multiChart.axes = axes;
     }
     set ondraw(ondraw) {
-      this.dataSet.ondraw = ondraw;
+      this.multiChart.ondraw = ondraw;
     }
     set data(data) {
-      this.dataSet.data = data;
+      this.multiChart.data = data;
+      this.finalize();
+    }
+
+    finalize() {
       this.parentElement.removeChild(this);
     }
   }
