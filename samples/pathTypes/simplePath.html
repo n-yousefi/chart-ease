@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <script src="../../dist/chart-it.js" defer></script>
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-it width="200" height="200">
+      <data-set>
+        <path is="path-type" stroke="aqua" fill="none"></path>
+      </data-set>
+    </chart-it>
+    <script>
+      window.onload = function () {
+        document.querySelector("chart-it").data = [
+          { x: 1, y: 6 },
+          { x: 2, y: 4 },
+          { x: 3, y: 0 },
+          { x: 4, y: 3 },
+          { x: 5, y: 5 },
+          { x: 6, y: 2 },
+          { x: 7, y: 7 },
+          { x: 8, y: 3 },
+        ];
+      };
+    </script>
+  </body>
+</html>
