@@ -7,32 +7,27 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient
+          id="pathGradient"
+          xmlns="http://www.w3.org/2000/svg"
+          gradientTransform="rotate(90)"
+        >
+          <stop stop-color="chartreuse" offset="0" />
+          <stop stop-color="coral" offset="50%" />
+        </linearGradient>
+        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
+          <feGaussianBlur
+            in="thicken"
+            stdDeviation="2"
+            result="blurred"
+          ></feGaussianBlur>
+        </filter>
+      </defs>
+    </svg>
     <chart-it width="400" height="400" margin="50">
       <data-set>
-        <template>
-          <svg width="0" height="0">
-            <defs>
-              <linearGradient id="pathGradient">
-                <stop offset="0%" stop-color="white"></stop>
-                <stop offset="50%" stop-color="aqua"></stop>
-                <stop offset="100%" stop-color="#00dddd"></stop>
-              </linearGradient>
-              <filter
-                id="softGlow"
-                width="300%"
-                height="300%"
-                x="-100%"
-                y="-100%"
-              >
-                <feGaussianBlur
-                  in="thicken"
-                  stdDeviation="5"
-                  result="blurred"
-                ></feGaussianBlur>
-              </filter>
-            </defs>
-          </svg>
-        </template>
         <path
           is="path-type"
           stroke-linecap="round"
@@ -40,7 +35,6 @@
           stroke-width="2.5"
           fill="none"
         ></path>
-        <circle r="5" fill="aqua" filter="url(#softGlow)" fill-opacity="1">
         </circle>
         <text
           x="0"
@@ -50,10 +44,22 @@
           fill="none"
           stroke="black"
         ></text>
+        <circle r="5" fill="white" filter="url(#softGlow)" fill-opacity="1">
+
       </data-set>
     </chart-it>
 
     <script>
+      const data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0, label: "MIN" },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7, label: "MAX" },
+        { x: 8, y: 3 },
+      ];
       window.onload = function () {
         const chart = document.querySelector("chart-it");
         chart.ondraw = ({ shape, row, index, originalRow }) => {
@@ -70,22 +76,21 @@
             case "circle":
               shape.setAttribute("cx", row.x);
               shape.setAttribute("cy", row.y);
-              if (index === 0) shape.setAttribute("opacity", 0.1);
-              if (index === 1) shape.setAttribute("opacity", 0.5);
-              if (index > 5) shape.setAttribute("fill", "#00dddd");
+              if (
+                data[index].y > (data[index - 1]?.y ?? Number.MIN_VALUE) &&
+                data[index].y > (data[index + 1]?.y ?? Number.MIN_VALUE)
+              )
+                shape.setAttribute("fill", "chartreuse");
+              else if (
+                data[index].y < (data[index - 1]?.y ?? Number.MAX_VALUE) &&
+                data[index].y < (data[index + 1]?.y ?? Number.MAX_VALUE)
+              )
+                shape.setAttribute("fill", "coral");
+              else shape.setAttribute("fill-opacity", 0);
               break;
           }
         };
-        chart.data = [
-          { x: 1, y: 6 },
-          { x: 2, y: 4 },
-          { x: 3, y: 0, label: "MIN" },
-          { x: 4, y: 3 },
-          { x: 5, y: 5 },
-          { x: 6, y: 2 },
-          { x: 7, y: 7, label: "MAX" },
-          { x: 8, y: 3 },
-        ];
+        chart.data = data;
       };
     </script>
   </body>

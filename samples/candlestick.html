@@ -13,23 +13,24 @@
     <br />
     <chart-it id="candlestick2">
       <data-set>
-        <line />
-        <rect />
+        <line></line>
+        <rect></rect>
       </data-set>
     </chart-it>
     <script>
       window.onload = function () {
         const chart1 = document.querySelector("#candlestick1");
-        chart1.data = [
-          { x: 1, low: 2, open: 5, close: 3, high: 5 },
-          { x: 2, low: 5, open: 6, close: 7, high: 16 },
-          { x: 3, low: 9, open: 9, close: 10, high: 10 },
-          { x: 4, low: 15, open: 15, close: 5, high: 5 },
-          { x: 5, low: 9, open: 10, close: 12, high: 20 },
-          { x: 6, low: 9, open: 11, close: 13, high: 25 },
-          { x: 7, low: 9, open: 12, close: 14, high: 15 },
-          { x: 8, low: 1, open: 13, close: 10, high: 15 },
-        ];
+        if (chart1)
+          chart1.data = [
+            { x: 1, low: 2, open: 5, close: 3, high: 5 },
+            { x: 2, low: 5, open: 6, close: 7, high: 16 },
+            { x: 3, low: 9, open: 9, close: 10, high: 10 },
+            { x: 4, low: 15, open: 15, close: 5, high: 5 },
+            { x: 5, low: 9, open: 10, close: 12, high: 20 },
+            { x: 6, low: 9, open: 11, close: 13, high: 25 },
+            { x: 7, low: 9, open: 12, close: 14, high: 15 },
+            { x: 8, low: 1, open: 13, close: 10, high: 15 },
+          ];
 
         //######################################################
         //######################################################

@@ -8,5 +8,9 @@ export default function cloneSVGElement(element) {
   );
   copyAttrs(element, newElement);
   copyStyles(element, newElement);
+  const children = Array.from(element.children);
+  children.forEach((child) => {
+    newElement.appendChild(cloneSVGElement(child));
+  });
   return newElement;
 }

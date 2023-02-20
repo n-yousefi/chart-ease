@@ -7,30 +7,22 @@
     <script src="../dist/chart-it.js" defer></script>
   </head>
   <body>
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient id="pathGradient">
+          <stop offset="0%" stop-color="white"></stop>
+          <stop offset="20%" stop-color="aqua"></stop>
+        </linearGradient>
+        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
+          <feGaussianBlur
+            in="thicken"
+            stdDeviation="5"
+            result="blurred"
+          ></feGaussianBlur>
+        </filter>
+      </defs>
+    </svg>
     <chart-it width="200" height="200">
-      <template>
-        <svg width="0" height="0">
-          <defs>
-            <linearGradient id="pathGradient">
-              <stop offset="0%" stop-color="white"></stop>
-              <stop offset="20%" stop-color="aqua"></stop>
-            </linearGradient>
-            <filter
-              id="softGlow"
-              width="300%"
-              height="300%"
-              x="-100%"
-              y="-100%"
-            >
-              <feGaussianBlur
-                in="thicken"
-                stdDeviation="5"
-                result="blurred"
-              ></feGaussianBlur>
-            </filter>
-          </defs>
-        </svg>
-      </template>
       <data-set id="chart1">
         <path is="path-type" stroke="black" fill="none"></path>
       </data-set>

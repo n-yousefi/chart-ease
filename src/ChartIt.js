@@ -6,26 +6,21 @@ import createSVG from "./main/draw/createSVG";
 export default class ChartIt extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: "open" });
+    this.svg = createSVG(this.width, this.height);
+    this.appendChild(this.svg);
   }
 
-  connectedCallback() {
-    const template = this.querySelector("template");
-    this.dataSet = this.querySelector("data-set");
-    this.svg = createSVG(this.width, this.height);
-    this.shadowRoot.appendChild(this.svg);
-    if (template) this.shadowRoot.appendChild(template.content.cloneNode(true));
-  }
+  connectedCallback() {}
   disconnectedCallback() {}
 
   set axes(axes) {
-    this.dataSet.axes = axes;
+    this.firstElementChild.axes = axes;
   }
   set ondraw(ondraw) {
-    this.dataSet.ondraw = ondraw;
+    this.firstElementChild.ondraw = ondraw;
   }
   set data(data) {
-    this.dataSet.data = data;
+    this.firstElementChild.data = data;
   }
 
   get width() {

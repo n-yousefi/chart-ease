@@ -12,7 +12,7 @@ class DataSet extends HTMLElement {
   disconnectedCallback() {}
 
   draw(data, originalData) {
-    const svg = this.parentElement.shadowRoot.querySelector("svg");
+    const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
   }
@@ -25,6 +25,7 @@ class DataSet extends HTMLElement {
         : this.getDefaultAxesObj();
     const data = normalize(originalData, axes);
     this.draw(data, originalData);
+    this.parentElement.removeChild(this);
   }
 
   getAxesObj(axis) {
@@ -63,7 +64,9 @@ class DataSet extends HTMLElement {
   }
 
   get pointTypes() {
-    return this.querySelectorAll(`:not(path[is="path-type"]):not(template)`);
+    return Array.from(this.children).filter(
+      (item) => item.getAttribute("is") != "path-type"
+    );
   }
 }
 

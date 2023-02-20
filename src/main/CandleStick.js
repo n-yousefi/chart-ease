@@ -1,14 +1,9 @@
+import DataSet from "./DataSet";
 import createSVGElements from "./draw/createSVGElements";
 
-class CandleStick extends HTMLElement {
+class CandleStick extends DataSet {
   constructor() {
     super();
-
-    this.dataSet = document.createElement("data-set");
-    this.dataSet.appendChild(createSVGElements("line"));
-    this.dataSet.appendChild(createSVGElements("rect"));
-    this.parentElement.insertBefore(this.dataSet, this);
-    this.parentElement.removeChild(this);
     this.adjust();
   }
 
@@ -16,7 +11,9 @@ class CandleStick extends HTMLElement {
   disconnectedCallback() {}
 
   adjust() {
-    this.dataSet.ondraw = ({ shape, row }) => {
+    this.appendChild(createSVGElements("line"));
+    this.appendChild(createSVGElements("rect"));
+    this.ondraw = ({ shape, row }) => {
       switch (shape.tagName) {
         case "line":
           shape.setAttribute("x1", row.x + 5);
@@ -40,7 +37,7 @@ class CandleStick extends HTMLElement {
           break;
       }
     };
-    this.dataSet.axes = [
+    this.axes = [
       { cols: ["x"], length: 200, margin: 10 },
       {
         cols: ["low", "open", "close", "high"],
@@ -49,10 +46,6 @@ class CandleStick extends HTMLElement {
         flip: true,
       },
     ];
-  }
-
-  set data(data) {
-    this.dataSet.data = data;
   }
 }
 export default CandleStick;

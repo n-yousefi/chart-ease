@@ -99,6 +99,10 @@
     );
     copyAttrs(element, newElement);
     copyStyles(element, newElement);
+    const children = Array.from(element.children);
+    children.forEach((child) => {
+      newElement.appendChild(cloneSVGElement(child));
+    });
     return newElement;
   }
 
@@ -182,7 +186,7 @@
     disconnectedCallback() {}
 
     draw(data, originalData) {
-      const svg = this.parentElement.shadowRoot.querySelector("svg");
+      const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
     }
@@ -195,6 +199,7 @@
           : this.getDefaultAxesObj();
       const data = normalize(originalData, axes);
       this.draw(data, originalData);
+      this.parentElement.removeChild(this);
     }
 
     getAxesObj(axis) {
@@ -233,7 +238,9 @@
     }
 
     get pointTypes() {
-      return this.querySelectorAll(`:not(path[is="path-type"]):not(template)`);
+      return Array.from(this.children).filter(
+        (item) => item.getAttribute("is") != "path-type"
+      );
     }
   }
 
@@ -241,15 +248,9 @@
     return document.createElementNS("http://www.w3.org/2000/svg", tagName);
   }
 
-  class CandleStick extends HTMLElement {
+  class CandleStick extends DataSet {
     constructor() {
       super();
-
-      this.dataSet = document.createElement("data-set");
-      this.dataSet.appendChild(createSVGElements("line"));
-      this.dataSet.appendChild(createSVGElements("rect"));
-      this.parentElement.insertBefore(this.dataSet, this);
-      this.parentElement.removeChild(this);
       this.adjust();
     }
 
@@ -257,7 +258,9 @@
     disconnectedCallback() {}
 
     adjust() {
-      this.dataSet.ondraw = ({ shape, row }) => {
+      this.appendChild(createSVGElements("line"));
+      this.appendChild(createSVGElements("rect"));
+      this.ondraw = ({ shape, row }) => {
         switch (shape.tagName) {
           case "line":
             shape.setAttribute("x1", row.x + 5);
@@ -281,7 +284,7 @@
             break;
         }
       };
-      this.dataSet.axes = [
+      this.axes = [
         { cols: ["x"], length: 200, margin: 10 },
         {
           cols: ["low", "open", "close", "high"],
@@ -290,10 +293,6 @@
           flip: true,
         },
       ];
-    }
-
-    set data(data) {
-      this.dataSet.data = data;
     }
   }
 
@@ -309,26 +308,21 @@
   class ChartIt extends HTMLElement {
     constructor() {
       super();
-      this.attachShadow({ mode: "open" });
+      this.svg = createSVG(this.width, this.height);
+      this.appendChild(this.svg);
     }
 
-    connectedCallback() {
-      const template = this.querySelector("template");
-      this.dataSet = this.querySelector("data-set");
-      this.svg = createSVG(this.width, this.height);
-      this.shadowRoot.appendChild(this.svg);
-      if (template) this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
+    connectedCallback() {}
     disconnectedCallback() {}
 
     set axes(axes) {
-      this.dataSet.axes = axes;
+      this.firstElementChild.axes = axes;
     }
     set ondraw(ondraw) {
-      this.dataSet.ondraw = ondraw;
+      this.firstElementChild.ondraw = ondraw;
     }
     set data(data) {
-      this.dataSet.data = data;
+      this.firstElementChild.data = data;
     }
 
     get width() {
