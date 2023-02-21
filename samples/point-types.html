@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <title>point-types</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../dist/chart-it.js" defer></script>
+    <script src="../dist/chart-ease.js" defer></script>
   </head>
   <body>
-    <chart-it id="chart1" class="class1" width="200" height="200">
+    <chart-ease id="chart1" class="class1" width="200" height="200">
       <data-set>
         <path is="path-type" stroke="aqua" fill="none"></path>
       </data-set>
-    </chart-it>
+    </chart-ease>
 
-    <chart-it width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set>
         <path is="path-type" stroke="aqua" fill="none"></path>
         <rect
@@ -25,9 +25,9 @@
           stroke-width="5"
         />
       </data-set>
-    </chart-it>
+    </chart-ease>
 
-    <chart-it width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set>
         <path
           is="path-type"
@@ -37,9 +37,9 @@
         ></path>
         <circle r="5" fill="blue" />
       </data-set>
-    </chart-it>
+    </chart-ease>
 
-    <chart-it width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set>
         <path
           is="path-type"
@@ -49,10 +49,10 @@
         ></path>
         <ellipse rx="5" ry="10" fill="#F00" opacity="0.7" />
       </data-set>
-    </chart-it>
+    </chart-ease>
     <script>
       window.onload = function () {
-        document.querySelectorAll("chart-it").forEach(
+        document.querySelectorAll("chart-ease").forEach(
           (item) =>
             (item.data = [
               { x: 1, y: 6 },

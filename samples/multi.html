@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>multi charts</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../dist/chart-it.js" defer></script>
+    <script src="../dist/chart-ease.js" defer></script>
   </head>
   <body>
     <svg width="0" height="0">
@@ -22,7 +22,7 @@
         </filter>
       </defs>
     </svg>
-    <chart-it width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set id="chart1">
         <path is="path-type" stroke="black" fill="none"></path>
       </data-set>
@@ -52,7 +52,7 @@
           fill-opacity=".3"
         ></circle>
       </data-set>
-    </chart-it>
+    </chart-ease>
     <script>
       window.onload = function () {
         document.getElementById("chart1").data = [

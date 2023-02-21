@@ -305,7 +305,7 @@
     return svg;
   }
 
-  class ChartIt extends HTMLElement {
+  class ChartEase extends HTMLElement {
     constructor() {
       super();
       this.svg = createSVG(this.width, this.height);
@@ -334,11 +334,12 @@
   }
 
   customElements.get("data-set") || customElements.define("data-set", DataSet);
-  customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+  customElements.get("chart-ease") ||
+    customElements.define("chart-ease", ChartEase);
   customElements.get("candle-stick") ||
     customElements.define("candle-stick", CandleStick);
 
-  return ChartIt;
+  return ChartEase;
 
 })();
-//# sourceMappingURL=chart-it.js.map
+//# sourceMappingURL=chart-ease.js.map

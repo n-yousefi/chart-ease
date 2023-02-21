@@ -1,12 +1,12 @@
 import { terser } from "rollup-plugin-terser";
 export default {
-  input: "src/ChartIt.js",
+  input: "src/ChartEase.js",
   watch: {
     include: "./src/**",
     clearScreen: false,
   },
   output: {
-    file: "dist/chart-it.js",
+    file: "dist/chart-ease.js",
     format: "iife",
     plugins: [
       //terser({

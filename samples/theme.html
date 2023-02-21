@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>point-types</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../dist/chart-it.js" defer></script>
+    <script src="../dist/chart-ease.js" defer></script>
   </head>
   <body>
     <svg width="0" height="0">
@@ -26,7 +26,7 @@
         </filter>
       </defs>
     </svg>
-    <chart-it width="400" height="400" margin="50">
+    <chart-ease width="400" height="400" margin="50">
       <data-set>
         <path
           is="path-type"
@@ -46,7 +46,7 @@
         ></text>
         <circle r="5" fill="white" filter="url(#softGlow)" fill-opacity="1">
       </data-set>
-    </chart-it>
+    </chart-ease>
     <script>
       const data = [
         { x: 1, y: 6 },
@@ -59,7 +59,7 @@
         { x: 8, y: 3 },
       ];
       window.onload = function () {
-        const chart = document.querySelector("chart-it");
+        const chart = document.querySelector("chart-ease");
         chart.ondraw = ({ shape, row, index, originalRow }) => {
           switch (shape.tagName) {
             case "text":

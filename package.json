@@ -1,21 +1,21 @@
 {
-  "name": "chart-it",
+  "name": "chart-ease",
   "version": "1.0.0",
   "private": false,
   "summery": "Chart helper",
   "author": "Naser Yousefi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/n-yousefi/chart-it.git"
+    "url": "https://github.com/n-yousefi/chart-ease.git"
   },
-  "main": "dist/chart-it.js",
-  "module": "dist/chart-it.js",
+  "main": "dist/chart-ease.js",
+  "module": "dist/chart-ease.js",
   "keywords": [],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/n-yousefi/chart-it/issues"
+    "url": "https://github.com/n-yousefi/chart-ease/issues"
   },
-  "homepage": "https://github.com/n-yousefi/chart-it",
+  "homepage": "https://github.com/n-yousefi/chart-ease",
   "scripts": {
     "build": "rollup -c -m",
     "dev": "rollup -c -w -m"

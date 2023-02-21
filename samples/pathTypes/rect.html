@@ -3,7 +3,7 @@
   <head>
     <title>My Chart Example</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../../dist/chart-it.js" defer></script>
+    <script src="../../dist/chart-ease.js" defer></script>
 
     <style>
       body {
@@ -14,15 +14,15 @@
     </style>
   </head>
   <body>
-    <chart-it width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set>
         <path is="path-type" stroke="aqua" fill="none"></path>
         <rect rx="0" ry="10" width="10" height="10" stroke="aqua" />
       </data-set>
-    </chart-it>
+    </chart-ease>
     <script>
       window.onload = function () {
-        document.querySelector("chart-it").data = [
+        document.querySelector("chart-ease").data = [
           { x: 1, y: 6 },
           { x: 2, y: 4 },
           { x: 3, y: 0 },

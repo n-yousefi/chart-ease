@@ -3,7 +3,7 @@ import CandleStick from "./main/CandleStick";
 import { Height, Width } from "./main/defaults";
 import createSVG from "./main/draw/createSVG";
 
-export default class ChartIt extends HTMLElement {
+export default class ChartEase extends HTMLElement {
   constructor() {
     super();
     this.svg = createSVG(this.width, this.height);
@@ -32,6 +32,7 @@ export default class ChartIt extends HTMLElement {
 }
 
 customElements.get("data-set") || customElements.define("data-set", DataSet);
-customElements.get("chart-it") || customElements.define("chart-it", ChartIt);
+customElements.get("chart-ease") ||
+  customElements.define("chart-ease", ChartEase);
 customElements.get("candle-stick") ||
   customElements.define("candle-stick", CandleStick);
