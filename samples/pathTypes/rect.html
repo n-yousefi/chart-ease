@@ -3,7 +3,6 @@
   <head>
     <title>My Chart Example</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../../dist/chart-ease.js" defer></script>
 
     <style>
       body {
@@ -20,20 +19,18 @@
         <rect rx="0" ry="10" width="10" height="10" stroke="aqua" />
       </data-set>
     </chart-ease>
+    <script src="../../dist/chart-ease.js"></script>
     <script>
-      window.onload = function () {
-        debugger;
-        document.querySelector("chart-ease").data = [
-          { x: 1, y: 6 },
-          { x: 2, y: 4 },
-          { x: 3, y: 0 },
-          { x: 4, y: 3 },
-          { x: 5, y: 5 },
-          { x: 6, y: 2 },
-          { x: 7, y: 7 },
-          { x: 8, y: 3 },
-        ];
-      };
+      document.querySelector("chart-ease").data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0 },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7 },
+        { x: 8, y: 3 },
+      ];
     </script>
   </body>
 </html>
