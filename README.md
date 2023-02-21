@@ -8,7 +8,7 @@ It is highly customizable and supports the creation of many chart types, It norm
 
 Using npm:
 
-[![npm](https://img.shields.io/badge/npm-chart--it-brightgreen)](https://www.npmjs.com/package/chart-ease/)
+[![npm](https://img.shields.io/badge/npm-chart--ease-brightgreen)](https://www.npmjs.com/package/chart-ease/)
 
 ```bash
 $ npm install chart-ease
