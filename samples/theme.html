@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <title>point-types</title>
     <link rel="shortcut icon" href="#" />
-    <script src="../dist/chart-ease.js" defer></script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
   </head>
   <body>
     <svg width="0" height="0">
@@ -47,6 +53,7 @@
         <circle r="5" fill="white" filter="url(#softGlow)" fill-opacity="1">
       </data-set>
     </chart-ease>
+    <script src="../dist/chart-ease.js"></script>
     <script>
       const data = [
         { x: 1, y: 6 },

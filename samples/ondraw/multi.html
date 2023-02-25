@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="200" height="200">
+      <data-set id="chart1">
+        <path is="path-type" stroke="antiquewhite" fill="none"></path>
+      </data-set>
+      <data-set id="chart2">
+        <path is="path-type" stroke="blue" fill="none"></path>
+        <rect rx="10" ry="10" width="2" height="2" stroke="aqua" />
+      </data-set>
+      <data-set id="chart3">
+        <path
+          is="path-type"
+          stroke-linecap="round"
+          stroke="fuchsia"
+          fill="none"
+        ></path>
+        <circle r="5" fill="aqua" fill-opacity=".3"></circle>
+      </data-set>
+    </chart-ease>
+    <script src="../../dist/chart-ease.js"></script>
+    <script>
+      document.getElementById("chart1").data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0 },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7 },
+        { x: 8, y: 3 },
+      ];
+      document.getElementById("chart2").data = [
+        { x: 1, y: 2 },
+        { x: 2, y: 5 },
+        { x: 3, y: 3 },
+        { x: 4, y: 1 },
+        { x: 5, y: 0 },
+        { x: 6, y: 3 },
+        { x: 7, y: 9 },
+        { x: 8, y: 12 },
+      ];
+      document.getElementById("chart3").data = [
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+        { x: 4, y: 7 },
+        { x: 5, y: 6 },
+        { x: 6, y: 5 },
+        { x: 7, y: 2 },
+        { x: 8, y: 1 },
+      ];
+    </script>
+  </body>
+</html>
