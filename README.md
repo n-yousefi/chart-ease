@@ -40,20 +40,20 @@ The following sample demonstrates a basic usage of chart-ease. It creates a char
 </chart-ease>
 
 <script>
-  window.onload = function () {
-    document.querySelector("chart-ease").data = [
-      { x: 1, y: 6 },
-      { x: 2, y: 4 },
-      { x: 3, y: 0 },
-      { x: 4, y: 3 },
-      { x: 5, y: 5 },
-      { x: 6, y: 2 },
-      { x: 7, y: 7 },
-      { x: 8, y: 3 },
-    ];
-  };
+  document.querySelector("chart-ease").data = [
+    { x: 1, y: 6 },
+    { x: 2, y: 4 },
+    { x: 3, y: 0 },
+    { x: 4, y: 3 },
+    { x: 5, y: 5 },
+    { x: 6, y: 2 },
+    { x: 7, y: 7 },
+    { x: 8, y: 3 },
+  ];
 </script>
 ```
+
+- [Check live demo hear](https://htmlpreview.github.io/?https://github.com/n-yousefi/chart-ease/blob/main/samples/point-types/line-chart.html)
 
 ### Basic point types
 
@@ -71,7 +71,7 @@ You can add any types of SVG elements or combination of them as point types. Bas
 </chart-ease>
 ```
 
-- [Check live demo hear](https://htmlpreview.github.io/?https://github.com/n-yousefi/chart-ease/blob/main/samples/pathTypes/simplePath.html)
+- [Check live demo hear](https://htmlpreview.github.io/?https://github.com/n-yousefi/chart-ease/blob/main/samples/point-types/circle.html)
 
 #### <rect>
 
@@ -84,7 +84,7 @@ You can add any types of SVG elements or combination of them as point types. Bas
 </chart-ease>
 ```
 
-- [Check live demo hear](https://htmlpreview.github.io/?https://github.com/n-yousefi/chart-ease/blob/main/samples/pathTypes/rect.html)
+- [Check live demo hear](https://htmlpreview.github.io/?https://github.com/n-yousefi/chart-ease/blob/main/samples/point-types/rect.html)
 
 #### <ellipse>
 
