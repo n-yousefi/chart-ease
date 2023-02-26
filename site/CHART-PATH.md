@@ -1,6 +1,8 @@
+---
 layout: page
-title: "CHART-PATH"
-permalink: /path
+title: Path
+permalink: /path/
+---
 
 ## Usage
 
