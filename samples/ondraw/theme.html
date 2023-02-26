@@ -53,7 +53,7 @@
         <circle r="5" fill="white" filter="url(#softGlow)" fill-opacity="1">
       </data-set>
     </chart-ease>
-    <script src="../dist/chart-ease.js"></script>
+    <script src="../../dist/chart-ease.js"></script>
     <script>
       const data = [
         { x: 1, y: 6 },
@@ -65,38 +65,36 @@
         { x: 7, y: 7, label: "MAX" },
         { x: 8, y: 3 },
       ];
-      window.onload = function () {
-        const chart = document.querySelector("chart-ease");
-        chart.ondraw = ({ shape, row, index, originalRow }) => {
-          switch (shape.tagName) {
-            case "text":
-              if (!originalRow.label) break;
-              shape.setAttribute(
-                "x",
-                row.x - originalRow.label.toString().length * 10
-              );
-              shape.setAttribute("y", row.y + 10);
-              shape.innerHTML = originalRow.label;
-              break;
-            case "circle":
-              shape.setAttribute("cx", row.x);
-              shape.setAttribute("cy", row.y);
-              if (
-                data[index].y > (data[index - 1]?.y ?? Number.MIN_VALUE) &&
-                data[index].y > (data[index + 1]?.y ?? Number.MIN_VALUE)
-              )
-                shape.setAttribute("fill", "chartreuse");
-              else if (
-                data[index].y < (data[index - 1]?.y ?? Number.MAX_VALUE) &&
-                data[index].y < (data[index + 1]?.y ?? Number.MAX_VALUE)
-              )
-                shape.setAttribute("fill", "coral");
-              else shape.setAttribute("fill-opacity", 0);
-              break;
-          }
-        };
-        chart.data = data;
+      const chart = document.querySelector("chart-ease");
+      chart.ondraw = ({ shape, row, index, originalRow }) => {
+        switch (shape.tagName) {
+          case "text":
+            if (!originalRow.label) break;
+            shape.setAttribute(
+              "x",
+              row.x - originalRow.label.toString().length * 10
+            );
+            shape.setAttribute("y", row.y + 10);
+            shape.innerHTML = originalRow.label;
+            break;
+          case "circle":
+            shape.setAttribute("cx", row.x);
+            shape.setAttribute("cy", row.y);
+            if (
+              data[index].y > (data[index - 1]?.y ?? Number.MIN_VALUE) &&
+              data[index].y > (data[index + 1]?.y ?? Number.MIN_VALUE)
+            )
+              shape.setAttribute("fill", "chartreuse");
+            else if (
+              data[index].y < (data[index - 1]?.y ?? Number.MAX_VALUE) &&
+              data[index].y < (data[index + 1]?.y ?? Number.MAX_VALUE)
+            )
+              shape.setAttribute("fill", "coral");
+            else shape.setAttribute("fill-opacity", 0);
+            break;
+        }
       };
+      chart.data = data;      
     </script>
   </body>
 </html>

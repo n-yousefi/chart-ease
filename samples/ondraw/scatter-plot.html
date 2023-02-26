@@ -12,10 +12,10 @@
     </style>
   </head>
   <body>
-    <chart-ease width="400" height="400">
-      <data-set id="chart"> <circle fill="aqua" opacity=".2" /></data-set>
+    <chart-ease id="chart" width="400" height="400">
+      <data-set><circle fill="aqua" opacity=".2" /></data-set>
     </chart-ease>
-    <script src="../../dist/chart-ease.js" defer></script>
+    <script src="../../dist/chart-ease.js"></script>
     <script>
       const chart = document.querySelector("#chart");
       chart.ondraw = ({ shape, row, originalRow }) => {
