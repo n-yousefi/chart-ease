@@ -262,7 +262,7 @@ footer-hover-col: "#0085A1"
 #  mapping: pathname
 #  reactions-enabled: 1
 #  emit-metadata: 0
-#  theme: light
+theme: cayman
 
 ################
 # --- Misc --- #
