@@ -1,3 +1,9 @@
+---
+layout: page
+title: Path
+permalink: /
+---
+
 # `<chart-ease>`
 
 `chart-ease` is a customizable and high-performance web component that allows you quickly draw static charts. Due to its focus on speed, it does not support updating data points once the chart has been rendered.
