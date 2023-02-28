@@ -3,7 +3,6 @@
   <head>
     <title>My Chart Example</title>
     <link rel="shortcut icon" href="#" />
-
     <style>
       body {
         display: flex;
@@ -24,7 +23,7 @@
         <path fill="none" stroke="blue" stroke-width="2" />
       </data-set>
     </chart-ease>
-    <script src="../../dist/chart-ease.js"></script>
+    <script src="../../js/chart-ease.js"></script>
     <script>
       const pathType = document.querySelector("#pathType");
       pathType.ondraw = ({ shape, row, index }) => {
@@ -36,14 +35,14 @@
         if (index === 0) shape.setAttribute("opacity", 0.1);
       };
       pathType.data = [
-        { x: 1, y: 0.6152156 },
-        { x: 2, y: 0.6152154 },
-        { x: 3, y: 0.615215 },
-        { x: 4, y: 0.6152153 },
-        { x: 5, y: 0.6152155 },
-        { x: 6, y: 0.6152152 },
-        { x: 7, y: 0.6152157 },
-        { x: 8, y: 0.6152153 },
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0 },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7 },
+        { x: 8, y: 3 },
       ];
     </script>
   </body>

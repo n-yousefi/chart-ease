@@ -76,10 +76,19 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#path">Path</a>
+            <a class="nav-link js-scroll-trigger" href="#chart-path"
+              >Chart Path</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#points">Points</a>
+            <a class="nav-link js-scroll-trigger" href="#chart-points"
+              >Chart Points</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#complex-chart-points"
+              >Complex Chart Points</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#samples">Samples</a>
@@ -156,21 +165,25 @@
       </section>
       <hr class="m-0" />
       <!-- Path -->
-      <section class="resume-section" id="path">
+      <section class="resume-section" id="chart-path">
         <div class="resume-section-content">
-          <h2 class="mb-5">Path</h2>
+          <h2 class="mb-5">CHART PATH</h2>
           <div>
-            <h3 class="mb-0">Customize Chart Path</h3>
-            <div class="subheading mb-3">Define path by yourself</div>
+            <h3 class="mb-0">custom PATH TYPE</h3>
+            <div class="subheading mb-3">
+              Define a path for your chart and Customize it
+            </div>
             <p>
-              You can define a `path` element inside the `data-set` element to
-              draw it as chart's path by setting the
-              <code>is</code> attribute to <code>path-type</code>.
+              With <code>&lt;chart-ease></code>, you can customize your chart's
+              path by defining a <code>&lt;path></code> element inside the
+              <code>&lt;data-set></code> element and setting the
+              <code>is</code> attribute to <code>"path-type"</code>. This will
+              draw the `path` element as your chart's path.
             </p>
             <pre><code class="html">&lt;path is="path-type" stroke="aqua" fill="none">&lt;/path></code></pre>
             <p>
-              The following sample demonstrates a basic usage of chart-ease. It
-              creates a chart with a path connecting the data points.
+              Here's a basic example that creates a chart with a path connecting
+              the data points:
             </p>
             <div
               class="d-flex flex-column flex-md-row justify-content-between mb-5"
@@ -184,30 +197,11 @@
 &lt;/chart-ease>
 &lt;script src="../js/chart-ease.js">&lt;/script>
 &lt;script>
-  document.querySelector("chart-ease").data = [
-    { x: 1, y: 6 },
-    { x: 2, y: 4 },
-    { x: 3, y: 0 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 },
-    { x: 6, y: 2 },
-    { x: 7, y: 7 },
-    { x: 8, y: 3 },
-  ];
+  document.querySelector("chart-ease").data = [{ x: 1, y: 6 },{ x: 2, y: 4 },{ x: 3, y: 0 },{ x: 4, y: 3 },{ x: 5, y: 5 },{ x: 6, y: 2 },{ x: 7, y: 7 },{ x: 8, y: 3 }];
 &lt;/script></code></pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/path.html"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      width: 100%;
-                      height: 250px;
-                    "
-                  ></object>
+                  <object type="text/html" data="./samples/path.html"></object>
                 </div>
               </div>
             </div>
@@ -216,125 +210,329 @@
       </section>
       <hr class="m-0" />
       <!-- Points-->
-      <section class="resume-section" id="points">
+      <section class="resume-section" id="chart-points">
         <div class="resume-section-content">
-          <h2 class="mb-5">Skills</h2>
-          <div class="subheading mb-3">Programming Languages & Tools</div>
-          <ul class="list-inline dev-icons">
-            <li class="list-inline-item"><i class="fab fa-html5"></i></li>
-            <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
-            <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
-            <li class="list-inline-item"><i class="fab fa-angular"></i></li>
-            <li class="list-inline-item"><i class="fab fa-react"></i></li>
-            <li class="list-inline-item"><i class="fab fa-node-js"></i></li>
-            <li class="list-inline-item"><i class="fab fa-sass"></i></li>
-            <li class="list-inline-item"><i class="fab fa-less"></i></li>
-            <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
-            <li class="list-inline-item"><i class="fab fa-gulp"></i></li>
-            <li class="list-inline-item"><i class="fab fa-grunt"></i></li>
-            <li class="list-inline-item"><i class="fab fa-npm"></i></li>
-          </ul>
-          <div class="subheading mb-3">Workflow</div>
-          <ul class="fa-ul mb-0">
-            <li>
-              <span class="fa-li"><i class="fas fa-check"></i></span>
-              Mobile-First, Responsive Design
-            </li>
-            <li>
-              <span class="fa-li"><i class="fas fa-check"></i></span>
-              Cross Browser Testing & Debugging
-            </li>
-            <li>
-              <span class="fa-li"><i class="fas fa-check"></i></span>
-              Cross Functional Teams
-            </li>
-            <li>
-              <span class="fa-li"><i class="fas fa-check"></i></span>
-              Agile Development & Scrum
-            </li>
-          </ul>
+          <h2 class="mb-5">Chart Points</h2>
+          <div>
+            <h3 class="mb-0">Custom Point Types</h3>
+            <div class="subheading mb-3">
+              Define Custom Point Types for Your Chart Points
+            </div>
+            <p>
+              You can define any type of SVG element or combination of them as
+              point types. Basic elements are adjusted by default, so you only
+              need to put them inside the same <code>data-set</code> element.
+              Chart-ease will draw them at the corresponding position of each
+              point.
+            </p>
+            <!-- Circle -->
+            <div class="subheading mb-3">Circle</div>
+            <p>
+              Use the <code>&lt;circle></code> element to create circular
+              points.
+            </p>
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between mb-5"
+            >
+              <pre class="flex-grow-1">
+                <code class="html">&lt;chart-ease>
+  &lt;data-set>
+    &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
+    &lt;circle is="point-type" r="5" fill="aliceblue">&lt;/circle>
+  &lt;/data-set>
+&lt;/chart-ease></code></pre>
+              <div>
+                <div>
+                  <object
+                    type="text/html"
+                    data="./samples/point-types/circle.html"
+                  ></object>
+                </div>
+              </div>
+            </div>
+            <!-- Rectangle -->
+            <div class="subheading mb-3">Rectangle</div>
+            <p>
+              Use the <code>&lt;rect></code> element to create rectangular
+              points.
+            </p>
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between mb-5"
+            >
+              <pre class="flex-grow-1">
+                <code class="html">&lt;chart-ease>
+  &lt;data-set>
+    &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
+    &lt;rect rx="0" ry="10" width="10" height="10" stroke="aqua" fill="aliceblue" />
+  &lt;/data-set>
+&lt;/chart-ease></code>
+              </pre>
+              <div>
+                <div>
+                  <object
+                    type="text/html"
+                    data="./samples/point-types/rect.html"
+                  ></object>
+                </div>
+              </div>
+            </div>
+            <!-- Ellipse -->
+            <div class="subheading mb-3">Ellipse</div>
+            <p>
+              Use the <code>&lt;ellipse></code> element to create elliptical
+              points.
+            </p>
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between mb-5"
+            >
+              <pre class="flex-grow-1">
+                <code class="html">&lt;chart-ease>
+  &lt;data-set>
+    &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
+    &lt;ellipse rx="5" ry="10" fill="aliceblue" stroke="aqua" />
+  &lt;/data-set>
+&lt;/chart-ease></code>
+              </pre>
+              <div>
+                <div>
+                  <object
+                    type="text/html"
+                    data="./samples/point-types/ellipse.html"
+                  ></object>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <hr class="m-0" />
       <!-- Samples -->
+      <section class="resume-section" id="complex-chart-points">
+        <div class="resume-section-content">
+          <h2 class="mb-5">complex chart points</h2>
+          <div>
+            <!-- Complex Types -->
+            <h3 class="mb-0">Adjust point types</h3>
+            <div class="subheading mb-3">
+              Define complex Point Types for Your Chart
+            </div>
+            <p>
+              To create complex point types, you may need to adjust the
+              position, styles, animations, and more. With the `draw` event, you
+              can access each point and draw it yourself. In the
+              <code>ondraw</code> event handler, you can create different types
+              of charts and customize everything.
+            </p>
+            <!-- Ondraw -->
+            <h3 class="mb-0">draw event</h3>
+            <p>
+              <code>&lt;chart-ease></code> fires a <code>draw</code> event for
+              each point type and passes an object containing the following
+              items to the event handler:
+            </p>
+            <ul class="fa-ul mb-0">
+              <li>
+                <span class="fa-li"><i class="fas fa-check"></i></span>
+                shape: the point element, which can be any SVG element type.
+              </li>
+              <li>
+                <span class="fa-li"><i class="fas fa-check"></i></span>
+                originalRow: the corresponding row of the data array.
+              </li>
+              <li>
+                <span class="fa-li"><i class="fas fa-check"></i></span>
+                row: the normalized row of the data array that is computed based
+                on defined or default axes.
+              </li>
+              <li>
+                <span class="fa-li"><i class="fas fa-check"></i></span>
+                index: the index of the row inside the data array.
+              </li>
+            </ul>
+            <p>See these examples</p>
+            <!-- examples 1: Value labels -->
+            <div class="subheading mb-3">samples 1: Value labels</div>
+            <p>
+              Drawing the value upon each points using
+              <code>&lt;text>&lt;/text></code> and customize it based on index.
+            </p>
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between mb-5"
+            >
+              <pre class="flex-grow-1">
+                <code class="html">&lt;chart-ease id="textType" width="200" height="200">
+  &lt;data-set>
+    &lt;path
+      is="path-type"
+      stroke="aqua"
+      stroke-width="2.5"
+      fill="none"
+    >&lt;/path>
+    &lt;text x="0" y="15" fill="black" font-size="10px">&lt;/text>
+  &lt;/data-set>
+&lt;/chart-ease>
+
+&lt;script>
+  const textType = document.querySelector("#textType");
+  textType.ondraw = ({ shape, row, index, originalRow }) => {
+    shape.setAttribute("x", row.x - originalRow.y.toString().length * 2.5);
+    shape.setAttribute("y", row.y);
+    shape.innerHTML = originalRow.y;
+    if (index === 0) shape.setAttribute("opacity", 0.1);
+    if (index === 1) shape.setAttribute("opacity", 0.5);
+  };
+  textType.data = [{ x: 1, y: 0.6152156 },{ x: 2, y: 0.6152154 },{ x: 3, y: 0.615215 },{ x: 4, y: 0.6152153 },{ x: 5, y: 0.6152155 },{ x: 6, y: 0.6152152 },{ x: 7, y: 0.6152157 },{ x: 8, y: 0.6152153 },
+  ];
+&lt;/script></code>
+              </pre>
+              <div>
+                <div>
+                  <object
+                    type="text/html"
+                    data="./samples/ondraw/labels.html"
+                  ></object>
+                </div>
+              </div>
+            </div>
+            <!-- sample 2: Custom path -->
+            <div class="subheading mb-3">sample 2: Custom path</div>
+            <p></p>
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between mb-5"
+            >
+              <pre class="flex-grow-1">
+                <code class="html">&lt;chart-ease id="pathType" width="200" height="200">
+  &lt;data-set>
+    &lt;path is="path-type" stroke="aqua" stroke-width="2.5" fill="none">&lt;/path>
+    &lt;path fill="none" stroke="blue" stroke-width="2" />
+  &lt;/data-set>
+&lt;/chart-ease>
+&lt;script>
+  window.onload = function () {
+    const pathType = document.querySelector("#pathType");
+    pathType.ondraw = ({ shape, row, index }) => {
+      const { x, y } = row;
+      shape.setAttribute(
+        "d",
+        `M${x - 4},${y - 4} V${y + 4} H${x + 4} V${y - 4} H${x - 4}`
+      );
+      if (index === 0) shape.setAttribute("opacity", 0.1);
+    };
+    pathType.data = [{ x: 1, y: 6 },{ x: 2, y: 4 },{ x: 3, y: 0 },{ x: 4, y: 3 },{ x: 5, y: 5 },{ x: 6, y: 2 },{ x: 7, y: 7 },{ x: 8, y: 3 }];
+  };
+&lt;/script></code>
+              </pre>
+              <div>
+                <div>
+                  <object
+                    type="text/html"
+                    data="./samples/ondraw/custom-path.html"
+                  ></object>
+                </div>
+              </div>
+            </div>
+            <!-- -->
+          </div>
+        </div>
+      </section>
+      <!-- Samples -->
       <section class="resume-section" id="samples">
         <div class="resume-section-content">
-          <h2 class="mb-5">Interests</h2>
+          <h2 class="mb-5">SAMPLES</h2>
+          <div>
+            <h3 class="mb-0">Bar chart</h3>
+            <div class="subheading mb-3">Create a custom bar chart</div>
+          </div>
           <p>
-            Apart from being a web developer, I enjoy most of my time being
-            outdoors. In the winter, I am an avid skier and novice ice climber.
-            During the warmer months here in Colorado, I enjoy mountain biking,
-            free climbing, and kayaking.
+            With <code>&lt;chart-ease></code>, you can create diverse and custom
+            bar charts by using your data with a custom structure and drawing
+            the chart in your own way. In the following sample, we use the
+            <code>&lt;g></code> element to group multiple elements for each
+            point and draw the values of "Silver", "Gold", and "Platinum". Then
+            we adjust the bars by utilizing the <code>ondraw</code> event
+            handler.
           </p>
-          <p class="mb-0">
-            When forced indoors, I follow a number of sci-fi and fantasy genre
-            movies and television shows, I am an aspiring chef, and I spend a
-            large amount of my free time exploring the latest technology
-            advancements in the front-end web development world.
-          </p>
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between mb-5"
+          >
+            <pre
+              class="flex-grow-1"
+            ><code class="html">&lt;chart-ease id="bar1">
+  &lt;data-set>
+    &lt;g>
+      &lt;rect for="Silver" fill="red">&lt;/rect>
+      &lt;rect for="Gold" fill="blue">&lt;/rect>
+      &lt;rect for="Platinum" fill="green">&lt;/rect>
+    &lt;/g>
+  &lt;/data-set>
+&lt;/chart-ease>
+&lt;script src="../../js/chart-ease.js">&lt;/script>
+&lt;script>
+  const data = [
+    { x: 1, Silver: 2, Gold: 5, Platinum: 5 },
+    { x: 2, Silver: 5, Gold: 7, Platinum: 6 },
+    { x: 3, Silver: 9, Gold: 3, Platinum: 8 },
+    { x: 4, Silver: 2, Gold: 7, Platinum: 0 },
+    { x: 5, Silver: 9, Gold: 2, Platinum: 2 },
+    { x: 6, Silver: 2, Gold: 9, Platinum: 3 },
+    { x: 7, Silver: 9, Gold: 1, Platinum: 4 },
+    { x: 8, Silver: 1, Gold: 3, Platinum: 2 },
+  ];
+  const bar1 = document.querySelector("#bar1");
+  bar1.ondraw = ({ shape, row }) => {
+    const setBar = (bar, x, y) => {
+      bar.setAttribute("width", 10);
+      bar.setAttribute("height", y);
+      bar.setAttribute("x", x);
+      bar.setAttribute("y", 200 - y);
+    };
+    Array.from(shape.children).forEach((bar) => {
+      setBar(bar, row.x, row[bar.getAttribute("for")]);
+    });
+  };
+  bar1.axes = [
+    {
+      cols: ["x"],
+      lowerBound: 10,
+      upperBound: 190,
+      length: 200,
+    },
+    {
+      cols: ["Silver", "Gold", "Platinum"],
+      lowerBound: 10,
+      upperBound: 190,
+      length: 200,
+    },
+  ];
+  bar1.data = data;
+&lt;/script></code></pre>
+            <div>
+              <div>
+                <object
+                  type="text/html"
+                  data="./samples/ondraw/bar-chart.html"
+                ></object>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <hr class="m-0" />
       <!-- Awards-->
-      <section class="resume-section" id="awards">
+      <section class="resume-section" id="usage">
         <div class="resume-section-content">
-          <h2 class="mb-5">Awards & Certifications</h2>
-          <ul class="fa-ul mb-0">
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              Google Analytics Certified Developer
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              Mobile Web Specialist - Google Certification
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - University of Colorado Boulder - Emerging Tech Competition
-              2009
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - University of Colorado Boulder - Adobe Creative Jam 2008
-              (UI Design Category)
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              2
-              <sup>nd</sup>
-              Place - University of Colorado Boulder - Emerging Tech Competition
-              2008
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - James Buchanan High School - Hackathon 2006
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              3
-              <sup>rd</sup>
-              Place - James Buchanan High School - Hackathon 2005
-            </li>
+          <div class="subheading mb-3">
+            The Chart ease can be used in different environments
+          </div>
+          <ul class="list-inline dev-icons">
+            <li class="list-inline-item"><i class="fab fa-html5"></i></li>
+            <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
+            <li class="list-inline-item"><i class="fab fa-angular"></i></li>
+            <li class="list-inline-item"><i class="fab fa-react"></i></li>
+            <li class="list-inline-item"><i class="fab fa-vuejs"></i></li>
+            <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
+            <li class="list-inline-item"><i class="fab fa-gulp"></i></li>
+            <li class="list-inline-item"><i class="fab fa-grunt"></i></li>
           </ul>
         </div>
       </section>

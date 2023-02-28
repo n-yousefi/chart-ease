@@ -11748,6 +11748,7 @@ p.lead {
     height: 10rem;
     border: 0.5rem solid rgba(255, 255, 255, 0.2);
     border-color: indianred;
+    background-color: white;
   }
   #sideNav .navbar-collapse {
     display: flex;
@@ -11815,4 +11816,10 @@ section.resume-section .resume-section-content {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
+}
+
+object {
+  width: 100%;
+  min-width: 250px;
+  min-height: 250px;
 }
