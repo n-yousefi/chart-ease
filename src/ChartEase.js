@@ -6,11 +6,12 @@ import createSVG from "./main/draw/createSVG";
 export default class ChartEase extends HTMLElement {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.svg = createSVG(this.width, this.height);
     this.appendChild(this.svg);
   }
-
-  connectedCallback() {}
   disconnectedCallback() {}
 
   set axes(axes) {

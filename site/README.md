@@ -22,7 +22,7 @@ $ npm install chart-ease
 Then import it:
 
 ```html
-<script src="./node_modules/chart-ease/dist/chart-ease.js" defer></script>
+<script src="./node_modules/chart-ease/dist/chart-ease.js"></script>
 ```
 
 ## Usage
