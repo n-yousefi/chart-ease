@@ -1,21 +1,11 @@
-# `<chart-ease>`
+# CHART EASE
 
-`chart-ease` is a customizable and high-performance web component that allows you quickly draw static charts. Due to its focus on speed, it does not support updating data points once the chart has been rendered.
+## CUSTOMIZABLE AND HIGH-PERFORMANCE WEB COMPONENT TO DRAW STATIC CHARTS.
 
-It is highly customizable and supports the creation of many chart types, It normalizes chart data from any range to a specified width/height.
+chart-ease is a lightweight and highly customizable web component designed for creating small and precise charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex scatterplot, chart-ease makes it easy to build and display your data in a clear and meaningful way.
 
-## Installing
+![CHART EASE](https://raw.githubusercontent.com/n-yousefi/chart-ease/master/docs/images/banner.jpg)
 
-Using npm:
+## Documentation
 
-[![npm](https://img.shields.io/badge/npm-chart--ease-brightgreen)](https://www.npmjs.com/package/chart-ease/)
-
-```bash
-$ npm install chart-ease
-```
-
-Then import it:
-
-```html
-<script src="./node_modules/chart-ease/dist/chart-ease.js" defer></script>
-```
+You can find the chart-ease documentation [on the website](https://n-yousefi.github.io/chart-ease/).
