@@ -20,7 +20,7 @@ export default [
       clearScreen: false,
     },
     output: {
-      file: "dist/chart-ease.js",
+      file: "dist/chart-ease.min.js",
       format: "iife",
       plugins: [
         terser({

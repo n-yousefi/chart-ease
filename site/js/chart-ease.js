@@ -192,7 +192,8 @@
     }
 
     set data(originalData) {
-      const axesArr = this["axes"] ? this["axes"] : [];
+      let axesArr = this["axes"] ? this["axes"] : [];
+      axesArr = axesArr.concat(this.getAxes());
       let axes =
         axesArr.length > 0
           ? axesArr.map(this.getAxesObj)
@@ -200,6 +201,13 @@
       const data = normalize(originalData, axes);
       this.draw(data, originalData);
       this.parentElement.removeChild(this);
+    }
+
+    getAxes() {
+      const hAxis = this["hAxis"] ? this["hAxis"] : [];
+      const vAxis = this["vAxis"] ? this["vAxis"] : [];
+      vAxis.flip = true;
+      return [hAxis, vAxis];
     }
 
     getAxesObj(axis) {
@@ -290,7 +298,6 @@
           cols: ["low", "open", "close", "high"],
           length: 200,
           margin: 10,
-          flip: true,
         },
       ];
     }
@@ -318,6 +325,12 @@
 
     set axes(axes) {
       this.firstElementChild.axes = axes;
+    }
+    set hAxis(hAxis) {
+      this.firstElementChild.hAxis = hAxis;
+    }
+    set vAxis(vAxis) {
+      this.firstElementChild.vAxis = vAxis;
     }
     set ondraw(ondraw) {
       this.firstElementChild.ondraw = ondraw;

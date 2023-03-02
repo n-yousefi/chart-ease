@@ -43,7 +43,6 @@ class CandleStick extends DataSet {
         cols: ["low", "open", "close", "high"],
         length: 200,
         margin: 10,
-        flip: true,
       },
     ];
   }

@@ -8,8 +8,8 @@
     "type": "git",
     "url": "https://github.com/n-yousefi/chart-ease.git"
   },
-  "main": "dist/chart-ease.js",
-  "module": "dist/chart-ease.js",
+  "main": "dist/chart-ease.min.js",
+  "module": "dist/chart-ease.min.js",
   "keywords": [],
   "license": "Apache-2.0",
   "bugs": {

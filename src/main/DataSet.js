@@ -18,7 +18,8 @@ class DataSet extends HTMLElement {
   }
 
   set data(originalData) {
-    const axesArr = this["axes"] ? this["axes"] : [];
+    let axesArr = this["axes"] ? this["axes"] : [];
+    axesArr = axesArr.concat(this.getAxes());
     let axes =
       axesArr.length > 0
         ? axesArr.map(this.getAxesObj)
@@ -26,6 +27,13 @@ class DataSet extends HTMLElement {
     const data = normalize(originalData, axes);
     this.draw(data, originalData);
     this.parentElement.removeChild(this);
+  }
+
+  getAxes() {
+    const hAxis = this["hAxis"] ? this["hAxis"] : [];
+    const vAxis = this["vAxis"] ? this["vAxis"] : [];
+    vAxis.flip = true;
+    return [hAxis, vAxis];
   }
 
   getAxesObj(axis) {

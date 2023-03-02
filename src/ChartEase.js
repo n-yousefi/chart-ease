@@ -17,6 +17,12 @@ export default class ChartEase extends HTMLElement {
   set axes(axes) {
     this.firstElementChild.axes = axes;
   }
+  set hAxis(hAxis) {
+    this.firstElementChild.hAxis = hAxis;
+  }
+  set vAxis(vAxis) {
+    this.firstElementChild.vAxis = vAxis;
+  }
   set ondraw(ondraw) {
     this.firstElementChild.ondraw = ondraw;
   }

@@ -15,7 +15,7 @@
     <chart-ease id="chart" width="400" height="400">
       <data-set><circle fill="aqua" opacity=".2" /></data-set>
     </chart-ease>
-    <script src="../../dist/chart-ease.js"></script>
+    <script src="../../js/chart-ease.js"></script>
     <script>
       const chart = document.querySelector("#chart");
       chart.ondraw = ({ shape, row, originalRow }) => {
@@ -23,11 +23,9 @@
         shape.setAttribute("cy", row.y);
         shape.setAttribute("r", row.r);
       };
-      chart.axes = [
-        { cols: ["x"], length: 200, margin: 50 },
-        { cols: ["y"], length: 200, margin: 50, flip: true },
-        { cols: ["r"], length: 50 },
-      ];
+      chart.hAxis = { cols: ["x"], length: 200, margin: 50 };
+      chart.vAxis = { cols: ["y"], length: 200, margin: 50 };
+      chart.axes = [{ cols: ["r"], length: 50 }];
       chart.data = [
         { x: 1, y: 6, r: 20 },
         { x: 2, y: 4, r: 100 },

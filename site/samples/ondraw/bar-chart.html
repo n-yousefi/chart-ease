@@ -45,20 +45,18 @@
           setBar(bar, row.x, row[bar.getAttribute("for")]);
         });
       };
-      bar1.axes = [
-        {
-          cols: ["x"],
-          lowerBound: 10,
-          upperBound: 190,
-          length: 200,
-        },
-        {
-          cols: ["Silver", "Gold", "Platinum"],
-          lowerBound: 10,
-          upperBound: 190,
-          length: 200,
-        },
-      ];
+      bar1.hAxis = {
+        cols: ["x"],
+        lowerBound: 10,
+        upperBound: 190,
+        length: 200,
+      };
+      bar1.vAxis = {
+        cols: ["Silver", "Gold", "Platinum"],
+        lowerBound: 10,
+        upperBound: 190,
+        length: 200,
+      };
       bar1.data = data;
     </script>
   </body>
