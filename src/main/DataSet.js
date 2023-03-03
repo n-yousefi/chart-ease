@@ -22,7 +22,10 @@ class DataSet extends HTMLElement {
     const hAxis = this.getHAxis();
     const vAxis = this.getVAxis();
     if (hAxis) axesArr.push(hAxis);
-    if (vAxis) axesArr.push(vAxis);
+    if (vAxis) {
+      vAxis.flip = true;
+      axesArr.push(vAxis);
+    }
     let axes =
       axesArr.length > 0
         ? axesArr.map(this.getAxesObj)
