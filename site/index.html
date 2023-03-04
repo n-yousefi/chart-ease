@@ -76,22 +76,27 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#chart-path"
-              >Chart Path</a
+            <a class="nav-link js-scroll-trigger" href="#get-started"
+              >Get Started</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#chart-points"
-              >Chart Points</a
+            <a class="nav-link js-scroll-trigger" href="#point-types"
+              >Point types</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#complex-chart-points"
-              >Complex Chart Points</a
+            <a class="nav-link js-scroll-trigger" href="#installing">Axes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#customize"
+              >Customize</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#samples">Samples</a>
+            <a class="nav-link js-scroll-trigger" href="#common-charts"
+              >Common Chart Types</a
+            >
           </li>
         </ul>
       </div>
@@ -164,57 +169,80 @@
         </div>
       </section>
       <hr class="m-0" />
-      <!-- Path -->
-      <section class="resume-section" id="chart-path">
+      <!-- Get Started-->
+      <section class="resume-section" id="get-started">
         <div class="resume-section-content">
-          <h2 class="mb-5">CHART PATH</h2>
-          <div>
-            <h3 class="mb-0">custom PATH TYPE</h3>
-            <div class="subheading mb-3">
-              Define a path for your chart and Customize it
-            </div>
-            <p>
-              With <code>&lt;chart-ease></code>, you can customize your chart's
-              path by defining a <code>&lt;path></code> element inside the
-              <code>&lt;data-set></code> element and setting the
-              <code>is</code> attribute to <code>"path-type"</code>. This will
-              draw the `path` element as your chart's path.
-            </p>
-            <pre><code class="html">&lt;path is="path-type" stroke="aqua" fill="none">&lt;/path></code></pre>
-            <p>
-              Here's a basic example that creates a chart with a path connecting
-              the data points:
-            </p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
-              <pre
-                class="flex-grow-1"
-              ><code class="html">&lt;chart-ease width="200" height="200">
+          <h2 class="mb-5">GET STARTED</h2>
+          <div class="subheading mb-3">Create your very first chart</div>
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between mb-5"
+          >
+            <pre
+              class="flex-grow-1"
+            ><code class="html">&lt;chart-ease width="200" height="200">
   &lt;data-set>
     &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
   &lt;/data-set>
 &lt;/chart-ease>
 &lt;script src="../js/chart-ease.js">&lt;/script>
 &lt;script>
-  document.querySelector("chart-ease").data = [{ x: 1, y: 6 },{ x: 2, y: 4 },{ x: 3, y: 0 },{ x: 4, y: 3 },{ x: 5, y: 5 },{ x: 6, y: 2 },{ x: 7, y: 7 },{ x: 8, y: 3 }];
+  document.querySelector("data-set").data = [{ x: 1, y: 6 },{ x: 2, y: 4 },{ x: 3, y: 0 },{ x: 4, y: 3 },{ x: 5, y: 5 },{ x: 6, y: 2 },{ x: 7, y: 7 },{ x: 8, y: 3 }];
 &lt;/script></code></pre>
+            <div>
               <div>
-                <div>
-                  <object type="text/html" data="./samples/path.html"></object>
-                </div>
+                <object type="text/html" data="./samples/path.html"></object>
               </div>
             </div>
+          </div>
+          <div>
+            <div class="subheading mb-3">Data</div>
+            <p>
+              To create a chart, you need to provide data to it. This is done
+              using the <code>data-set</code> element. Every chart must have at
+              least one <code>data-set</code> child element. However, you can
+              use multiple <code>data-set</code> elements to draw multiple
+              charts together.
+            </p>
+            <p>
+              Once you have configured the chart, you should set the data on the
+              <code>data-set</code> element. After setting the data, any changes
+              you make to the data will be reflected in the chart.
+            </p>
+            <p>
+              If you are only using one <code>data-set</code>, you can set the
+              data on the <code>chart-ease</code> element instead.
+            </p>
+          </div>
+          <div>
+            <div class="subheading mb-3">Size</div>
+            <p>
+              You can set the size of the chart using the <code>width</code> and
+              <code>height</code> attributes on the
+              <code>chart-ease</code> element. You can also set the margin using
+              the <code>margin</code> attribute.
+            </p>
+          </div>
+          <div>
+            <div class="subheading mb-3">Path</div>
+            <p>
+              There is no default line path in <code>&lt;chart-ease></code>.
+              Instead, you can define your own customized path to connect the
+              points together. Simply add a <code>&lt;path&gt;</code> element
+              inside the <code>&lt;data-set&gt;</code> element and set the
+              <code>is</code> attribute to <code>"path-type"</code>. This will
+              draw the `path` element as your chart's path. You can further
+              customize the path by setting attributes like <code>stroke</code>,
+              <code>stroke-width</code>, and <code>fill</code> and etc.
+            </p>
           </div>
         </div>
       </section>
       <hr class="m-0" />
       <!-- Points-->
-      <section class="resume-section" id="chart-points">
+      <section class="resume-section" id="point-types">
         <div class="resume-section-content">
-          <h2 class="mb-5">Chart Points</h2>
+          <h2 class="mb-5">Point types</h2>
           <div>
-            <h3 class="mb-0">Custom Point Types</h3>
             <div class="subheading mb-3">
               Define Custom Point Types for Your Chart Points
             </div>
@@ -307,14 +335,13 @@
       </section>
       <hr class="m-0" />
       <!-- Samples -->
-      <section class="resume-section" id="complex-chart-points">
+      <section class="resume-section" id="customize">
         <div class="resume-section-content">
-          <h2 class="mb-5">complex chart points</h2>
+          <h2 class="mb-5">customize</h2>
           <div>
             <!-- Complex Types -->
-            <h3 class="mb-0">Adjust point types</h3>
             <div class="subheading mb-3">
-              Define complex Point Types for Your Chart
+              Define complex Point Types and adjust them
             </div>
             <p>
               To create complex point types, you may need to adjust the
@@ -436,9 +463,9 @@
         </div>
       </section>
       <!-- Samples -->
-      <section class="resume-section" id="samples">
+      <section class="resume-section" id="common-charts">
         <div class="resume-section-content">
-          <h2 class="mb-5">SAMPLES</h2>
+          <h2 class="mb-5">common chart types</h2>
           <div>
             <h3 class="mb-0">Bar chart</h3>
             <div class="subheading mb-3">Create a custom bar chart</div>
@@ -455,9 +482,7 @@
           <div
             class="d-flex flex-column flex-md-row justify-content-between mb-5"
           >
-            <pre
-              class="flex-grow-1"
-            ><code class="html">&lt;chart-ease id="bar1">
+            <pre class="flex-grow-1"><code class="html">&lt;chart-ease id="bar">
   &lt;data-set>
     &lt;g>
       &lt;rect for="Silver" fill="red">&lt;/rect>
@@ -478,8 +503,8 @@
     { x: 7, Silver: 9, Gold: 1, Platinum: 4 },
     { x: 8, Silver: 1, Gold: 3, Platinum: 2 },
   ];
-  const bar1 = document.querySelector("#bar1");
-  bar1.ondraw = ({ shape, row }) => {
+  const bar = document.querySelector("#bar");
+  bar.ondraw = ({ shape, row }) => {
     const setBar = (bar, x, y) => {
       bar.setAttribute("width", 10);
       bar.setAttribute("height", y);
@@ -490,19 +515,19 @@
       setBar(bar, row.x, row[bar.getAttribute("for")]);
     });
   };
-  bar1.hAxis = {
+  bar.hAxis = {
     cols: ["x"],
     lowerBound: 10,
     upperBound: 190,
     length: 200,
   };
-  bar1.vAxis = {
+  bar.vAxis = {
     cols: ["Silver", "Gold", "Platinum"],
     lowerBound: 10,
     upperBound: 190,
     length: 200,
   };
-  bar1.data = data;
+  bar.data = data;
 &lt;/script></code></pre>
             <div>
               <div>
