@@ -465,10 +465,6 @@
       <section class="resume-section" id="common-charts">
         <div class="resume-section-content">
           <h2 class="mb-5">common chart types</h2>
-          <div>
-            <h3 class="mb-0">Bar chart</h3>
-            <div class="subheading mb-3">Create a custom bar chart</div>
-          </div>
           <p>
             With <code>&lt;chart-ease></code>, you can create diverse and custom
             bar charts by using your data with a custom structure and drawing
@@ -478,6 +474,8 @@
             we adjust the bars by utilizing the <code>ondraw</code> event
             handler.
           </p>
+          <!-- Bar Chart -->
+          <div class="subheading mb-3">Bar chart</div>
           <div
             class="d-flex flex-column flex-md-row justify-content-between mb-5"
           >
@@ -532,6 +530,113 @@
                 <object
                   type="text/html"
                   data="./samples/ondraw/bar-chart.html"
+                ></object>
+              </div>
+            </div>
+          </div>
+          <!-- Candlestick Chart -->
+          <div class="subheading mb-3">Candlestick Chart</div>
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between mb-5"
+          >
+            <pre
+              class="flex-grow-1"
+            ><code class="html">&lt;chart-ease id="candlestick">
+  &lt;data-set>
+    &lt;line>&lt;/line>
+    &lt;rect>&lt;/rect>
+  &lt;/data-set>
+&lt;/chart-ease>
+&lt;script>
+  const chart = document.querySelector("#candlestick");
+  chart.ondraw = ({ shape, row }) => {
+    switch (shape.tagName) {
+      case "line":
+        shape.setAttribute("x1", row.x + 5);
+        shape.setAttribute("x2", row.x + 5);
+        shape.setAttribute("y1", row.low);
+        shape.setAttribute("y2", row.high);
+        shape.setAttribute(
+          "stroke",
+          row.open > row.close ? "#28A69A" : "#EE5355"
+        );
+        break;
+      case "rect":
+        shape.setAttribute("width", 10);
+        shape.setAttribute("height", Math.abs(row.open - row.close));
+        shape.setAttribute("x", row.x);
+        shape.setAttribute("y", row.open);
+        shape.setAttribute(
+          "fill",
+          row.open > row.close ? "#28A69A" : "#EE5355"
+        );
+        break;
+    }
+  };
+  chart.hAxis = { cols: ["x"], length: 200, margin: 10 };
+  chart.vAxis = {
+    cols: ["low", "open", "close", "high"],
+    length: 200,
+    margin: 10,
+  };
+  chart.data = [
+    { x: 1, low: 2, open: 5, close: 3, high: 5 },
+    { x: 2, low: 5, open: 6, close: 7, high: 16 },
+    { x: 3, low: 9, open: 9, close: 10, high: 10 },
+    { x: 4, low: 15, open: 15, close: 5, high: 5 },
+    { x: 5, low: 9, open: 10, close: 12, high: 20 },
+    { x: 6, low: 9, open: 11, close: 13, high: 25 },
+    { x: 7, low: 9, open: 12, close: 14, high: 15 },
+    { x: 8, low: 1, open: 13, close: 10, high: 15 },
+  ];
+&lt;/script>
+            </code></pre>
+            <div>
+              <div>
+                <object
+                  type="text/html"
+                  data="./samples/ondraw/candlestick.html"
+                ></object>
+              </div>
+            </div>
+          </div>
+          <!-- Scatter Plo -->
+          <div class="subheading mb-3">Scatter Plot</div>
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between mb-5"
+          >
+            <pre
+              class="flex-grow-1"
+            ><code class="html">&lt;chart-ease id="chart" width="200" height="200">
+  &lt;data-set>&lt;circle fill="aqua" opacity=".2" />&lt;/data-set>
+&lt;/chart-ease>
+&lt;script>
+  const chart = document.querySelector("#chart");
+  chart.ondraw = ({ shape, row, originalRow }) => {
+    shape.setAttribute("cx", row.x);
+    shape.setAttribute("cy", row.y);
+    shape.setAttribute("r", row.r);
+  };
+  chart.hAxis = { cols: ["x"], length: 200, margin: 50 };
+  chart.vAxis = { cols: ["y"], length: 200, margin: 50 };
+  chart.axes = [{ cols: ["r"], length: 50 }];
+  chart.data = [
+    { x: 1, y: 6, r: 20 },
+    { x: 2, y: 4, r: 100 },
+    { x: 3, y: 9, r: 40 },
+    { x: 4, y: 3, r: 60 },
+    { x: 5, y: 5, r: 25 },
+    { x: 6, y: 2, r: 73 },
+    { x: 7, y: 7, r: 50 },
+    { x: 8, y: 3, r: 13 },
+  ];
+&lt;/script>
+            </code></pre>
+            <div>
+              <div>
+                <object
+                  type="text/html"
+                  data="./samples/ondraw/scatter-plot.html"
                 ></object>
               </div>
             </div>
