@@ -1,3 +1,4 @@
-export const Width = 200;
-export const Height = 200;
-export const Margin = 10;
+export const WIDTH = 200;
+export const HEIGHT = 200;
+export const MARGIN = 10;
+export const PADING = 0;

@@ -1,6 +1,6 @@
 import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
-import { Height, Width } from "./main/defaults";
+import { HEIGHT, WIDTH } from "./main/defaults";
 import createSVG from "./main/draw/createSVG";
 
 export default class ChartEase extends HTMLElement {
@@ -31,10 +31,10 @@ export default class ChartEase extends HTMLElement {
   }
 
   get width() {
-    return this.getAttribute("width") || Width;
+    return this.getAttribute("width") || WIDTH;
   }
   get height() {
-    return this.getAttribute("height") || Height;
+    return this.getAttribute("height") || HEIGHT;
   }
 }
 

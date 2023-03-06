@@ -173,9 +173,49 @@
     path.removeAttribute("is");
   }
 
-  const Width = 200;
-  const Height = 200;
-  const Margin = 10;
+  const WIDTH = 200;
+  const HEIGHT = 200;
+  const MARGIN = 10;
+  const PADING = 0;
+
+  function drawAxes(parent, axesTypes, axes) {
+    const hAxis = axes[0];
+    const vAxis = axes[1];
+    if (axesTypes.left) {
+      const axis = createAxis(parent, axesTypes.left);
+      axis.setAttribute("x1", hAxis.lowerAxis);
+      axis.setAttribute("x2", hAxis.lowerAxis);
+      axis.setAttribute("y1", vAxis.lowerAxis);
+      axis.setAttribute("y2", vAxis.upperAxis);
+    }
+    if (axesTypes.top) {
+      const axis = createAxis(parent, axesTypes.top);
+      axis.setAttribute("x1", hAxis.lowerAxis);
+      axis.setAttribute("x2", hAxis.upperAxis);
+      axis.setAttribute("y1", vAxis.upperAxis);
+      axis.setAttribute("y2", vAxis.upperAxis);
+    }
+    if (axesTypes.bottom) {
+      const axis = createAxis(parent, axesTypes.bottom);
+      axis.setAttribute("x1", hAxis.lowerAxis);
+      axis.setAttribute("x2", hAxis.upperAxis);
+      axis.setAttribute("y1", vAxis.lowerAxis);
+      axis.setAttribute("y2", vAxis.lowerAxis);
+    }
+    if (axesTypes.right) {
+      const axis = createAxis(parent, axesTypes.right);
+      axis.setAttribute("x1", hAxis.upperAxis);
+      axis.setAttribute("x2", hAxis.upperAxis);
+      axis.setAttribute("y1", vAxis.lowerAxis);
+      axis.setAttribute("y2", vAxis.upperAxis);
+    }
+  }
+
+  function createAxis(parent, axisType) {
+    const axis = cloneSVGElement(axisType);
+    parent.appendChild(axis);
+    return axis;
+  }
 
   class DataSet extends HTMLElement {
     constructor() {
@@ -189,54 +229,69 @@
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
+      drawAxes(svg, this.axesTypes, this.axes);
     }
 
     set data(originalData) {
+      this.axesInit();
+      const data = normalize(originalData, this.axes);
+      this.draw(data, originalData);
+      this.parentElement.removeChild(this);
+    }
+
+    axesInit() {
       let axesArr = this["axes"] ? this["axes"] : [];
-      const hAxis = this.getHAxis();
-      const vAxis = this.getVAxis();
+      const hAxis = this["hAxis"] ? this["hAxis"] : null;
+      const vAxis = this["vAxis"] ? this["vAxis"] : null;
       if (hAxis) axesArr.push(hAxis);
       if (vAxis) {
         vAxis.flip = true;
         axesArr.push(vAxis);
       }
-      let axes =
+      this.axes =
         axesArr.length > 0
-          ? axesArr.map(this.getAxesObj)
+          ? axesArr.map((axis) => {
+              const margin = axis.margin || MARGIN;
+              const padding = axis.padding || PADING;
+              const marginStart = axis.marginStart || margin;
+              const marginEnd = axis.marginEnd || margin;
+              const paddingStart = axis.paddingStart || padding;
+              const paddingEnd = axis.paddingEnd || padding;
+              return {
+                cols: axis.cols,
+                lowerBound: marginStart + paddingStart,
+                upperBound: axis.length - marginEnd - paddingEnd,
+                lowerAxis: marginStart,
+                upperAxis: axis.length - marginEnd,
+                flip: axis.flip,
+                length: axis.length,
+              };
+            })
           : this.getDefaultAxesObj();
-      const data = normalize(originalData, axes);
-      this.draw(data, originalData);
-      this.parentElement.removeChild(this);
     }
 
-    getHAxis = () => (this["hAxis"] ? this["hAxis"] : null);
-    getVAxis = () => (this["vAxis"] ? this["vAxis"] : null);
-
-    getAxesObj(axis) {
-      const margin = axis.margin || Margin;
-      return {
-        cols: axis.cols,
-        lowerBound: axis.marginStart || margin,
-        upperBound: axis.length - (axis.marginEnd || margin),
-        flip: axis.flip,
-        length: axis.length,
-      };
-    }
     getDefaultAxesObj() {
-      const width = Number(this.parentElement.getAttribute("width") || Width);
-      const height = Number(this.parentElement.getAttribute("height") || Height);
-      const margin = Number(this.parentElement.getAttribute("margin") || Margin);
+      const width = Number(this.parentElement.getAttribute("width") || WIDTH);
+      const height = Number(this.parentElement.getAttribute("height") || HEIGHT);
+      const margin = Number(this.parentElement.getAttribute("margin") || MARGIN);
+      const padding = Number(
+        this.parentElement.getAttribute("padding") || PADING
+      );
       return [
         {
           cols: ["x"],
-          lowerBound: margin,
-          upperBound: width - margin,
+          lowerBound: margin + padding,
+          upperBound: width - margin - padding,
+          lowerAxis: margin,
+          upperAxis: width - margin,
           length: width,
         },
         {
           cols: ["y"],
-          lowerBound: margin,
-          upperBound: height - margin,
+          lowerBound: margin + padding,
+          upperBound: height - margin - padding,
+          lowerAxis: margin,
+          upperAxis: height - margin,
           length: height,
           flip: true,
         },
@@ -248,9 +303,24 @@
     }
 
     get pointTypes() {
-      return Array.from(this.children).filter(
-        (item) => item.getAttribute("is") != "path-type"
-      );
+      return Array.from(this.children).filter((item) => !item.getAttribute("is"));
+    }
+
+    get axesTypes() {
+      return {
+        left: Array.from(this.children).find(
+          (item) => item.getAttribute("is") == "left-axis"
+        ),
+        right: Array.from(this.children).find(
+          (item) => item.getAttribute("is") == "right-axis"
+        ),
+        top: Array.from(this.children).find(
+          (item) => item.getAttribute("is") == "top-axis"
+        ),
+        bottom: Array.from(this.children).find(
+          (item) => item.getAttribute("is") == "bottom-axis"
+        ),
+      };
     }
   }
 
@@ -342,10 +412,10 @@
     }
 
     get width() {
-      return this.getAttribute("width") || Width;
+      return this.getAttribute("width") || WIDTH;
     }
     get height() {
-      return this.getAttribute("height") || Height;
+      return this.getAttribute("height") || HEIGHT;
     }
   }
 
