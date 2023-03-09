@@ -13,49 +13,38 @@
     </style>
   </head>
   <body>
-    <chart-ease id="candlestick">
-      <data-set>
+    <chart-ease id="candlestick" padding-right="10">
+      <data-set hAxis="x" vAxis="low,open,close,high">
         <line></line>
         <rect></rect>
-        <!--       <line is="bottom-axis" stroke="black"></line>
+        <line is="bottom-axis" stroke="black"></line>
         <line is="top-axis" stroke="black"></line>
         <line is="right-axis" stroke="black"></line>
-        <line is="left-axis" stroke="black"></line> -->
+        <line is="left-axis" stroke="black"></line>
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
       const chart = document.querySelector("#candlestick");
       chart.ondraw = ({ shape, row }) => {
+        const green = row.open < row.close;
         switch (shape.tagName) {
           case "line":
             shape.setAttribute("x1", row.x + 5);
             shape.setAttribute("x2", row.x + 5);
             shape.setAttribute("y1", row.low);
             shape.setAttribute("y2", row.high);
-            shape.setAttribute(
-              "stroke",
-              row.open > row.close ? "#28A69A" : "#EE5355"
-            );
+            shape.setAttribute("stroke", green ? "#28A69A" : "#EE5355");
             break;
           case "rect":
             shape.setAttribute("width", 10);
-            shape.setAttribute("height", Math.abs(row.open - row.close));
             shape.setAttribute("x", row.x);
-            shape.setAttribute("y", row.open);
-            shape.setAttribute(
-              "fill",
-              row.open > row.close ? "#28A69A" : "#EE5355"
-            );
+
+            shape.setAttribute("height", Math.abs(row.close - row.open));
+            shape.setAttribute("y", green ? row.open : row.close);
+            shape.setAttribute("fill", green ? "#28A69A" : "#EE5355");
             break;
         }
-      };
-      chart.hAxis = { cols: ["x"], length: 200, margin: 10, paddingEnd: 10 };
-      chart.vAxis = {
-        cols: ["low", "open", "close", "high"],
-        length: 200,
-        margin: 0,
-        padding: 0,
       };
       chart.data = [
         { x: 1, low: 2, open: 5, close: 3, high: 5 },

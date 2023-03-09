@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease id="bar" width="200" height="200">
+      <data-set hAxis="x" vAxis="Silver,Gold,Platinum">
+        <g>
+          <rect for="Silver" fill="red"></rect>
+          <rect for="Gold" fill="blue"></rect>
+          <rect for="Platinum" fill="green"></rect>
+        </g>
+      </data-set>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data = [
+        { x: 1, Silver: 2, Gold: 5, Platinum: 5 },
+        { x: 2, Silver: 5, Gold: 7, Platinum: 6 },
+        { x: 3, Silver: 9, Gold: 3, Platinum: 8 },
+        { x: 4, Silver: 2, Gold: 7, Platinum: 0 },
+        { x: 5, Silver: 9, Gold: 2, Platinum: 2 },
+        { x: 6, Silver: 2, Gold: 9, Platinum: 3 },
+        { x: 7, Silver: 9, Gold: 1, Platinum: 4 },
+        { x: 8, Silver: 1, Gold: 3, Platinum: 2 },
+      ];
+      const bar = document.querySelector("#bar");
+      const width = 200;
+      const height = 200;
+      const barsCount = data.length;
+      const groupGap = 3;
+      const barWidth = width / (barsCount + groupGap);
+      const margin = 10;
+      const padding = 10;
+      bar.setAttribute("margin", margin);
+      bar.setAttribute("padding-bottom", padding);
+      bar.setAttribute("padding-right", barWidth);
+      bar.ondraw = ({ shape, row }) => {
+        const setBar = (bar, x, y) => {
+          bar.setAttribute("width", barWidth);
+          bar.setAttribute("x", x);
+
+          bar.setAttribute("height", y - margin);
+          bar.setAttribute("y", margin);
+        };
+        Array.from(shape.children).forEach((bar) => {
+          setBar(bar, row.x, row[bar.getAttribute("for")]);
+        });
+      };
+      bar.data = data;
+    </script>
+  </body>
+</html>

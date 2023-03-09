@@ -12,8 +12,10 @@
     </style>
   </head>
   <body>
-    <chart-ease id="chart" width="200" height="200">
-      <data-set><circle fill="aqua" opacity=".2" /></data-set>
+    <chart-ease id="chart" width="200" height="200" padding="50">
+      <data-set hAxis="x" vAxis="y">
+        <circle fill="aqua" opacity=".2" />
+      </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
@@ -23,8 +25,6 @@
         shape.setAttribute("cy", row.y);
         shape.setAttribute("r", row.r);
       };
-      chart.hAxis = { cols: ["x"], length: 200, margin: 50 };
-      chart.vAxis = { cols: ["y"], length: 200, margin: 50 };
       chart.axes = [{ cols: ["r"], length: 50 }];
       chart.data = [
         { x: 1, y: 6, r: 20 },

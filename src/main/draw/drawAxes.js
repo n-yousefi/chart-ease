@@ -1,40 +1,42 @@
 import cloneSVGElement from "./cloneSVGElement";
 
-export default function drawAxes(parent, axesTypes, axes) {
-  const hAxis = axes[0];
-  const vAxis = axes[1];
+export default function drawAxes(svg, axesTypes) {
+  const left = svg.parentElement.margin.left;
+  const right = svg.parentElement.width - svg.parentElement.margin.right;
+  const bottom = svg.parentElement.margin.bottom;
+  const top = svg.parentElement.height - svg.parentElement.margin.top;
   if (axesTypes.left) {
-    const axis = createAxis(parent, axesTypes.left);
-    axis.setAttribute("x1", hAxis.lowerAxis);
-    axis.setAttribute("x2", hAxis.lowerAxis);
-    axis.setAttribute("y1", vAxis.lowerAxis);
-    axis.setAttribute("y2", vAxis.upperAxis);
+    const axis = createAxis(svg, axesTypes.left);
+    axis.setAttribute("x1", left);
+    axis.setAttribute("x2", left);
+    axis.setAttribute("y1", bottom);
+    axis.setAttribute("y2", top);
   }
   if (axesTypes.top) {
-    const axis = createAxis(parent, axesTypes.top);
-    axis.setAttribute("x1", hAxis.lowerAxis);
-    axis.setAttribute("x2", hAxis.upperAxis);
-    axis.setAttribute("y1", vAxis.upperAxis);
-    axis.setAttribute("y2", vAxis.upperAxis);
+    const axis = createAxis(svg, axesTypes.top);
+    axis.setAttribute("x1", left);
+    axis.setAttribute("x2", right);
+    axis.setAttribute("y1", top);
+    axis.setAttribute("y2", top);
   }
   if (axesTypes.bottom) {
-    const axis = createAxis(parent, axesTypes.bottom);
-    axis.setAttribute("x1", hAxis.lowerAxis);
-    axis.setAttribute("x2", hAxis.upperAxis);
-    axis.setAttribute("y1", vAxis.lowerAxis);
-    axis.setAttribute("y2", vAxis.lowerAxis);
+    const axis = createAxis(svg, axesTypes.bottom);
+    axis.setAttribute("x1", left);
+    axis.setAttribute("x2", right);
+    axis.setAttribute("y1", bottom);
+    axis.setAttribute("y2", bottom);
   }
   if (axesTypes.right) {
-    const axis = createAxis(parent, axesTypes.right);
-    axis.setAttribute("x1", hAxis.upperAxis);
-    axis.setAttribute("x2", hAxis.upperAxis);
-    axis.setAttribute("y1", vAxis.lowerAxis);
-    axis.setAttribute("y2", vAxis.upperAxis);
+    const axis = createAxis(svg, axesTypes.right);
+    axis.setAttribute("x1", right);
+    axis.setAttribute("x2", right);
+    axis.setAttribute("y1", bottom);
+    axis.setAttribute("y2", top);
   }
 }
 
-function createAxis(parent, axisType) {
+function createAxis(svg, axisType) {
   const axis = cloneSVGElement(axisType);
-  parent.appendChild(axis);
+  svg.appendChild(axis);
   return axis;
 }

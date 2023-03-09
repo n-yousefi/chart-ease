@@ -16,9 +16,10 @@ export default function normalize(arr, normalizeKeys) {
       arrKeys.forEach((key) => {
         if (group.cols.includes(key)) {
           item[key] =
-            ((item[key] - group.min) / (group.max - group.min)) *
-              (group.upperBound - group.lowerBound) +
+            ((item[key] - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) +
             group.lowerBound;
+
+          item[key] = Math.round(item[key]);
         }
       });
     });
@@ -34,20 +35,22 @@ export default function normalize(arr, normalizeKeys) {
 }
 
 function getKeysMin(arr, keys) {
-  let min;
+  let min = Number.MAX_VALUE;
   for (let i = 1; i < arr.length; i++) {
     for (let j = 0; j < keys.length; j++) {
-      min = getKeyMin(arr, keys[j]);
+      const keyMin = getKeyMin(arr, keys[j]);
+      if (min > keyMin) min = keyMin;
     }
   }
   return min;
 }
 
 function getKeysMax(arr, keys) {
-  let max;
+  let max = Number.MIN_VALUE;
   for (let i = 1; i < arr.length; i++) {
     for (let j = 0; j < keys.length; j++) {
-      max = getKeyMax(arr, keys[j]);
+      const keyMax = getKeyMax(arr, keys[j]);
+      if (keyMax > max) max = keyMax;
     }
   }
   return max;

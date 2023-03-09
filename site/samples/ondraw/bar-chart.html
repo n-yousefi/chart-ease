@@ -12,50 +12,42 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar">
-      <data-set>
-        <g>
-          <rect for="Silver" fill="red"></rect>
-          <rect for="Gold" fill="blue"></rect>
-          <rect for="Platinum" fill="green"></rect>
-        </g>
+    <chart-ease id="bar" style="border: 1px solid">
+      <data-set hAxis="x" vAxis="y">
+        <rect for="Silver" fill="red"></rect>
+        <line is="bottom-axis" stroke="black"></line>
+        <line is="top-axis" stroke="black"></line>
+        <line is="right-axis" stroke="black"></line>
+        <line is="left-axis" stroke="black"></line>
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [
-        { x: 1, Silver: 2, Gold: 5, Platinum: 5 },
-        { x: 2, Silver: 5, Gold: 7, Platinum: 6 },
-        { x: 3, Silver: 9, Gold: 3, Platinum: 8 },
-        { x: 4, Silver: 2, Gold: 7, Platinum: 0 },
-        { x: 5, Silver: 9, Gold: 2, Platinum: 2 },
-        { x: 6, Silver: 2, Gold: 9, Platinum: 3 },
-        { x: 7, Silver: 9, Gold: 1, Platinum: 4 },
-        { x: 8, Silver: 1, Gold: 3, Platinum: 2 },
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+        { x: 4, y: 4 },
+        { x: 5, y: 5 },
+        { x: 6, y: 6 },
       ];
+      const width = 200;
+      const height = 200;
+      const barsCount = data.length;
+      const groupGap = 3;
+      const barWidth = Math.round(width / (barsCount + groupGap));
       const bar = document.querySelector("#bar");
+      const margin = 10;
+      const padding = 10;
+      bar.setAttribute("margin", margin);
+      bar.setAttribute("padding-bottom", padding);
+      bar.setAttribute("padding-right", barWidth);
       bar.ondraw = ({ shape, row }) => {
-        const setBar = (bar, x, y) => {
-          bar.setAttribute("width", 10);
-          bar.setAttribute("height", y);
-          bar.setAttribute("x", x);
-          bar.setAttribute("y", 200 - y);
-        };
-        Array.from(shape.children).forEach((bar) => {
-          setBar(bar, row.x, row[bar.getAttribute("for")]);
-        });
-      };
-      bar.hAxis = {
-        cols: ["x"],
-        lowerBound: 10,
-        upperBound: 190,
-        length: 200,
-      };
-      bar.vAxis = {
-        cols: ["Silver", "Gold", "Platinum"],
-        lowerBound: 10,
-        upperBound: 190,
-        length: 200,
+        shape.setAttribute("width", barWidth);
+        shape.setAttribute("x", row.x);
+
+        shape.setAttribute("height", row.y - margin);
+        shape.setAttribute("y", margin);
       };
       bar.data = data;
     </script>

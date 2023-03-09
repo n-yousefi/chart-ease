@@ -86,7 +86,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#installing">Axes</a>
+            <a class="nav-link js-scroll-trigger" href="#axes">Axes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#customize"
@@ -459,6 +459,42 @@
             </div>
             <!-- -->
           </div>
+        </div>
+      </section>
+      <section class="resume-section" id="axes">
+        <div class="resume-section-content">
+          <h2 class="mb-5">AXES</h2>
+          <p>
+            In addition to the main chart area, you can also define your own
+            axes to accompany your chart. By defining your own axes, you have
+            more control over the layout and appearance of your chart.
+          </p>
+          <p>
+            To define your own axes, you can use the <code>hAxis</code> and
+            <code>vAxis</code> properties. These properties accept an object
+            with three properties: <code>cols</code>, <code>length</code>, and
+            <code>margin</code>. The <code>cols</code> property specifies the
+            columns that the axis represents, <code>length</code> specifies the
+            length of the axis, and <code>margin</code> specifies the margin
+            between the chart area and the axis.
+          </p>
+          <p>
+            By default, if no axes are defined, Chart-It will create axes using
+            the <code>x</code> and <code>y</code> columns of your data set. If
+            you wish to define additional axes, you can use the
+            <code>axes</code> property, which takes an array of axis objects
+            with the same <code>cols</code>, <code>length</code>, and
+            <code>margin</code> properties as <code>hAxis</code> and
+            <code>vAxis</code>.
+          </p>
+          <p>
+            For example, the following code defines an <code>hAxis</code> and a
+            <code>vAxis</code>, as well as an additional axis using the
+            <code>r</code> column:
+          </p>
+          <pre><code class="language-javascript">chart.hAxis = { cols: ["x"], length: 200, margin: 50 };
+chart.vAxis = { cols: ["y"], length: 200, margin: 50 };
+chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
         </div>
       </section>
       <!-- Samples -->

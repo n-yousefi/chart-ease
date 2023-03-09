@@ -1,7 +1,6 @@
 import normalize from "./normalize";
 import drawPoints from "./draw/drawPoints";
 import drawPath from "./draw/drawPath";
-import { HEIGHT, WIDTH, MARGIN, PADING } from "./defaults";
 import drawAxes from "./draw/drawAxes";
 
 class DataSet extends HTMLElement {
@@ -16,7 +15,7 @@ class DataSet extends HTMLElement {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    drawAxes(svg, this.axesTypes, this.axes);
+    drawAxes(svg, this.axesTypes);
   }
 
   set data(originalData) {
@@ -27,62 +26,25 @@ class DataSet extends HTMLElement {
   }
 
   axesInit() {
-    let axesArr = this["axes"] ? this["axes"] : [];
-    const hAxis = this["hAxis"] ? this["hAxis"] : null;
-    const vAxis = this["vAxis"] ? this["vAxis"] : null;
-    if (hAxis) axesArr.push(hAxis);
-    if (vAxis) {
-      vAxis.flip = true;
-      axesArr.push(vAxis);
-    }
-    this.axes =
-      axesArr.length > 0
-        ? axesArr.map((axis) => {
-            const margin = axis.margin || MARGIN;
-            const padding = axis.padding || PADING;
-            const marginStart = axis.marginStart || margin;
-            const marginEnd = axis.marginEnd || margin;
-            const paddingStart = axis.paddingStart || padding;
-            const paddingEnd = axis.paddingEnd || padding;
-            return {
-              cols: axis.cols,
-              lowerBound: marginStart + paddingStart,
-              upperBound: axis.length - marginEnd - paddingEnd,
-              lowerAxis: marginStart,
-              upperAxis: axis.length - marginEnd,
-              flip: axis.flip,
-              length: axis.length,
-            };
-          })
-        : this.getDefaultAxesObj();
-  }
-
-  getDefaultAxesObj() {
-    const width = Number(this.parentElement.getAttribute("width") || WIDTH);
-    const height = Number(this.parentElement.getAttribute("height") || HEIGHT);
-    const margin = Number(this.parentElement.getAttribute("margin") || MARGIN);
-    const padding = Number(
-      this.parentElement.getAttribute("padding") || PADING
-    );
-    return [
+    this.axes = [
       {
-        cols: ["x"],
-        lowerBound: margin + padding,
-        upperBound: width - margin - padding,
-        lowerAxis: margin,
-        upperAxis: width - margin,
-        length: width,
+        cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
+        length: this.parentElement.width,
       },
       {
-        cols: ["y"],
-        lowerBound: margin + padding,
-        upperBound: height - margin - padding,
-        lowerAxis: margin,
-        upperAxis: height - margin,
-        length: height,
-        flip: true,
+        cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
+        length: this.parentElement.height,
       },
     ];
+    let axesArr = this["axes"] ? this["axes"] : [];
+    const margin = this.parentElement.margin;
+    const padding = this.parentElement.padding;
+    // X axis
+    this.axes[0].lowerBound = margin.left + padding.left;
+    this.axes[0].upperBound = this.parentElement.width - margin.right - padding.right;
+    // Y axis
+    this.axes[1].lowerBound = margin.bottom + padding.bottom;
+    this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
   }
 
   get pathType() {
@@ -95,18 +57,10 @@ class DataSet extends HTMLElement {
 
   get axesTypes() {
     return {
-      left: Array.from(this.children).find(
-        (item) => item.getAttribute("is") == "left-axis"
-      ),
-      right: Array.from(this.children).find(
-        (item) => item.getAttribute("is") == "right-axis"
-      ),
-      top: Array.from(this.children).find(
-        (item) => item.getAttribute("is") == "top-axis"
-      ),
-      bottom: Array.from(this.children).find(
-        (item) => item.getAttribute("is") == "bottom-axis"
-      ),
+      left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
+      right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
+      top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
+      bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
     };
   }
 }

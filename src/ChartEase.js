@@ -1,11 +1,12 @@
 import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
-import { HEIGHT, WIDTH } from "./main/defaults";
+import { HEIGHT, MARGIN, PADDING, WIDTH } from "./main/defaults";
 import createSVG from "./main/draw/createSVG";
 
 export default class ChartEase extends HTMLElement {
   constructor() {
     super();
+    this.setStyles();
   }
 
   connectedCallback() {
@@ -17,12 +18,6 @@ export default class ChartEase extends HTMLElement {
   set axes(axes) {
     this.firstElementChild.axes = axes;
   }
-  set hAxis(hAxis) {
-    this.firstElementChild.hAxis = hAxis;
-  }
-  set vAxis(vAxis) {
-    this.firstElementChild.vAxis = vAxis;
-  }
   set ondraw(ondraw) {
     this.firstElementChild.ondraw = ondraw;
   }
@@ -31,15 +26,34 @@ export default class ChartEase extends HTMLElement {
   }
 
   get width() {
-    return this.getAttribute("width") || WIDTH;
+    return parseFloat(this.getAttribute("width") ?? WIDTH);
   }
   get height() {
-    return this.getAttribute("height") || HEIGHT;
+    return parseFloat(this.getAttribute("height") ?? HEIGHT);
+  }
+  get margin() {
+    return {
+      top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
+      bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
+      left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
+      right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
+    };
+  }
+
+  get padding() {
+    return {
+      top: parseFloat(this.getAttribute("padding-top") ?? this.getAttribute("padding") ?? PADDING),
+      bottom: parseFloat(this.getAttribute("padding-bottom") ?? this.getAttribute("padding") ?? PADDING),
+      left: parseFloat(this.getAttribute("padding-left") ?? this.getAttribute("padding") ?? PADDING),
+      right: parseFloat(this.getAttribute("padding-right") ?? this.getAttribute("padding") ?? PADDING),
+    };
+  }
+
+  setStyles() {
+    this.style.lineHeight = 0;
   }
 }
 
-customElements.get("data-set") || customElements.define("data-set", DataSet);
-customElements.get("chart-ease") ||
-  customElements.define("chart-ease", ChartEase);
-customElements.get("candle-stick") ||
-  customElements.define("candle-stick", CandleStick);
+customElements.get("data-set") ?? customElements.define("data-set", DataSet);
+customElements.get("chart-ease") ?? customElements.define("chart-ease", ChartEase);
+customElements.get("candle-stick") ?? customElements.define("candle-stick", CandleStick);

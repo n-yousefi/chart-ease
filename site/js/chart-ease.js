@@ -19,9 +19,10 @@
         arrKeys.forEach((key) => {
           if (group.cols.includes(key)) {
             item[key] =
-              ((item[key] - group.min) / (group.max - group.min)) *
-                (group.upperBound - group.lowerBound) +
+              ((item[key] - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) +
               group.lowerBound;
+
+            item[key] = Math.round(item[key]);
           }
         });
       });
@@ -37,20 +38,22 @@
   }
 
   function getKeysMin(arr, keys) {
-    let min;
+    let min = Number.MAX_VALUE;
     for (let i = 1; i < arr.length; i++) {
       for (let j = 0; j < keys.length; j++) {
-        min = getKeyMin(arr, keys[j]);
+        const keyMin = getKeyMin(arr, keys[j]);
+        if (min > keyMin) min = keyMin;
       }
     }
     return min;
   }
 
   function getKeysMax(arr, keys) {
-    let max;
+    let max = Number.MIN_VALUE;
     for (let i = 1; i < arr.length; i++) {
       for (let j = 0; j < keys.length; j++) {
-        max = getKeyMax(arr, keys[j]);
+        const keyMax = getKeyMax(arr, keys[j]);
+        if (keyMax > max) max = keyMax;
       }
     }
     return max;
@@ -106,13 +109,7 @@
     return newElement;
   }
 
-  function drawPoints(
-    svg,
-    pointTypes,
-    data,
-    originalData,
-    ondraw
-  ) {
+  function drawPoints(svg, pointTypes, data, originalData, ondraw) {
     data.forEach((row, index) => {
       pointTypes.forEach((pointType) => {
         const shape = cloneSVGElement(pointType);
@@ -125,8 +122,17 @@
             index,
           });
         svg.appendChild(shape);
+        flipTexts(svg, shape);
       });
     });
+  }
+
+  function flipTexts(svg, shape) {
+    const { height } = svg.getBoundingClientRect();
+    if (shape.tagName.toLowerCase() == "text") {
+      shape.setAttribute("transform", `scale(1,-1) translate(0, -${height})`);
+      shape.setAttribute("y", height - parseFloat(shape.getAttribute("y")));
+    }
   }
 
   function setDefaultPosition(shape, x, y) {
@@ -165,55 +171,50 @@
     path.setAttribute(
       "d",
       data
-        .map((point, index) =>
-          index === 0 ? `M ${point.x} ${point.y}` : `L ${point.x} ${point.y}`
-        )
+        .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
         .join(" ")
     );
     path.removeAttribute("is");
   }
 
-  const WIDTH = 200;
-  const HEIGHT = 200;
-  const MARGIN = 10;
-  const PADING = 0;
-
-  function drawAxes(parent, axesTypes, axes) {
-    const hAxis = axes[0];
-    const vAxis = axes[1];
+  function drawAxes(svg, axesTypes) {
+    const left = svg.parentElement.margin.left;
+    const right = svg.parentElement.width - svg.parentElement.margin.right;
+    const bottom = svg.parentElement.margin.bottom;
+    const top = svg.parentElement.height - svg.parentElement.margin.top;
     if (axesTypes.left) {
-      const axis = createAxis(parent, axesTypes.left);
-      axis.setAttribute("x1", hAxis.lowerAxis);
-      axis.setAttribute("x2", hAxis.lowerAxis);
-      axis.setAttribute("y1", vAxis.lowerAxis);
-      axis.setAttribute("y2", vAxis.upperAxis);
+      const axis = createAxis(svg, axesTypes.left);
+      axis.setAttribute("x1", left);
+      axis.setAttribute("x2", left);
+      axis.setAttribute("y1", bottom);
+      axis.setAttribute("y2", top);
     }
     if (axesTypes.top) {
-      const axis = createAxis(parent, axesTypes.top);
-      axis.setAttribute("x1", hAxis.lowerAxis);
-      axis.setAttribute("x2", hAxis.upperAxis);
-      axis.setAttribute("y1", vAxis.upperAxis);
-      axis.setAttribute("y2", vAxis.upperAxis);
+      const axis = createAxis(svg, axesTypes.top);
+      axis.setAttribute("x1", left);
+      axis.setAttribute("x2", right);
+      axis.setAttribute("y1", top);
+      axis.setAttribute("y2", top);
     }
     if (axesTypes.bottom) {
-      const axis = createAxis(parent, axesTypes.bottom);
-      axis.setAttribute("x1", hAxis.lowerAxis);
-      axis.setAttribute("x2", hAxis.upperAxis);
-      axis.setAttribute("y1", vAxis.lowerAxis);
-      axis.setAttribute("y2", vAxis.lowerAxis);
+      const axis = createAxis(svg, axesTypes.bottom);
+      axis.setAttribute("x1", left);
+      axis.setAttribute("x2", right);
+      axis.setAttribute("y1", bottom);
+      axis.setAttribute("y2", bottom);
     }
     if (axesTypes.right) {
-      const axis = createAxis(parent, axesTypes.right);
-      axis.setAttribute("x1", hAxis.upperAxis);
-      axis.setAttribute("x2", hAxis.upperAxis);
-      axis.setAttribute("y1", vAxis.lowerAxis);
-      axis.setAttribute("y2", vAxis.upperAxis);
+      const axis = createAxis(svg, axesTypes.right);
+      axis.setAttribute("x1", right);
+      axis.setAttribute("x2", right);
+      axis.setAttribute("y1", bottom);
+      axis.setAttribute("y2", top);
     }
   }
 
-  function createAxis(parent, axisType) {
+  function createAxis(svg, axisType) {
     const axis = cloneSVGElement(axisType);
-    parent.appendChild(axis);
+    svg.appendChild(axis);
     return axis;
   }
 
@@ -229,7 +230,7 @@
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-      drawAxes(svg, this.axesTypes, this.axes);
+      drawAxes(svg, this.axesTypes);
     }
 
     set data(originalData) {
@@ -240,62 +241,25 @@
     }
 
     axesInit() {
-      let axesArr = this["axes"] ? this["axes"] : [];
-      const hAxis = this["hAxis"] ? this["hAxis"] : null;
-      const vAxis = this["vAxis"] ? this["vAxis"] : null;
-      if (hAxis) axesArr.push(hAxis);
-      if (vAxis) {
-        vAxis.flip = true;
-        axesArr.push(vAxis);
-      }
-      this.axes =
-        axesArr.length > 0
-          ? axesArr.map((axis) => {
-              const margin = axis.margin || MARGIN;
-              const padding = axis.padding || PADING;
-              const marginStart = axis.marginStart || margin;
-              const marginEnd = axis.marginEnd || margin;
-              const paddingStart = axis.paddingStart || padding;
-              const paddingEnd = axis.paddingEnd || padding;
-              return {
-                cols: axis.cols,
-                lowerBound: marginStart + paddingStart,
-                upperBound: axis.length - marginEnd - paddingEnd,
-                lowerAxis: marginStart,
-                upperAxis: axis.length - marginEnd,
-                flip: axis.flip,
-                length: axis.length,
-              };
-            })
-          : this.getDefaultAxesObj();
-    }
-
-    getDefaultAxesObj() {
-      const width = Number(this.parentElement.getAttribute("width") || WIDTH);
-      const height = Number(this.parentElement.getAttribute("height") || HEIGHT);
-      const margin = Number(this.parentElement.getAttribute("margin") || MARGIN);
-      const padding = Number(
-        this.parentElement.getAttribute("padding") || PADING
-      );
-      return [
+      this.axes = [
         {
-          cols: ["x"],
-          lowerBound: margin + padding,
-          upperBound: width - margin - padding,
-          lowerAxis: margin,
-          upperAxis: width - margin,
-          length: width,
+          cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
+          length: this.parentElement.width,
         },
         {
-          cols: ["y"],
-          lowerBound: margin + padding,
-          upperBound: height - margin - padding,
-          lowerAxis: margin,
-          upperAxis: height - margin,
-          length: height,
-          flip: true,
+          cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
+          length: this.parentElement.height,
         },
       ];
+      this["axes"] ? this["axes"] : [];
+      const margin = this.parentElement.margin;
+      const padding = this.parentElement.padding;
+      // X axis
+      this.axes[0].lowerBound = margin.left + padding.left;
+      this.axes[0].upperBound = this.parentElement.width - margin.right - padding.right;
+      // Y axis
+      this.axes[1].lowerBound = margin.bottom + padding.bottom;
+      this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
     }
 
     get pathType() {
@@ -308,18 +272,10 @@
 
     get axesTypes() {
       return {
-        left: Array.from(this.children).find(
-          (item) => item.getAttribute("is") == "left-axis"
-        ),
-        right: Array.from(this.children).find(
-          (item) => item.getAttribute("is") == "right-axis"
-        ),
-        top: Array.from(this.children).find(
-          (item) => item.getAttribute("is") == "top-axis"
-        ),
-        bottom: Array.from(this.children).find(
-          (item) => item.getAttribute("is") == "bottom-axis"
-        ),
+        left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
+        right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
+        top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
+        bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
       };
     }
   }
@@ -375,18 +331,23 @@
     }
   }
 
+  const WIDTH = 200;
+  const HEIGHT = 200;
+  const MARGIN = 0;
+  const PADDING = 0;
+
   function createSVG(width, height) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    //if (id) svg.setAttribute("id", id);
-    //if (className) svg.setAttribute("class", className);
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
+    svg.setAttribute("transform", "scale(1,-1)");
     return svg;
   }
 
   class ChartEase extends HTMLElement {
     constructor() {
       super();
+      this.setStyles();
     }
 
     connectedCallback() {
@@ -398,12 +359,6 @@
     set axes(axes) {
       this.firstElementChild.axes = axes;
     }
-    set hAxis(hAxis) {
-      this.firstElementChild.hAxis = hAxis;
-    }
-    set vAxis(vAxis) {
-      this.firstElementChild.vAxis = vAxis;
-    }
     set ondraw(ondraw) {
       this.firstElementChild.ondraw = ondraw;
     }
@@ -412,18 +367,37 @@
     }
 
     get width() {
-      return this.getAttribute("width") || WIDTH;
+      return parseFloat(this.getAttribute("width") ?? WIDTH);
     }
     get height() {
-      return this.getAttribute("height") || HEIGHT;
+      return parseFloat(this.getAttribute("height") ?? HEIGHT);
+    }
+    get margin() {
+      return {
+        top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
+        bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
+        left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
+        right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
+      };
+    }
+
+    get padding() {
+      return {
+        top: parseFloat(this.getAttribute("padding-top") ?? this.getAttribute("padding") ?? PADDING),
+        bottom: parseFloat(this.getAttribute("padding-bottom") ?? this.getAttribute("padding") ?? PADDING),
+        left: parseFloat(this.getAttribute("padding-left") ?? this.getAttribute("padding") ?? PADDING),
+        right: parseFloat(this.getAttribute("padding-right") ?? this.getAttribute("padding") ?? PADDING),
+      };
+    }
+
+    setStyles() {
+      this.style.lineHeight = 0;
     }
   }
 
-  customElements.get("data-set") || customElements.define("data-set", DataSet);
-  customElements.get("chart-ease") ||
-    customElements.define("chart-ease", ChartEase);
-  customElements.get("candle-stick") ||
-    customElements.define("candle-stick", CandleStick);
+  customElements.get("data-set") ?? customElements.define("data-set", DataSet);
+  customElements.get("chart-ease") ?? customElements.define("chart-ease", ChartEase);
+  customElements.get("candle-stick") ?? customElements.define("candle-stick", CandleStick);
 
   return ChartEase;
 
