@@ -15,7 +15,7 @@ class DataSet extends HTMLElement {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    drawAxes(svg, this.axesTypes);
+    drawAxes(svg, this.parentElement.axesLines);
   }
 
   set data(originalData) {
@@ -53,15 +53,6 @@ class DataSet extends HTMLElement {
 
   get pointTypes() {
     return Array.from(this.children).filter((item) => !item.getAttribute("is"));
-  }
-
-  get axesTypes() {
-    return {
-      left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
-      right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
-      top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
-      bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
-    };
   }
 }
 

@@ -49,6 +49,15 @@ export default class ChartEase extends HTMLElement {
     };
   }
 
+  get axesLines() {
+    return {
+      left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
+      right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
+      top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
+      bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
+    };
+  }
+
   setStyles() {
     this.style.lineHeight = 0;
   }

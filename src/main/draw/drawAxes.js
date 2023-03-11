@@ -1,33 +1,33 @@
 import cloneSVGElement from "./cloneSVGElement";
 
-export default function drawAxes(svg, axesTypes) {
+export default function drawAxes(svg, axesLines) {
   const left = svg.parentElement.margin.left;
   const right = svg.parentElement.width - svg.parentElement.margin.right;
   const bottom = svg.parentElement.margin.bottom;
   const top = svg.parentElement.height - svg.parentElement.margin.top;
-  if (axesTypes.left) {
-    const axis = createAxis(svg, axesTypes.left);
+  if (axesLines.left) {
+    const axis = createAxis(svg, axesLines.left);
     axis.setAttribute("x1", left);
     axis.setAttribute("x2", left);
     axis.setAttribute("y1", bottom);
     axis.setAttribute("y2", top);
   }
-  if (axesTypes.top) {
-    const axis = createAxis(svg, axesTypes.top);
+  if (axesLines.top) {
+    const axis = createAxis(svg, axesLines.top);
     axis.setAttribute("x1", left);
     axis.setAttribute("x2", right);
     axis.setAttribute("y1", top);
     axis.setAttribute("y2", top);
   }
-  if (axesTypes.bottom) {
-    const axis = createAxis(svg, axesTypes.bottom);
+  if (axesLines.bottom) {
+    const axis = createAxis(svg, axesLines.bottom);
     axis.setAttribute("x1", left);
     axis.setAttribute("x2", right);
     axis.setAttribute("y1", bottom);
     axis.setAttribute("y2", bottom);
   }
-  if (axesTypes.right) {
-    const axis = createAxis(svg, axesTypes.right);
+  if (axesLines.right) {
+    const axis = createAxis(svg, axesLines.right);
     axis.setAttribute("x1", right);
     axis.setAttribute("x2", right);
     axis.setAttribute("y1", bottom);

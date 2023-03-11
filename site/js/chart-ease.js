@@ -177,34 +177,34 @@
     path.removeAttribute("is");
   }
 
-  function drawAxes(svg, axesTypes) {
+  function drawAxes(svg, axesLines) {
     const left = svg.parentElement.margin.left;
     const right = svg.parentElement.width - svg.parentElement.margin.right;
     const bottom = svg.parentElement.margin.bottom;
     const top = svg.parentElement.height - svg.parentElement.margin.top;
-    if (axesTypes.left) {
-      const axis = createAxis(svg, axesTypes.left);
+    if (axesLines.left) {
+      const axis = createAxis(svg, axesLines.left);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", left);
       axis.setAttribute("y1", bottom);
       axis.setAttribute("y2", top);
     }
-    if (axesTypes.top) {
-      const axis = createAxis(svg, axesTypes.top);
+    if (axesLines.top) {
+      const axis = createAxis(svg, axesLines.top);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", top);
       axis.setAttribute("y2", top);
     }
-    if (axesTypes.bottom) {
-      const axis = createAxis(svg, axesTypes.bottom);
+    if (axesLines.bottom) {
+      const axis = createAxis(svg, axesLines.bottom);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", bottom);
       axis.setAttribute("y2", bottom);
     }
-    if (axesTypes.right) {
-      const axis = createAxis(svg, axesTypes.right);
+    if (axesLines.right) {
+      const axis = createAxis(svg, axesLines.right);
       axis.setAttribute("x1", right);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", bottom);
@@ -230,7 +230,7 @@
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-      drawAxes(svg, this.axesTypes);
+      drawAxes(svg, this.parentElement.axesLines);
     }
 
     set data(originalData) {
@@ -268,15 +268,6 @@
 
     get pointTypes() {
       return Array.from(this.children).filter((item) => !item.getAttribute("is"));
-    }
-
-    get axesTypes() {
-      return {
-        left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
-        right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
-        top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
-        bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
-      };
     }
   }
 
@@ -387,6 +378,15 @@
         bottom: parseFloat(this.getAttribute("padding-bottom") ?? this.getAttribute("padding") ?? PADDING),
         left: parseFloat(this.getAttribute("padding-left") ?? this.getAttribute("padding") ?? PADDING),
         right: parseFloat(this.getAttribute("padding-right") ?? this.getAttribute("padding") ?? PADDING),
+      };
+    }
+
+    get axesLines() {
+      return {
+        left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-axis"),
+        right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
+        top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
+        bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
       };
     }
 
