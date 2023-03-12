@@ -11,17 +11,17 @@ class DataSet extends HTMLElement {
   connectedCallback() {}
   disconnectedCallback() {}
 
-  draw(data, originalData) {
+  draw(data, originalData, ticks) {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    drawAxes(svg, this.parentElement.axesLines);
+    drawAxes(svg, this.parentElement.axesLines, ticks);
   }
 
   set data(originalData) {
     this.axesInit();
-    const data = normalize(originalData, this.axes);
-    this.draw(data, originalData);
+    const { data, ticks } = normalize(originalData, this.axes);
+    this.draw(data, originalData, ticks);
     this.parentElement.removeChild(this);
   }
 
@@ -30,19 +30,21 @@ class DataSet extends HTMLElement {
       {
         cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
         length: this.parentElement.width,
+        ticks: parseInt(this.parentElement.axesLines.left?.getAttribute("ticks") ?? 0),
       },
       {
         cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
         length: this.parentElement.height,
+        ticks: parseInt(this.parentElement.axesLines.bottom?.getAttribute("ticks") ?? 0),
       },
     ];
     let axesArr = this["axes"] ? this["axes"] : [];
     const margin = this.parentElement.margin;
     const padding = this.parentElement.padding;
-    // X axis
+    // X axis bounds
     this.axes[0].lowerBound = margin.left + padding.left;
     this.axes[0].upperBound = this.parentElement.width - margin.right - padding.right;
-    // Y axis
+    // Y axis bounds
     this.axes[1].lowerBound = margin.bottom + padding.bottom;
     this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
   }

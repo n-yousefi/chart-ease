@@ -10,15 +10,23 @@ export default function normalize(arr, normalizeKeys) {
       max: getKeysMax(arr, nGroup.cols),
     });
   });
+
+  const axesTicks = [];
+  nGroups.forEach((group) => {
+    const axisTicks = [];
+    const ticks = getTicks(group.min, group.max, group.ticks);
+    ticks.forEach((value) => {
+      axisTicks.push({ value, position: normalizeNumber(value, group) });
+    });
+    axesTicks.push(axisTicks);
+  });
+
   const arrKeys = Object.keys(arr[0]);
   normalizedArr.forEach((item) => {
     nGroups.forEach((group) => {
       arrKeys.forEach((key) => {
         if (group.cols.includes(key)) {
-          item[key] =
-            ((item[key] - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) +
-            group.lowerBound;
-
+          item[key] = normalizeNumber(item[key], group);
           item[key] = Math.round(item[key]);
         }
       });
@@ -31,7 +39,20 @@ export default function normalize(arr, normalizeKeys) {
       flip(normalizedArr, group);
     });
 
-  return normalizedArr;
+  return { data: normalizedArr, ticks: axesTicks };
+}
+
+function getTicks(min, max, count) {
+  const size = (max - min) / (count - 1);
+  const result = [];
+  for (let i = 0; i <= count; i++) {
+    result.push([min + i * size]);
+  }
+  return result;
+}
+
+function normalizeNumber(num, group) {
+  return ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound;
 }
 
 function getKeysMin(arr, keys) {
