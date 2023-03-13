@@ -4,6 +4,7 @@ import drawPath from "./draw/drawPath";
 import drawAxes from "./draw/drawAxes";
 import drawTicks from "./draw/drawTicks";
 import drawGridLines from "./draw/drawGridLines";
+import drawLabels from "./draw/drawLabels";
 
 class DataSet extends HTMLElement {
   constructor() {
@@ -21,6 +22,7 @@ class DataSet extends HTMLElement {
     drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
     drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
     drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
+    drawLabels(svg, axesLinePositions, this.parentElement.axesLines, ticks, this.parentElement.axesLabels);
   }
 
   set data(originalData) {

@@ -65,6 +65,15 @@ export default class ChartEase extends HTMLElement {
     };
   }
 
+  get axesLabels() {
+    return {
+      left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-labels"),
+      right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-labels"),
+      top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-labels"),
+      bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-labels"),
+    };
+  }
+
   setStyles() {
     this.style.lineHeight = 0;
   }

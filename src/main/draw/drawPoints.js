@@ -1,5 +1,6 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
+import { flip } from "./flip";
 
 export default function drawPoints(svg, pointTypes, data, originalData, ondraw) {
   const g = createSVGElements("g");
@@ -15,18 +16,10 @@ export default function drawPoints(svg, pointTypes, data, originalData, ondraw) 
           index,
         });
       g.appendChild(shape);
-      flipTexts(svg, shape);
+      flip(svg, shape);
     });
   });
   svg.appendChild(g);
-}
-
-function flipTexts(svg, shape) {
-  const { height } = svg.getBoundingClientRect();
-  if (shape.tagName.toLowerCase() == "text") {
-    shape.setAttribute("transform", `scale(1,-1) translate(0, -${height})`);
-    shape.setAttribute("y", height - parseFloat(shape.getAttribute("y")));
-  }
 }
 
 function setDefaultPosition(shape, x, y) {

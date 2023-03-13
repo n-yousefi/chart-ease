@@ -39,16 +39,16 @@
     nGroups
       .filter((group) => group.flip)
       .forEach((group) => {
-        flip(normalizedArr, group);
+        flip$1(normalizedArr, group);
       });
 
     return { data: normalizedArr, ticks: axesTicks };
   }
 
   function getTicks(min, max, count) {
-    const size = (max - min) / (count - 1);
+    const size = Math.floor((max - min) / (count - 1));
     const result = [];
-    for (let i = 0; i <= count; i++) {
+    for (let i = 0; i < count; i++) {
       result.push([min + i * size]);
     }
     return result;
@@ -96,7 +96,7 @@
     return max;
   }
 
-  function flip(arr, nGroup) {
+  function flip$1(arr, nGroup) {
     const keys = nGroup.cols;
     let max = getKeysMax(arr, keys);
     arr.forEach((item) => {
@@ -134,6 +134,14 @@
     return document.createElementNS("http://www.w3.org/2000/svg", tagName);
   }
 
+  function flip(svg, shape) {
+    const { height } = svg.getBoundingClientRect();
+    if (shape.tagName.toLowerCase() == "text") {
+      shape.setAttribute("transform", `scale(1,-1) translate(0, -${height})`);
+      shape.setAttribute("y", height - parseFloat(shape.getAttribute("y")));
+    }
+  }
+
   function drawPoints(svg, pointTypes, data, originalData, ondraw) {
     const g = createSVGElements("g");
     data.forEach((row, index) => {
@@ -148,18 +156,10 @@
             index,
           });
         g.appendChild(shape);
-        flipTexts(svg, shape);
+        flip(svg, shape);
       });
     });
     svg.appendChild(g);
-  }
-
-  function flipTexts(svg, shape) {
-    const { height } = svg.getBoundingClientRect();
-    if (shape.tagName.toLowerCase() == "text") {
-      shape.setAttribute("transform", `scale(1,-1) translate(0, -${height})`);
-      shape.setAttribute("y", height - parseFloat(shape.getAttribute("y")));
-    }
   }
 
   function setDefaultPosition(shape, x, y) {
@@ -313,6 +313,55 @@
     svg.appendChild(g);
   }
 
+  function drawLabels(svg, positions, axesLines, ticks, axesLabels) {
+    const g = createSVGElements("g");
+    svg.appendChild(g);
+    if (axesLines.left && ticks.length > 0) {
+      ticks[0].forEach((tick) => {
+        const text = cloneSVGElement(axesLabels.left);
+        text.innerHTML = tick.value;
+        g.appendChild(text);
+        const { width, height } = text.getBoundingClientRect();
+        text.setAttribute("x", positions.left - width - 5);
+        text.setAttribute("y", tick.position - height / 3);
+        flip(svg, text);
+      });
+    }
+    if (axesLines.top && ticks.length > 1) {
+      ticks[1].forEach((tick) => {
+        const text = cloneSVGElement(axesLabels.top);
+        text.innerHTML = tick.value;
+        g.appendChild(text);
+        const { width, height } = text.getBoundingClientRect();
+        text.setAttribute("x", tick.position - width / 2);
+        text.setAttribute("y", positions.top + height / 2);
+        flip(svg, text);
+      });
+    }
+    if (axesLines.bottom && ticks.length > 1) {
+      ticks[1].forEach((tick) => {
+        const text = cloneSVGElement(axesLabels.bottom);
+        text.innerHTML = tick.value;
+        g.appendChild(text);
+        const { width, height } = text.getBoundingClientRect();
+        text.setAttribute("x", tick.position - width / 2);
+        text.setAttribute("y", positions.bottom - height);
+        flip(svg, text);
+      });
+    }
+    if (axesLines.right && ticks.length > 0) {
+      ticks[0].forEach((tick) => {
+        const text = cloneSVGElement(axesLabels.right);
+        text.innerHTML = tick.value;
+        g.appendChild(text);
+        const { width, height } = text.getBoundingClientRect();
+        text.setAttribute("x", positions.right + width);
+        text.setAttribute("y", tick.position - height / 3);
+        flip(svg, text);
+      });
+    }
+  }
+
   class DataSet extends HTMLElement {
     constructor() {
       super();
@@ -329,6 +378,7 @@
       drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
       drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
       drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
+      drawLabels(svg, axesLinePositions, this.parentElement.axesLines, ticks, this.parentElement.axesLabels);
     }
 
     set data(originalData) {
@@ -499,6 +549,15 @@
       return {
         v: Array.from(this.children).find((item) => item.getAttribute("is") == "v-grid-lines"),
         h: Array.from(this.children).find((item) => item.getAttribute("is") == "h-grid-lines"),
+      };
+    }
+
+    get axesLabels() {
+      return {
+        left: Array.from(this.children).find((item) => item.getAttribute("is") == "left-labels"),
+        right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-labels"),
+        top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-labels"),
+        bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-labels"),
       };
     }
 

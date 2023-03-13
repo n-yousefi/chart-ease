@@ -12,10 +12,16 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="200" height="200" margin="20">
+    <chart-ease id="bar" margin="20" padding="20">
       <data-set hAxis="x" vAxis="y">
         <rect fill="red"></rect>
       </data-set>
+      <line is="left-axis" stroke="blue" ticks="6"></line>
+      <line is="bottom-axis" stroke="blue" ticks="6"></line>
+      <line is="v-grid-lines" stroke="#c8c8c880"></line>
+      <line is="h-grid-lines" stroke="#c8c8c880"></line>
+      <text is="left-labels"></text>
+      <text is="bottom-labels"></text>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
