@@ -204,39 +204,35 @@
     path.removeAttribute("is");
   }
 
-  function drawAxes(svg, axesLines) {
+  function drawAxes(svg, positions, axesLines) {
     const g = createSVGElements("g");
-    const left = svg.parentElement.margin.left;
-    const right = svg.parentElement.width - svg.parentElement.margin.right;
-    const bottom = svg.parentElement.margin.bottom;
-    const top = svg.parentElement.height - svg.parentElement.margin.top;
     if (axesLines.left) {
       const axis = createAxis(g, axesLines.left);
-      axis.setAttribute("x1", left);
-      axis.setAttribute("x2", left);
-      axis.setAttribute("y1", bottom);
-      axis.setAttribute("y2", top);
+      axis.setAttribute("x1", positions.left);
+      axis.setAttribute("x2", positions.left);
+      axis.setAttribute("y1", positions.bottom);
+      axis.setAttribute("y2", positions.top);
     }
     if (axesLines.top) {
       const axis = createAxis(g, axesLines.top);
-      axis.setAttribute("x1", left);
-      axis.setAttribute("x2", right);
-      axis.setAttribute("y1", top);
-      axis.setAttribute("y2", top);
+      axis.setAttribute("x1", positions.left);
+      axis.setAttribute("x2", positions.right);
+      axis.setAttribute("y1", positions.top);
+      axis.setAttribute("y2", positions.top);
     }
     if (axesLines.bottom) {
       const axis = createAxis(g, axesLines.bottom);
-      axis.setAttribute("x1", left);
-      axis.setAttribute("x2", right);
-      axis.setAttribute("y1", bottom);
-      axis.setAttribute("y2", bottom);
+      axis.setAttribute("x1", positions.left);
+      axis.setAttribute("x2", positions.right);
+      axis.setAttribute("y1", positions.bottom);
+      axis.setAttribute("y2", positions.bottom);
     }
     if (axesLines.right) {
       const axis = createAxis(g, axesLines.right);
-      axis.setAttribute("x1", right);
-      axis.setAttribute("x2", right);
-      axis.setAttribute("y1", bottom);
-      axis.setAttribute("y2", top);
+      axis.setAttribute("x1", positions.right);
+      axis.setAttribute("x2", positions.right);
+      axis.setAttribute("y1", positions.bottom);
+      axis.setAttribute("y2", positions.top);
     }
     svg.appendChild(g);
   }
@@ -247,17 +243,13 @@
     return axis;
   }
 
-  function drawTicks(svg, axesLines, ticks) {
+  function drawTicks(svg, positions, axesLines, ticks) {
     const g = createSVGElements("g");
-    const left = svg.parentElement.margin.left;
-    const right = svg.parentElement.width - svg.parentElement.margin.right;
-    const bottom = svg.parentElement.margin.bottom;
-    const top = svg.parentElement.height - svg.parentElement.margin.top;
     if (axesLines.left && ticks.length > 0) {
       ticks[0].forEach((tick) => {
         const tl = cloneSVGElement(axesLines.left);
-        tl.setAttribute("x1", left - 5);
-        tl.setAttribute("x2", left + 5);
+        tl.setAttribute("x1", positions.left - 5);
+        tl.setAttribute("x2", positions.left + 5);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -268,8 +260,8 @@
         const tl = cloneSVGElement(axesLines.top);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", top - 5);
-        tl.setAttribute("y2", top + 5);
+        tl.setAttribute("y1", positions.top - 5);
+        tl.setAttribute("y2", positions.top + 5);
         g.appendChild(tl);
       });
     }
@@ -278,16 +270,16 @@
         const tl = cloneSVGElement(axesLines.bottom);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", bottom - 5);
-        tl.setAttribute("y2", bottom + 5);
+        tl.setAttribute("y1", positions.bottom - 5);
+        tl.setAttribute("y2", positions.bottom + 5);
         g.appendChild(tl);
       });
     }
     if (axesLines.right && ticks.length > 0) {
       ticks[0].forEach((tick) => {
         const tl = cloneSVGElement(axesLines.right);
-        tl.setAttribute("x1", right - 5);
-        tl.setAttribute("x2", right + 5);
+        tl.setAttribute("x1", positions.right - 5);
+        tl.setAttribute("x2", positions.right + 5);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -296,17 +288,13 @@
     svg.appendChild(g);
   }
 
-  function drawGridLines(svg, gridLines, ticks) {
+  function drawGridLines(svg, positions, gridLines, ticks) {
     const g = createSVGElements("g");
-    const left = svg.parentElement.margin.left;
-    const right = svg.parentElement.width - svg.parentElement.margin.right;
-    const bottom = svg.parentElement.margin.bottom;
-    const top = svg.parentElement.height - svg.parentElement.margin.top;
     if (gridLines.h && ticks.length > 0) {
       ticks[0].forEach((tick) => {
         const tl = cloneSVGElement(gridLines.h);
-        tl.setAttribute("x1", left);
-        tl.setAttribute("x2", right);
+        tl.setAttribute("x1", positions.left);
+        tl.setAttribute("x2", positions.right);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -317,8 +305,8 @@
         const tl = cloneSVGElement(gridLines.v);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", top);
-        tl.setAttribute("y2", bottom);
+        tl.setAttribute("y1", positions.top);
+        tl.setAttribute("y2", positions.bottom);
         g.appendChild(tl);
       });
     }
@@ -337,9 +325,10 @@
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-      drawAxes(svg, this.parentElement.axesLines);
-      drawTicks(svg, this.parentElement.axesLines, ticks);
-      drawGridLines(svg, this.parentElement.gridLines, ticks);
+      const axesLinePositions = this.getAxesLinePositions();
+      drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
+      drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
+      drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
     }
 
     set data(originalData) {
@@ -371,6 +360,15 @@
       // Y axis bounds
       this.axes[1].lowerBound = margin.bottom + padding.bottom;
       this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
+    }
+
+    getAxesLinePositions() {
+      return {
+        left: this.parentElement.margin.left,
+        right: this.parentElement.width - this.parentElement.margin.right,
+        bottom: this.parentElement.margin.bottom,
+        top: this.parentElement.height - this.parentElement.margin.top,
+      };
     }
 
     get pathType() {

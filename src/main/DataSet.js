@@ -17,9 +17,10 @@ class DataSet extends HTMLElement {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    drawAxes(svg, this.parentElement.axesLines);
-    drawTicks(svg, this.parentElement.axesLines, ticks);
-    drawGridLines(svg, this.parentElement.gridLines, ticks);
+    const axesLinePositions = this.getAxesLinePositions();
+    drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
+    drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
+    drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
   }
 
   set data(originalData) {
@@ -51,6 +52,15 @@ class DataSet extends HTMLElement {
     // Y axis bounds
     this.axes[1].lowerBound = margin.bottom + padding.bottom;
     this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
+  }
+
+  getAxesLinePositions() {
+    return {
+      left: this.parentElement.margin.left,
+      right: this.parentElement.width - this.parentElement.margin.right,
+      bottom: this.parentElement.margin.bottom,
+      top: this.parentElement.height - this.parentElement.margin.top,
+    };
   }
 
   get pathType() {
