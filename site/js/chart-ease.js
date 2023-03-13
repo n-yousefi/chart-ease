@@ -130,7 +130,12 @@
     return newElement;
   }
 
+  function createSVGElements(tagName) {
+    return document.createElementNS("http://www.w3.org/2000/svg", tagName);
+  }
+
   function drawPoints(svg, pointTypes, data, originalData, ondraw) {
+    const g = createSVGElements("g");
     data.forEach((row, index) => {
       pointTypes.forEach((pointType) => {
         const shape = cloneSVGElement(pointType);
@@ -142,10 +147,11 @@
             originalRow: originalData[index],
             index,
           });
-        svg.appendChild(shape);
+        g.appendChild(shape);
         flipTexts(svg, shape);
       });
     });
+    svg.appendChild(g);
   }
 
   function flipTexts(svg, shape) {
@@ -198,81 +204,125 @@
     path.removeAttribute("is");
   }
 
-  function drawAxes(svg, axesLines, ticks) {
+  function drawAxes(svg, axesLines) {
+    const g = createSVGElements("g");
     const left = svg.parentElement.margin.left;
     const right = svg.parentElement.width - svg.parentElement.margin.right;
     const bottom = svg.parentElement.margin.bottom;
     const top = svg.parentElement.height - svg.parentElement.margin.top;
     if (axesLines.left) {
-      const axis = createAxis(svg, axesLines.left);
+      const axis = createAxis(g, axesLines.left);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", left);
       axis.setAttribute("y1", bottom);
       axis.setAttribute("y2", top);
-      if (ticks.length > 0)
-        ticks[0].forEach((tick) => {
-          const tl = cloneSVGElement(axesLines.left);
-          tl.setAttribute("x1", left - 5);
-          tl.setAttribute("x2", right);
-          tl.setAttribute("y1", tick.position);
-          tl.setAttribute("y2", tick.position);
-          svg.appendChild(tl);
-        });
     }
     if (axesLines.top) {
-      const axis = createAxis(svg, axesLines.top);
+      const axis = createAxis(g, axesLines.top);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", top);
       axis.setAttribute("y2", top);
-      if (ticks.length > 1)
-        ticks[1].forEach((tick) => {
-          const tl = cloneSVGElement(axesLines.top);
-          tl.setAttribute("x1", tick.position);
-          tl.setAttribute("x2", tick.position);
-          tl.setAttribute("y1", top - 5);
-          tl.setAttribute("y2", top + 5);
-          svg.appendChild(tl);
-        });
     }
     if (axesLines.bottom) {
-      const axis = createAxis(svg, axesLines.bottom);
+      const axis = createAxis(g, axesLines.bottom);
       axis.setAttribute("x1", left);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", bottom);
       axis.setAttribute("y2", bottom);
-      if (ticks.length > 1)
-        ticks[1].forEach((tick) => {
-          const tl = cloneSVGElement(axesLines.bottom);
-          tl.setAttribute("x1", tick.position);
-          tl.setAttribute("x2", tick.position);
-          tl.setAttribute("y1", bottom - 5);
-          tl.setAttribute("y2", bottom + 5);
-          svg.appendChild(tl);
-        });
     }
     if (axesLines.right) {
-      const axis = createAxis(svg, axesLines.right);
+      const axis = createAxis(g, axesLines.right);
       axis.setAttribute("x1", right);
       axis.setAttribute("x2", right);
       axis.setAttribute("y1", bottom);
       axis.setAttribute("y2", top);
-      if (ticks.length > 0)
-        ticks[0].forEach((tick) => {
-          const tl = cloneSVGElement(axesLines.right);
-          tl.setAttribute("x1", right - 5);
-          tl.setAttribute("x2", right + 5);
-          tl.setAttribute("y1", tick.position);
-          tl.setAttribute("y2", tick.position);
-          svg.appendChild(tl);
-        });
     }
+    svg.appendChild(g);
   }
 
   function createAxis(svg, axisType) {
     const axis = cloneSVGElement(axisType);
     svg.appendChild(axis);
     return axis;
+  }
+
+  function drawTicks(svg, axesLines, ticks) {
+    const g = createSVGElements("g");
+    const left = svg.parentElement.margin.left;
+    const right = svg.parentElement.width - svg.parentElement.margin.right;
+    const bottom = svg.parentElement.margin.bottom;
+    const top = svg.parentElement.height - svg.parentElement.margin.top;
+    if (axesLines.left && ticks.length > 0) {
+      ticks[0].forEach((tick) => {
+        const tl = cloneSVGElement(axesLines.left);
+        tl.setAttribute("x1", left - 5);
+        tl.setAttribute("x2", left + 5);
+        tl.setAttribute("y1", tick.position);
+        tl.setAttribute("y2", tick.position);
+        g.appendChild(tl);
+      });
+    }
+    if (axesLines.top && ticks.length > 1) {
+      ticks[1].forEach((tick) => {
+        const tl = cloneSVGElement(axesLines.top);
+        tl.setAttribute("x1", tick.position);
+        tl.setAttribute("x2", tick.position);
+        tl.setAttribute("y1", top - 5);
+        tl.setAttribute("y2", top + 5);
+        g.appendChild(tl);
+      });
+    }
+    if (axesLines.bottom && ticks.length > 1) {
+      ticks[1].forEach((tick) => {
+        const tl = cloneSVGElement(axesLines.bottom);
+        tl.setAttribute("x1", tick.position);
+        tl.setAttribute("x2", tick.position);
+        tl.setAttribute("y1", bottom - 5);
+        tl.setAttribute("y2", bottom + 5);
+        g.appendChild(tl);
+      });
+    }
+    if (axesLines.right && ticks.length > 0) {
+      ticks[0].forEach((tick) => {
+        const tl = cloneSVGElement(axesLines.right);
+        tl.setAttribute("x1", right - 5);
+        tl.setAttribute("x2", right + 5);
+        tl.setAttribute("y1", tick.position);
+        tl.setAttribute("y2", tick.position);
+        g.appendChild(tl);
+      });
+    }
+    svg.appendChild(g);
+  }
+
+  function drawGridLines(svg, gridLines, ticks) {
+    const g = createSVGElements("g");
+    const left = svg.parentElement.margin.left;
+    const right = svg.parentElement.width - svg.parentElement.margin.right;
+    const bottom = svg.parentElement.margin.bottom;
+    const top = svg.parentElement.height - svg.parentElement.margin.top;
+    if (gridLines.h && ticks.length > 0) {
+      ticks[0].forEach((tick) => {
+        const tl = cloneSVGElement(gridLines.h);
+        tl.setAttribute("x1", left);
+        tl.setAttribute("x2", right);
+        tl.setAttribute("y1", tick.position);
+        tl.setAttribute("y2", tick.position);
+        g.appendChild(tl);
+      });
+    }
+    if (gridLines.v && ticks.length > 1) {
+      ticks[1].forEach((tick) => {
+        const tl = cloneSVGElement(gridLines.v);
+        tl.setAttribute("x1", tick.position);
+        tl.setAttribute("x2", tick.position);
+        tl.setAttribute("y1", top);
+        tl.setAttribute("y2", bottom);
+        g.appendChild(tl);
+      });
+    }
+    svg.appendChild(g);
   }
 
   class DataSet extends HTMLElement {
@@ -287,7 +337,9 @@
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-      drawAxes(svg, this.parentElement.axesLines, ticks);
+      drawAxes(svg, this.parentElement.axesLines);
+      drawTicks(svg, this.parentElement.axesLines, ticks);
+      drawGridLines(svg, this.parentElement.gridLines, ticks);
     }
 
     set data(originalData) {
@@ -328,10 +380,6 @@
     get pointTypes() {
       return Array.from(this.children).filter((item) => !item.getAttribute("is"));
     }
-  }
-
-  function createSVGElements(tagName) {
-    return document.createElementNS("http://www.w3.org/2000/svg", tagName);
   }
 
   class CandleStick extends DataSet {
@@ -446,6 +494,13 @@
         right: Array.from(this.children).find((item) => item.getAttribute("is") == "right-axis"),
         top: Array.from(this.children).find((item) => item.getAttribute("is") == "top-axis"),
         bottom: Array.from(this.children).find((item) => item.getAttribute("is") == "bottom-axis"),
+      };
+    }
+
+    get gridLines() {
+      return {
+        v: Array.from(this.children).find((item) => item.getAttribute("is") == "v-grid-lines"),
+        h: Array.from(this.children).find((item) => item.getAttribute("is") == "h-grid-lines"),
       };
     }
 

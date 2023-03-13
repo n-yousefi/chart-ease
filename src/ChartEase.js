@@ -58,6 +58,13 @@ export default class ChartEase extends HTMLElement {
     };
   }
 
+  get gridLines() {
+    return {
+      v: Array.from(this.children).find((item) => item.getAttribute("is") == "v-grid-lines"),
+      h: Array.from(this.children).find((item) => item.getAttribute("is") == "h-grid-lines"),
+    };
+  }
+
   setStyles() {
     this.style.lineHeight = 0;
   }

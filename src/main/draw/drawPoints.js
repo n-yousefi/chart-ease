@@ -1,6 +1,8 @@
 import cloneSVGElement from "./cloneSVGElement";
+import createSVGElements from "./createSVGElements";
 
 export default function drawPoints(svg, pointTypes, data, originalData, ondraw) {
+  const g = createSVGElements("g");
   data.forEach((row, index) => {
     pointTypes.forEach((pointType) => {
       const shape = cloneSVGElement(pointType);
@@ -12,10 +14,11 @@ export default function drawPoints(svg, pointTypes, data, originalData, ondraw) 
           originalRow: originalData[index],
           index,
         });
-      svg.appendChild(shape);
+      g.appendChild(shape);
       flipTexts(svg, shape);
     });
   });
+  svg.appendChild(g);
 }
 
 function flipTexts(svg, shape) {

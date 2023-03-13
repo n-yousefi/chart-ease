@@ -2,6 +2,8 @@ import normalize from "./normalize";
 import drawPoints from "./draw/drawPoints";
 import drawPath from "./draw/drawPath";
 import drawAxes from "./draw/drawAxes";
+import drawTicks from "./draw/drawTicks";
+import drawGridLines from "./draw/drawGridLines";
 
 class DataSet extends HTMLElement {
   constructor() {
@@ -15,7 +17,9 @@ class DataSet extends HTMLElement {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    drawAxes(svg, this.parentElement.axesLines, ticks);
+    drawAxes(svg, this.parentElement.axesLines);
+    drawTicks(svg, this.parentElement.axesLines, ticks);
+    drawGridLines(svg, this.parentElement.gridLines, ticks);
   }
 
   set data(originalData) {
