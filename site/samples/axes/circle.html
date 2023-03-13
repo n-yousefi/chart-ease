@@ -17,20 +17,41 @@
         <path is="path-type" stroke="aqua" fill="none"></path>
         <circle r="5" fill="aliceblue" stroke="aqua"></circle>
       </data-set>
-      <line is="left-axis" stroke="blue" ticks="3"></line>
-      <line is="bottom-axis" stroke="blue" ticks="8"></line>
-      <line is="right-axis" stroke="blue" ticks="5"></line>
-      <line is="top-axis" stroke="blue" ticks="4"></line>
-      <line is="v-grid-lines" stroke="#c8c8c880"></line>
-      <line is="h-grid-lines" stroke="#c8c8c880"></line>
+      <line is="left-axis" stroke="#F99" ticks="3"></line>
+      <line is="bottom-axis" stroke="#F99" ticks="3"></line>
+      <line is="v-grid-lines" stroke="#c8c8c850"></line>
+      <line is="h-grid-lines" stroke="#c8c8c850"></line>
       <text is="left-labels"></text>
-      <text is="bottom-labels"></text>
-      <text is="right-labels"></text>
-      <text is="top-labels"></text>
+      <text is="bottom-labels" fill="#777"></text>
     </chart-ease>
+    <chart-ease width="200" height="200" padding="20" margin="20">
+      <data-set>
+        <path is="path-type" stroke="aqua" fill="none"></path>
+        <circle r="5" fill="aliceblue" stroke="aqua"></circle>
+      </data-set>
+      <line is="left-axis" stroke="#F99" ticks="5"></line>
+      <line is="bottom-axis" stroke="#F99" ticks="5"></line>
+      <line is="v-grid-lines" stroke="#c8c8c850"></line>
+      <line is="h-grid-lines" stroke="#c8c8c850"></line>
+      <text is="left-labels"></text>
+      <text is="bottom-labels" fill="#777"></text>
+    </chart-ease>
+    <chart-ease width="200" height="200" padding="20" margin="20">
+      <data-set>
+        <path is="path-type" stroke="aqua" fill="none"></path>
+        <circle r="5" fill="aliceblue" stroke="aqua"></circle>
+      </data-set>
+      <line is="left-axis" stroke="#F99" ticks="8"></line>
+      <line is="bottom-axis" stroke="#F99" ticks="8"></line>
+      <line is="v-grid-lines" stroke="#c8c8c850"></line>
+      <line is="h-grid-lines" stroke="#c8c8c850"></line>
+      <text is="left-labels" fill="#777"></text>
+      <text is="bottom-labels"></text>
+    </chart-ease>
+
     <script src="../../js/chart-ease.js"></script>
     <script>
-      document.querySelector("chart-ease").data = [
+      const data = [
         { x: 1, y: 6 },
         { x: 2, y: 4 },
         { x: 3, y: 0 },
@@ -40,6 +61,7 @@
         { x: 7, y: 7 },
         { x: 8, y: 3 },
       ];
+      document.querySelectorAll("chart-ease").forEach((chart) => (chart.data = data));
     </script>
   </body>
 </html>

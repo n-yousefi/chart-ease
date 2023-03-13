@@ -43,9 +43,9 @@ export default function normalize(arr, normalizeKeys) {
 }
 
 function getTicks(min, max, count) {
-  const size = Math.floor((max - min) / (count - 1));
+  const size = Math.round((max - min) / (count - 1));
   const result = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i <= count; i++) {
     result.push([min + i * size]);
   }
   return result;
