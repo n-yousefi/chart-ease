@@ -21,14 +21,15 @@
       </data-set>
       <line is="left-axis" stroke="blue" ticks="6"></line>
       <line is="bottom-axis" stroke="blue" ticks="6"></line>
-      <line is="v-grid-lines" stroke="#c8c8c880"></line>
-      <line is="h-grid-lines" stroke="#c8c8c880"></line>
+      <line is="v-grid-lines" stroke="#c8c8c830"></line>
+      <line is="h-grid-lines" stroke="#c8c8c830"></line>
       <text is="left-labels"></text>
       <text is="bottom-labels"></text>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [
+        { x: 0, y: 0 },
         { x: 1, y: 1 },
         { x: 2, y: 2 },
         { x: 3, y: 3 },
@@ -46,7 +47,7 @@
       chart.setAttribute("padding-right", barWidth);
       chart.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
-        shape.setAttribute("x", row.x);
+        shape.setAttribute("x", row.x - barWidth / 2);
 
         shape.setAttribute("height", row.y - margin);
         shape.setAttribute("y", margin);

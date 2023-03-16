@@ -16,16 +16,19 @@
 
     const axesTicks = [];
     nGroups.forEach((group) => {
-      const axisTicks = [];
-      const tickSize = getTickSize(group.min, group.max, group.ticks);
-      let value = group.min;
-      let position = group.lowerBound;
-      while (position <= group.upperBound) {
-        position = normalizeNumber(value, group);
-        axisTicks.push({ value, position });
-        value += tickSize;
+      if (group.ticks > 0) {
+        const axisTicks = [];
+        const tickSize = getTickSize(group.min, group.max, group.ticks);
+        let value = group.min;
+        let position = group.lowerBound;
+        while (true) {
+          position = normalizeNumber(value, group);
+          if (position > group.upperBound) break;
+          axisTicks.push({ value, position });
+          value += tickSize;
+        }
+        axesTicks.push(axisTicks);
       }
-      axesTicks.push(axisTicks);
     });
 
     const arrKeys = Object.keys(arr[0]);
