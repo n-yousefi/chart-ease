@@ -14,10 +14,14 @@ export default function normalize(arr, normalizeKeys) {
   const axesTicks = [];
   nGroups.forEach((group) => {
     const axisTicks = [];
-    const ticks = getTicks(group.min, group.max, group.ticks);
-    ticks.forEach((value) => {
-      axisTicks.push({ value, position: normalizeNumber(value, group) });
-    });
+    const tickSize = getTickSize(group.min, group.max, group.ticks);
+    let value = group.min;
+    let position = group.lowerBound;
+    while (position <= group.upperBound) {
+      position = normalizeNumber(value, group);
+      axisTicks.push({ value, position });
+      value += tickSize;
+    }
     axesTicks.push(axisTicks);
   });
 
@@ -42,17 +46,14 @@ export default function normalize(arr, normalizeKeys) {
   return { data: normalizedArr, ticks: axesTicks };
 }
 
-function getTicks(min, max, count) {
-  const size = Math.round((max - min) / (count - 1));
-  const result = [];
-  for (let i = 0; i <= count; i++) {
-    result.push([min + i * size]);
-  }
-  return result;
+function getTickSize(min, max, count) {
+  return Math.round((max - min) / (count - 1));
 }
 
 function normalizeNumber(num, group) {
-  return ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound;
+  return (
+    ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound
+  );
 }
 
 function getKeysMin(arr, keys) {

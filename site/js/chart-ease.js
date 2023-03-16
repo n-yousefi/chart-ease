@@ -17,10 +17,14 @@
     const axesTicks = [];
     nGroups.forEach((group) => {
       const axisTicks = [];
-      const ticks = getTicks(group.min, group.max, group.ticks);
-      ticks.forEach((value) => {
-        axisTicks.push({ value, position: normalizeNumber(value, group) });
-      });
+      const tickSize = getTickSize(group.min, group.max, group.ticks);
+      let value = group.min;
+      let position = group.lowerBound;
+      while (position <= group.upperBound) {
+        position = normalizeNumber(value, group);
+        axisTicks.push({ value, position });
+        value += tickSize;
+      }
       axesTicks.push(axisTicks);
     });
 
@@ -45,17 +49,14 @@
     return { data: normalizedArr, ticks: axesTicks };
   }
 
-  function getTicks(min, max, count) {
-    const size = Math.round((max - min) / (count - 1));
-    const result = [];
-    for (let i = 0; i <= count; i++) {
-      result.push([min + i * size]);
-    }
-    return result;
+  function getTickSize(min, max, count) {
+    return Math.round((max - min) / (count - 1));
   }
 
   function normalizeNumber(num, group) {
-    return ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound;
+    return (
+      ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound
+    );
   }
 
   function getKeysMin(arr, keys) {
@@ -245,8 +246,10 @@
 
   function drawTicks(svg, positions, axesLines, ticks) {
     const g = createSVGElements("g");
+    const hAxisTicks = ticks[0];
+    const vAxisTicks = ticks[1];
     if (axesLines.left && ticks.length > 0) {
-      ticks[0].forEach((tick) => {
+      vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.left);
         tl.setAttribute("x1", positions.left - 5);
         tl.setAttribute("x2", positions.left + 5);
@@ -256,7 +259,7 @@
       });
     }
     if (axesLines.top && ticks.length > 1) {
-      ticks[1].forEach((tick) => {
+      hAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.top);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
@@ -266,7 +269,7 @@
       });
     }
     if (axesLines.bottom && ticks.length > 1) {
-      ticks[1].forEach((tick) => {
+      hAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.bottom);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
@@ -276,7 +279,7 @@
       });
     }
     if (axesLines.right && ticks.length > 0) {
-      ticks[0].forEach((tick) => {
+      vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.right);
         tl.setAttribute("x1", positions.right - 5);
         tl.setAttribute("x2", positions.right + 5);
@@ -290,8 +293,10 @@
 
   function drawGridLines(svg, positions, gridLines, ticks) {
     const g = createSVGElements("g");
+    const hAxisTicks = ticks[0];
+    const vAxisTicks = ticks[1];
     if (gridLines.h && ticks.length > 0) {
-      ticks[0].forEach((tick) => {
+      vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(gridLines.h);
         tl.setAttribute("x1", positions.left);
         tl.setAttribute("x2", positions.right);
@@ -301,7 +306,7 @@
       });
     }
     if (gridLines.v && ticks.length > 1) {
-      ticks[1].forEach((tick) => {
+      hAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(gridLines.v);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
@@ -314,10 +319,12 @@
   }
 
   function drawLabels(svg, positions, axesLines, ticks, axesLabels) {
+    const hAxisTicks = ticks[0];
+    const vAxisTicks = ticks[1];
     const g = createSVGElements("g");
     svg.appendChild(g);
     if (axesLines.left && ticks.length > 0) {
-      ticks[0].forEach((tick) => {
+      vAxisTicks.forEach((tick) => {
         const text = cloneSVGElement(axesLabels.left);
         text.innerHTML = tick.value;
         g.appendChild(text);
@@ -328,7 +335,7 @@
       });
     }
     if (axesLines.top && ticks.length > 1) {
-      ticks[1].forEach((tick) => {
+      hAxisTicks.forEach((tick) => {
         const text = cloneSVGElement(axesLabels.top);
         text.innerHTML = tick.value;
         g.appendChild(text);
@@ -339,7 +346,7 @@
       });
     }
     if (axesLines.bottom && ticks.length > 1) {
-      ticks[1].forEach((tick) => {
+      hAxisTicks.forEach((tick) => {
         const text = cloneSVGElement(axesLabels.bottom);
         text.innerHTML = tick.value;
         g.appendChild(text);
@@ -350,7 +357,7 @@
       });
     }
     if (axesLines.right && ticks.length > 0) {
-      ticks[0].forEach((tick) => {
+      vAxisTicks.forEach((tick) => {
         const text = cloneSVGElement(axesLabels.right);
         text.innerHTML = tick.value;
         g.appendChild(text);

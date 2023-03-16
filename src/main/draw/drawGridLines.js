@@ -3,8 +3,10 @@ import createSVGElements from "./createSVGElements";
 
 export default function drawGridLines(svg, positions, gridLines, ticks) {
   const g = createSVGElements("g");
+  const hAxisTicks = ticks[0];
+  const vAxisTicks = ticks[1];
   if (gridLines.h && ticks.length > 0) {
-    ticks[0].forEach((tick) => {
+    vAxisTicks.forEach((tick) => {
       const tl = cloneSVGElement(gridLines.h);
       tl.setAttribute("x1", positions.left);
       tl.setAttribute("x2", positions.right);
@@ -14,7 +16,7 @@ export default function drawGridLines(svg, positions, gridLines, ticks) {
     });
   }
   if (gridLines.v && ticks.length > 1) {
-    ticks[1].forEach((tick) => {
+    hAxisTicks.forEach((tick) => {
       const tl = cloneSVGElement(gridLines.v);
       tl.setAttribute("x1", tick.position);
       tl.setAttribute("x2", tick.position);

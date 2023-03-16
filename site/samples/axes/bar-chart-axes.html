@@ -12,9 +12,12 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" margin="20" padding="20">
-      <data-set hAxis="x" vAxis="y">
+    <chart-ease id="chart" width="200" height="200" style="border: 1px solid">
+      <data-set id="bar" hAxis="x" vAxis="y">
         <rect fill="red"></rect>
+      </data-set>
+      <data-set id="path">
+        <circle r="3" fill="black"></circle>
       </data-set>
       <line is="left-axis" stroke="blue" ticks="6"></line>
       <line is="bottom-axis" stroke="blue" ticks="6"></line>
@@ -33,25 +36,23 @@
         { x: 5, y: 5 },
         { x: 6, y: 6 },
       ];
-      const width = 200;
-      const height = 200;
-      const barsCount = data.length;
-      const groupGap = 3;
-      const barWidth = Math.round(width / (barsCount + groupGap));
-      const bar = document.querySelector("#bar");
-      const margin = 10;
-      const padding = 10;
-      bar.setAttribute("margin", margin);
-      bar.setAttribute("padding-bottom", padding);
-      bar.setAttribute("padding-right", barWidth);
-      bar.ondraw = ({ shape, row }) => {
+      // Note: barWidth = Round(ChartWidth/BarCount) - Gap
+      const barWidth = Math.round(200 / data.length) - 10;
+      const margin = 20,
+        padding = 0;
+      chart = document.querySelector("#chart");
+      chart.setAttribute("margin", margin);
+      chart.setAttribute("padding-bottom", padding);
+      chart.setAttribute("padding-right", barWidth);
+      chart.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
         shape.setAttribute("x", row.x);
 
         shape.setAttribute("height", row.y - margin);
         shape.setAttribute("y", margin);
       };
-      bar.data = data;
+      document.querySelector("#bar").data = data;
+      document.querySelector("#path").data = data;
     </script>
   </body>
 </html>
