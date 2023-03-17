@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease id="candlestick" padding="20" margin="20" margin-left="30">
+      <data-set hAxis="x" vAxis="low,open,close,high">
+        <line></line>
+        <rect></rect>
+      </data-set>
+      <line is="left-axis" stroke="blue" ticks="3"></line>
+      <line is="bottom-axis" stroke="blue" ticks="6"></line>
+      <text is="left-labels" font-size="12" font-family="Tahoma"></text>
+      <text is="bottom-labels" font-size="14" font-family="Tahoma"></text>
+      <line is="v-grid-lines" stroke="#c8c8c830"></line>
+      <line is="h-grid-lines" stroke="#c8c8c830"></line>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const chart = document.querySelector("#candlestick");
+      chart.ondraw = ({ shape, row }) => {
+        const green = row.open < row.close;
+        switch (shape.tagName) {
+          case "line":
+            shape.setAttribute("x1", row.x);
+            shape.setAttribute("x2", row.x);
+            shape.setAttribute("y1", row.low);
+            shape.setAttribute("y2", row.high);
+            shape.setAttribute("stroke", green ? "#28A69A" : "#EE5355");
+            break;
+          case "rect":
+            shape.setAttribute("width", 10);
+            shape.setAttribute("x", row.x - 5);
+
+            shape.setAttribute("height", Math.abs(row.close - row.open));
+            shape.setAttribute("y", green ? row.open : row.close);
+            shape.setAttribute("fill", green ? "#28A69A" : "#EE5355");
+            break;
+        }
+      };
+      chart.data = [
+        { x: 1, low: 1100, open: 1100, close: 1200, high: 1300 },
+        { x: 2, low: 1200, open: 1200, close: 1300, high: 1300 },
+        { x: 3, low: 1300, open: 1300, close: 1400, high: 1500 },
+        { x: 4, low: 1400, open: 1400, close: 1300, high: 1600 },
+        { x: 5, low: 800, open: 1300, close: 1000, high: 1350 },
+        { x: 6, low: 700, open: 1000, close: 700, high: 1100 },
+        { x: 7, low: 500, open: 700, close: 600, high: 710 },
+        { x: 8, low: 500, open: 600, close: 1000, high: 1000 },
+      ];
+    </script>
+  </body>
+</html>
