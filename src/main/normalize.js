@@ -40,7 +40,7 @@ function getAxisTicks(group) {
   let position = group.plotStart;
   while (true) {
     position = normalizeNumber(value, group);
-    if (position > group.axisLineStop) break;
+    if (position > group.axis.stop) break;
     axisTicks.push({ value, position });
     value += tickSize;
   }

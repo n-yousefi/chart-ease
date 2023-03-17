@@ -43,7 +43,7 @@
     let position = group.plotStart;
     while (true) {
       position = normalizeNumber(value, group);
-      if (position > group.axisLineStop) break;
+      if (position > group.axis.stop) break;
       axisTicks.push({ value, position });
       value += tickSize;
     }
@@ -194,35 +194,35 @@
     path.removeAttribute("is");
   }
 
-  function drawAxes(svg, positions, axesLines) {
+  function drawAxes(svg, axes, axesLines) {
     const g = createSVGElements("g");
     if (axesLines.left) {
       const axis = createAxis(g, axesLines.left);
-      axis.setAttribute("x1", positions.left);
-      axis.setAttribute("x2", positions.left);
-      axis.setAttribute("y1", positions.bottom);
-      axis.setAttribute("y2", positions.top);
+      axis.setAttribute("x1", axes[0].axis.start);
+      axis.setAttribute("x2", axes[0].axis.start);
+      axis.setAttribute("y1", axes[1].axis.start);
+      axis.setAttribute("y2", axes[1].axis.stop);
     }
     if (axesLines.top) {
       const axis = createAxis(g, axesLines.top);
-      axis.setAttribute("x1", positions.left);
-      axis.setAttribute("x2", positions.right);
-      axis.setAttribute("y1", positions.top);
-      axis.setAttribute("y2", positions.top);
+      axis.setAttribute("x1", axes[0].axis.start);
+      axis.setAttribute("x2", axes[0].axis.stop);
+      axis.setAttribute("y1", axes[1].axis.stop);
+      axis.setAttribute("y2", axes[1].axis.stop);
     }
     if (axesLines.bottom) {
       const axis = createAxis(g, axesLines.bottom);
-      axis.setAttribute("x1", positions.left);
-      axis.setAttribute("x2", positions.right);
-      axis.setAttribute("y1", positions.bottom);
-      axis.setAttribute("y2", positions.bottom);
+      axis.setAttribute("x1", axes[0].axis.start);
+      axis.setAttribute("x2", axes[0].axis.stop);
+      axis.setAttribute("y1", axes[1].axis.start);
+      axis.setAttribute("y2", axes[1].axis.start);
     }
     if (axesLines.right) {
       const axis = createAxis(g, axesLines.right);
-      axis.setAttribute("x1", positions.right);
-      axis.setAttribute("x2", positions.right);
-      axis.setAttribute("y1", positions.bottom);
-      axis.setAttribute("y2", positions.top);
+      axis.setAttribute("x1", axes[0].axis.stop);
+      axis.setAttribute("x2", axes[0].axis.stop);
+      axis.setAttribute("y1", axes[1].axis.start);
+      axis.setAttribute("y2", axes[1].axis.stop);
     }
     svg.appendChild(g);
   }
@@ -233,15 +233,15 @@
     return axis;
   }
 
-  function drawTicks(svg, positions, axesLines, ticks) {
+  function drawTicks(svg, axes, axesLines, ticks) {
     const g = createSVGElements("g");
     const hAxisTicks = ticks[0];
     const vAxisTicks = ticks[1];
     if (axesLines.left && ticks.length > 0) {
       vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.left);
-        tl.setAttribute("x1", positions.left - 5);
-        tl.setAttribute("x2", positions.left + 5);
+        tl.setAttribute("x1", axes[0].axis.start - 5);
+        tl.setAttribute("x2", axes[0].axis.start + 5);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -252,8 +252,8 @@
         const tl = cloneSVGElement(axesLines.top);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", positions.top - 5);
-        tl.setAttribute("y2", positions.top + 5);
+        tl.setAttribute("y1", axes[1].axis.stop - 5);
+        tl.setAttribute("y2", axes[1].axis.stop + 5);
         g.appendChild(tl);
       });
     }
@@ -262,16 +262,16 @@
         const tl = cloneSVGElement(axesLines.bottom);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", positions.bottom - 5);
-        tl.setAttribute("y2", positions.bottom + 5);
+        tl.setAttribute("y1", axes[1].axis.start - 5);
+        tl.setAttribute("y2", axes[1].axis.start + 5);
         g.appendChild(tl);
       });
     }
     if (axesLines.right && ticks.length > 0) {
       vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(axesLines.right);
-        tl.setAttribute("x1", positions.right - 5);
-        tl.setAttribute("x2", positions.right + 5);
+        tl.setAttribute("x1", axes[0].axis.stop - 5);
+        tl.setAttribute("x2", axes[0].axis.stop + 5);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -280,15 +280,15 @@
     svg.appendChild(g);
   }
 
-  function drawGridLines(svg, positions, gridLines, ticks) {
+  function drawGridLines(svg, axes, gridLines, ticks) {
     const g = createSVGElements("g");
     const hAxisTicks = ticks[0];
     const vAxisTicks = ticks[1];
     if (gridLines.h && ticks.length > 0) {
       vAxisTicks.forEach((tick) => {
         const tl = cloneSVGElement(gridLines.h);
-        tl.setAttribute("x1", positions.left);
-        tl.setAttribute("x2", positions.right);
+        tl.setAttribute("x1", axes[0].axis.start);
+        tl.setAttribute("x2", axes[0].axis.stop);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
         g.appendChild(tl);
@@ -299,15 +299,15 @@
         const tl = cloneSVGElement(gridLines.v);
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", positions.top);
-        tl.setAttribute("y2", positions.bottom);
+        tl.setAttribute("y1", axes[1].axis.stop);
+        tl.setAttribute("y2", axes[1].axis.start);
         g.appendChild(tl);
       });
     }
     svg.appendChild(g);
   }
 
-  function drawLabels(svg, positions, axesLines, ticks, axesLabels) {
+  function drawLabels(svg, axes, axesLines, ticks, axesLabels) {
     const hAxisTicks = ticks[0];
     const vAxisTicks = ticks[1];
     const g = createSVGElements("g");
@@ -318,7 +318,7 @@
         text.innerHTML = tick.value;
         g.appendChild(text);
         const { width, height } = text.getBoundingClientRect();
-        text.setAttribute("x", positions.left - width - 5);
+        text.setAttribute("x", axes[0].axis.start - width - 5);
         text.setAttribute("y", tick.position - height / 3);
         flip(svg, text);
       });
@@ -330,7 +330,7 @@
         g.appendChild(text);
         const { width, height } = text.getBoundingClientRect();
         text.setAttribute("x", tick.position - width / 2);
-        text.setAttribute("y", positions.top + height / 2);
+        text.setAttribute("y", axes[1].axis.stop + height / 2);
         flip(svg, text);
       });
     }
@@ -341,7 +341,7 @@
         g.appendChild(text);
         const { width, height } = text.getBoundingClientRect();
         text.setAttribute("x", tick.position - width / 2);
-        text.setAttribute("y", positions.bottom - height);
+        text.setAttribute("y", axes[1].axis.start - height);
         flip(svg, text);
       });
     }
@@ -351,7 +351,7 @@
         text.innerHTML = tick.value;
         g.appendChild(text);
         const { width, height } = text.getBoundingClientRect();
-        text.setAttribute("x", positions.right + width);
+        text.setAttribute("x", axes[0].axis.stop + width);
         text.setAttribute("y", tick.position - height / 3);
         flip(svg, text);
       });
@@ -366,35 +366,35 @@
     connectedCallback() {}
     disconnectedCallback() {}
 
-    draw(data, originalData, ticks) {
+    draw(data, originalData, axesLines, ticks) {
       const svg = this.parentElement.querySelector("svg");
       drawPath(svg, this.pathType, data);
       drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-      const axesLinePositions = this.getAxesLinePositions();
-      drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
-      drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
-      drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
-      drawLabels(svg, axesLinePositions, this.parentElement.axesLines, ticks, this.parentElement.axesLabels);
+      drawAxes(svg, this.axes, axesLines);
+      drawTicks(svg, this.axes, axesLines, ticks);
+      drawGridLines(svg, this.axes, this.parentElement.gridLines, ticks);
+      drawLabels(svg, this.axes, axesLines, ticks, this.parentElement.axesLabels);
     }
 
     set data(originalData) {
-      this.axesInit();
+      const axesLines = this.parentElement.axesLines;
+      this.axesInit(axesLines);
       const { data, ticks } = normalize(originalData, this.axes);
-      this.draw(data, originalData, ticks);
+      this.draw(data, originalData, axesLines, ticks);
       this.parentElement.removeChild(this);
     }
 
-    axesInit() {
+    axesInit(axesLines) {
       this.axes = [
         {
           cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
           length: this.parentElement.width,
-          ticks: parseInt(this.parentElement.axesLines.left?.getAttribute("ticks") ?? 0),
+          ticks: parseInt(axesLines.left?.getAttribute("ticks") ?? 0),
         },
         {
           cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
           length: this.parentElement.height,
-          ticks: parseInt(this.parentElement.axesLines.bottom?.getAttribute("ticks") ?? 0),
+          ticks: parseInt(axesLines.bottom?.getAttribute("ticks") ?? 0),
         },
       ];
       this["axes"] ? this["axes"] : [];
@@ -403,21 +403,16 @@
       // X axis bounds
       this.axes[0].plotStart = margin.left + padding.left;
       this.axes[0].plotStop = this.parentElement.width - margin.right - padding.right;
-      this.axes[0].axisLineStart = margin.left;
-      this.axes[0].axisLineStop = this.parentElement.width - margin.right;
+      this.axes[0].axis = {
+        start: margin.left,
+        stop: this.parentElement.width - margin.right,
+      };
       // Y axis bounds
       this.axes[1].plotStart = margin.bottom + padding.bottom;
       this.axes[1].plotStop = this.parentElement.height - margin.top - padding.top;
-      this.axes[1].axisLineStart = margin.bottom;
-      this.axes[1].axisLineStop = this.parentElement.height - margin.top;
-    }
-
-    getAxesLinePositions() {
-      return {
-        left: this.parentElement.margin.left,
-        right: this.parentElement.width - this.parentElement.margin.right,
-        bottom: this.parentElement.margin.bottom,
-        top: this.parentElement.height - this.parentElement.margin.top,
+      this.axes[1].axis = {
+        start: margin.bottom,
+        stop: this.parentElement.height - margin.top,
       };
     }
 

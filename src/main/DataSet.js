@@ -14,35 +14,35 @@ class DataSet extends HTMLElement {
   connectedCallback() {}
   disconnectedCallback() {}
 
-  draw(data, originalData, ticks) {
+  draw(data, originalData, axesLines, ticks) {
     const svg = this.parentElement.querySelector("svg");
     drawPath(svg, this.pathType, data);
     drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
-    const axesLinePositions = this.getAxesLinePositions();
-    drawAxes(svg, axesLinePositions, this.parentElement.axesLines);
-    drawTicks(svg, axesLinePositions, this.parentElement.axesLines, ticks);
-    drawGridLines(svg, axesLinePositions, this.parentElement.gridLines, ticks);
-    drawLabels(svg, axesLinePositions, this.parentElement.axesLines, ticks, this.parentElement.axesLabels);
+    drawAxes(svg, this.axes, axesLines);
+    drawTicks(svg, this.axes, axesLines, ticks);
+    drawGridLines(svg, this.axes, this.parentElement.gridLines, ticks);
+    drawLabels(svg, this.axes, axesLines, ticks, this.parentElement.axesLabels);
   }
 
   set data(originalData) {
-    this.axesInit();
+    const axesLines = this.parentElement.axesLines;
+    this.axesInit(axesLines);
     const { data, ticks } = normalize(originalData, this.axes);
-    this.draw(data, originalData, ticks);
+    this.draw(data, originalData, axesLines, ticks);
     this.parentElement.removeChild(this);
   }
 
-  axesInit() {
+  axesInit(axesLines) {
     this.axes = [
       {
         cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
         length: this.parentElement.width,
-        ticks: parseInt(this.parentElement.axesLines.left?.getAttribute("ticks") ?? 0),
+        ticks: parseInt(axesLines.left?.getAttribute("ticks") ?? 0),
       },
       {
         cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
         length: this.parentElement.height,
-        ticks: parseInt(this.parentElement.axesLines.bottom?.getAttribute("ticks") ?? 0),
+        ticks: parseInt(axesLines.bottom?.getAttribute("ticks") ?? 0),
       },
     ];
     let axesArr = this["axes"] ? this["axes"] : [];
@@ -51,21 +51,16 @@ class DataSet extends HTMLElement {
     // X axis bounds
     this.axes[0].plotStart = margin.left + padding.left;
     this.axes[0].plotStop = this.parentElement.width - margin.right - padding.right;
-    this.axes[0].axisLineStart = margin.left;
-    this.axes[0].axisLineStop = this.parentElement.width - margin.right;
+    this.axes[0].axis = {
+      start: margin.left,
+      stop: this.parentElement.width - margin.right,
+    };
     // Y axis bounds
     this.axes[1].plotStart = margin.bottom + padding.bottom;
     this.axes[1].plotStop = this.parentElement.height - margin.top - padding.top;
-    this.axes[1].axisLineStart = margin.bottom;
-    this.axes[1].axisLineStop = this.parentElement.height - margin.top;
-  }
-
-  getAxesLinePositions() {
-    return {
-      left: this.parentElement.margin.left,
-      right: this.parentElement.width - this.parentElement.margin.right,
-      bottom: this.parentElement.margin.bottom,
-      top: this.parentElement.height - this.parentElement.margin.top,
+    this.axes[1].axis = {
+      start: margin.bottom,
+      stop: this.parentElement.height - margin.top,
     };
   }
 

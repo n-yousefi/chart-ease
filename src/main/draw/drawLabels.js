@@ -2,7 +2,7 @@ import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 import { flip } from "./flip";
 
-export default function drawLabels(svg, positions, axesLines, ticks, axesLabels) {
+export default function drawLabels(svg, axes, axesLines, ticks, axesLabels) {
   const hAxisTicks = ticks[0];
   const vAxisTicks = ticks[1];
   const g = createSVGElements("g");
@@ -13,7 +13,7 @@ export default function drawLabels(svg, positions, axesLines, ticks, axesLabels)
       text.innerHTML = tick.value;
       g.appendChild(text);
       const { width, height } = text.getBoundingClientRect();
-      text.setAttribute("x", positions.left - width - 5);
+      text.setAttribute("x", axes[0].axis.start - width - 5);
       text.setAttribute("y", tick.position - height / 3);
       flip(svg, text);
     });
@@ -25,7 +25,7 @@ export default function drawLabels(svg, positions, axesLines, ticks, axesLabels)
       g.appendChild(text);
       const { width, height } = text.getBoundingClientRect();
       text.setAttribute("x", tick.position - width / 2);
-      text.setAttribute("y", positions.top + height / 2);
+      text.setAttribute("y", axes[1].axis.stop + height / 2);
       flip(svg, text);
     });
   }
@@ -36,7 +36,7 @@ export default function drawLabels(svg, positions, axesLines, ticks, axesLabels)
       g.appendChild(text);
       const { width, height } = text.getBoundingClientRect();
       text.setAttribute("x", tick.position - width / 2);
-      text.setAttribute("y", positions.bottom - height);
+      text.setAttribute("y", axes[1].axis.start - height);
       flip(svg, text);
     });
   }
@@ -46,7 +46,7 @@ export default function drawLabels(svg, positions, axesLines, ticks, axesLabels)
       text.innerHTML = tick.value;
       g.appendChild(text);
       const { width, height } = text.getBoundingClientRect();
-      text.setAttribute("x", positions.right + width);
+      text.setAttribute("x", axes[0].axis.stop + width);
       text.setAttribute("y", tick.position - height / 3);
       flip(svg, text);
     });
