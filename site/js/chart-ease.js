@@ -14,23 +14,6 @@
       });
     });
 
-    const axesTicks = [];
-    nGroups.forEach((group) => {
-      if (group.ticks > 0) {
-        const axisTicks = [];
-        const tickSize = getTickSize(group.min, group.max, group.ticks);
-        let value = group.min;
-        let position = group.lowerBound;
-        while (true) {
-          position = normalizeNumber(value, group);
-          if (position > group.upperBound) break;
-          axisTicks.push({ value, position });
-          value += tickSize;
-        }
-        axesTicks.push(axisTicks);
-      }
-    });
-
     const arrKeys = Object.keys(arr[0]);
     normalizedArr.forEach((item) => {
       nGroups.forEach((group) => {
@@ -43,13 +26,28 @@
       });
     });
 
-    nGroups
-      .filter((group) => group.flip)
-      .forEach((group) => {
-        flip$1(normalizedArr, group);
-      });
+    const axesTicks = [];
+    nGroups.forEach((group) => {
+      if (group.ticks > 0) {
+        axesTicks.push(getAxisTicks(group));
+      }
+    });
 
     return { data: normalizedArr, ticks: axesTicks };
+  }
+
+  function getAxisTicks(group) {
+    const axisTicks = [];
+    const tickSize = getTickSize(group.min, group.max, group.ticks);
+    let value = group.min;
+    let position = group.plotStart;
+    while (true) {
+      position = normalizeNumber(value, group);
+      if (position > group.axisLineStop) break;
+      axisTicks.push({ value, position });
+      value += tickSize;
+    }
+    return axisTicks;
   }
 
   function getTickSize(min, max, count) {
@@ -57,9 +55,7 @@
   }
 
   function normalizeNumber(num, group) {
-    return (
-      ((num - group.min) / (group.max - group.min)) * (group.upperBound - group.lowerBound) + group.lowerBound
-    );
+    return ((num - group.min) / (group.max - group.min)) * (group.plotStop - group.plotStart) + group.plotStart;
   }
 
   function getKeysMin(arr, keys) {
@@ -98,16 +94,6 @@
       max = Math.max(max, arr[i][key]);
     }
     return max;
-  }
-
-  function flip$1(arr, nGroup) {
-    const keys = nGroup.cols;
-    let max = getKeysMax(arr, keys);
-    arr.forEach((item) => {
-      keys.forEach((key) => {
-        item[key] = max - item[key] + nGroup.lowerBound;
-      });
-    });
   }
 
   function copyAttrs(from, to) {
@@ -415,11 +401,15 @@
       const margin = this.parentElement.margin;
       const padding = this.parentElement.padding;
       // X axis bounds
-      this.axes[0].lowerBound = margin.left + padding.left;
-      this.axes[0].upperBound = this.parentElement.width - margin.right - padding.right;
+      this.axes[0].plotStart = margin.left + padding.left;
+      this.axes[0].plotStop = this.parentElement.width - margin.right - padding.right;
+      this.axes[0].axisLineStart = margin.left;
+      this.axes[0].axisLineStop = this.parentElement.width - margin.right;
       // Y axis bounds
-      this.axes[1].lowerBound = margin.bottom + padding.bottom;
-      this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
+      this.axes[1].plotStart = margin.bottom + padding.bottom;
+      this.axes[1].plotStop = this.parentElement.height - margin.top - padding.top;
+      this.axes[1].axisLineStart = margin.bottom;
+      this.axes[1].axisLineStop = this.parentElement.height - margin.top;
     }
 
     getAxesLinePositions() {

@@ -49,11 +49,15 @@ class DataSet extends HTMLElement {
     const margin = this.parentElement.margin;
     const padding = this.parentElement.padding;
     // X axis bounds
-    this.axes[0].lowerBound = margin.left + padding.left;
-    this.axes[0].upperBound = this.parentElement.width - margin.right - padding.right;
+    this.axes[0].plotStart = margin.left + padding.left;
+    this.axes[0].plotStop = this.parentElement.width - margin.right - padding.right;
+    this.axes[0].axisLineStart = margin.left;
+    this.axes[0].axisLineStop = this.parentElement.width - margin.right;
     // Y axis bounds
-    this.axes[1].lowerBound = margin.bottom + padding.bottom;
-    this.axes[1].upperBound = this.parentElement.height - margin.top - padding.top;
+    this.axes[1].plotStart = margin.bottom + padding.bottom;
+    this.axes[1].plotStop = this.parentElement.height - margin.top - padding.top;
+    this.axes[1].axisLineStart = margin.bottom;
+    this.axes[1].axisLineStop = this.parentElement.height - margin.top;
   }
 
   getAxesLinePositions() {

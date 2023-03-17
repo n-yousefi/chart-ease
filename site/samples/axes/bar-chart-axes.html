@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="chart" width="200" height="200" style="border: 1px solid">
+    <chart-ease id="chart" width="200" height="200" margin="20" padding="20">
       <data-set id="bar" hAxis="x" vAxis="y">
         <rect fill="red"></rect>
       </data-set>
@@ -21,15 +21,14 @@
       </data-set>
       <line is="left-axis" stroke="blue" ticks="6"></line>
       <line is="bottom-axis" stroke="blue" ticks="6"></line>
-      <line is="v-grid-lines" stroke="#c8c8c830"></line>
-      <line is="h-grid-lines" stroke="#c8c8c830"></line>
       <text is="left-labels"></text>
       <text is="bottom-labels"></text>
+      <line is="v-grid-lines" stroke="#c8c8c830"></line>
+      <line is="h-grid-lines" stroke="#c8c8c830"></line>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [
-        { x: 0, y: 0 },
         { x: 1, y: 1 },
         { x: 2, y: 2 },
         { x: 3, y: 3 },
@@ -37,20 +36,15 @@
         { x: 5, y: 5 },
         { x: 6, y: 6 },
       ];
-      // Note: barWidth = Round(ChartWidth/BarCount) - Gap
-      const barWidth = Math.round(200 / data.length) - 10;
-      const margin = 20,
-        padding = 0;
+      // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
+      const barWidth = Math.round(200 / data.length) * (1 / 2);
       chart = document.querySelector("#chart");
-      chart.setAttribute("margin", margin);
-      chart.setAttribute("padding-bottom", padding);
-      chart.setAttribute("padding-right", barWidth);
       chart.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
         shape.setAttribute("x", row.x - barWidth / 2);
 
-        shape.setAttribute("height", row.y - margin);
-        shape.setAttribute("y", margin);
+        shape.setAttribute("height", row.y - 20); // y - margin
+        shape.setAttribute("y", 20); // margin
       };
       document.querySelector("#bar").data = data;
       document.querySelector("#path").data = data;

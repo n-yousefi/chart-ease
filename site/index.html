@@ -2,19 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>&lt;chart-ease&gt;</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
-    <script
-      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link
       href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
@@ -41,10 +35,7 @@
   </head>
   <body id="page-top">
     <!-- Navigation-->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top"
-      id="sideNav"
-    >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none">Chart Ease</span>
         <span class="d-none d-lg-block"
@@ -71,32 +62,22 @@
             <a class="nav-link js-scroll-trigger" href="#about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#installing"
-              >Installing</a
-            >
+            <a class="nav-link js-scroll-trigger" href="#installing">Installing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#get-started"
-              >Get Started</a
-            >
+            <a class="nav-link js-scroll-trigger" href="#get-started">Get Started</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#point-types"
-              >Point types</a
-            >
+            <a class="nav-link js-scroll-trigger" href="#point-types">Point types</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#axes">Axes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#customize"
-              >Customize</a
-            >
+            <a class="nav-link js-scroll-trigger" href="#customize">Customize</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#common-charts"
-              >Common Chart Types</a
-            >
+            <a class="nav-link js-scroll-trigger" href="#common-charts">Common Chart Types</a>
           </li>
         </ul>
       </div>
@@ -111,27 +92,20 @@
             <span class="text-primary">Ease</span>
           </h1>
           <div class="subheading mb-5">
-            Customizable and high-performance web component to draw static
-            charts.
+            Customizable and high-performance web component to draw static charts.
           </div>
           <p class="lead mb-5">
-            chart-ease is a lightweight and highly customizable web component
-            designed for creating small and precise charts. With its ability to
-            normalize data from any range to a specified size, chart-ease makes
-            it easier than ever to represent data in an elegant and effective
-            way. Whether you're creating a simple line graph or a complex
-            scatterplot, chart-ease makes it easy to build and display your data
-            in a clear and meaningful way.
+            chart-ease is a lightweight and highly customizable web component designed for creating small and
+            precise charts. With its ability to normalize data from any range to a specified size, chart-ease
+            makes it easier than ever to represent data in an elegant and effective way. Whether you're
+            creating a simple line graph or a complex scatterplot, chart-ease makes it easy to build and
+            display your data in a clear and meaningful way.
           </p>
           <div class="social-icons">
-            <a
-              class="social-icon"
-              href="https://github.com/n-yousefi/chart-ease"
+            <a class="social-icon" href="https://github.com/n-yousefi/chart-ease"
               ><i class="fab fa-github"></i
             ></a>
-            <a
-              class="social-icon"
-              href="https://www.npmjs.com/package/chart-ease"
+            <a class="social-icon" href="https://www.npmjs.com/package/chart-ease"
               ><i class="fab fa-npm"></i
             ></a>
             <!-- <a class="social-icon" href="#!"
@@ -151,11 +125,7 @@
           <h2 class="mb-5">Installing</h2>
           <div>
             <h3 class="mb-0">Using npm</h3>
-            <a
-              class="subheading mb-3"
-              target="_blank"
-              href="https://www.npmjs.com/package/chart-ease"
-            >
+            <a class="subheading mb-3" target="_blank" href="https://www.npmjs.com/package/chart-ease">
               <img src="assets/img/npm.svg" />
             </a>
             <pre><code class="bash">npm install chart-ease</code></pre>
@@ -174,12 +144,8 @@
         <div class="resume-section-content">
           <h2 class="mb-5">GET STARTED</h2>
           <div class="subheading mb-3">Create your very first chart</div>
-          <div
-            class="d-flex flex-column flex-md-row justify-content-between mb-5"
-          >
-            <pre
-              class="flex-grow-1"
-            ><code class="html">&lt;chart-ease width="200" height="200">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <pre class="flex-grow-1"><code class="html">&lt;chart-ease width="200" height="200">
   &lt;data-set>
     &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
   &lt;/data-set>
@@ -196,41 +162,37 @@
           <div>
             <div class="subheading mb-3">Data</div>
             <p>
-              To create a chart, you need to provide data to it. This is done
-              using the <code>data-set</code> element. Every chart must have at
-              least one <code>data-set</code> child element. However, you can
-              use multiple <code>data-set</code> elements to draw multiple
-              charts together.
+              To create a chart, you need to provide data to it. This is done using the
+              <code>data-set</code> element. Every chart must have at least one <code>data-set</code> child
+              element. However, you can use multiple <code>data-set</code> elements to draw multiple charts
+              together.
             </p>
             <p>
               Once you have configured the chart, you should set the data on the
-              <code>data-set</code> element. After setting the data, any changes
-              you make to the data will be reflected in the chart.
+              <code>data-set</code> element. After setting the data, any changes you make to the data will be
+              reflected in the chart.
             </p>
             <p>
-              If you are only using one <code>data-set</code>, you can set the
-              data on the <code>chart-ease</code> element instead.
+              If you are only using one <code>data-set</code>, you can set the data on the
+              <code>chart-ease</code> element instead.
             </p>
           </div>
           <div>
             <div class="subheading mb-3">Size</div>
             <p>
               You can set the size of the chart using the <code>width</code> and
-              <code>height</code> attributes on the
-              <code>chart-ease</code> element. You can also set the margin using
-              the <code>margin</code> attribute.
+              <code>height</code> attributes on the <code>chart-ease</code> element. You can also set the
+              margin using the <code>margin</code> attribute.
             </p>
           </div>
           <div>
             <div class="subheading mb-3">Path</div>
             <p>
-              There is no default line path in <code>&lt;chart-ease></code>.
-              Instead, you can define your own customized path to connect the
-              points together. Simply add a <code>&lt;path&gt;</code> element
-              inside the <code>&lt;data-set&gt;</code> element and set the
-              <code>is</code> attribute to <code>"path-type"</code>. This will
-              draw the `path` element as your chart's path. You can further
-              customize the path by setting attributes like <code>stroke</code>,
+              There is no default line path in <code>&lt;chart-ease></code>. Instead, you can define your own
+              customized path to connect the points together. Simply add a <code>&lt;path&gt;</code> element
+              inside the <code>&lt;data-set&gt;</code> element and set the <code>is</code> attribute to
+              <code>"path-type"</code>. This will draw the `path` element as your chart's path. You can
+              further customize the path by setting attributes like <code>stroke</code>,
               <code>stroke-width</code>, and <code>fill</code> and etc.
             </p>
           </div>
@@ -242,25 +204,16 @@
         <div class="resume-section-content">
           <h2 class="mb-5">Point types</h2>
           <div>
-            <div class="subheading mb-3">
-              Define Custom Point Types for Your Chart Points
-            </div>
+            <div class="subheading mb-3">Define Custom Point Types for Your Chart Points</div>
             <p>
-              You can define any type of SVG element or combination of them as
-              point types. Basic elements are adjusted by default, so you only
-              need to put them inside the same <code>data-set</code> element.
-              Chart-ease will draw them at the corresponding position of each
-              point.
+              You can define any type of SVG element or combination of them as point types. Basic elements are
+              adjusted by default, so you only need to put them inside the same <code>data-set</code> element.
+              Chart-ease will draw them at the corresponding position of each point.
             </p>
             <!-- Circle -->
             <div class="subheading mb-3">Circle</div>
-            <p>
-              Use the <code>&lt;circle></code> element to create circular
-              points.
-            </p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
+            <p>Use the <code>&lt;circle></code> element to create circular points.</p>
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
               <pre class="flex-grow-1">
                 <code class="html">&lt;chart-ease>
   &lt;data-set>
@@ -270,22 +223,14 @@
 &lt;/chart-ease></code></pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/point-types/circle.html"
-                  ></object>
+                  <object type="text/html" data="./samples/point-types/circle.html"></object>
                 </div>
               </div>
             </div>
             <!-- Rectangle -->
             <div class="subheading mb-3">Rectangle</div>
-            <p>
-              Use the <code>&lt;rect></code> element to create rectangular
-              points.
-            </p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
+            <p>Use the <code>&lt;rect></code> element to create rectangular points.</p>
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
               <pre class="flex-grow-1">
                 <code class="html">&lt;chart-ease>
   &lt;data-set>
@@ -296,22 +241,14 @@
               </pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/point-types/rect.html"
-                  ></object>
+                  <object type="text/html" data="./samples/point-types/rect.html"></object>
                 </div>
               </div>
             </div>
             <!-- Ellipse -->
             <div class="subheading mb-3">Ellipse</div>
-            <p>
-              Use the <code>&lt;ellipse></code> element to create elliptical
-              points.
-            </p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
+            <p>Use the <code>&lt;ellipse></code> element to create elliptical points.</p>
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
               <pre class="flex-grow-1">
                 <code class="html">&lt;chart-ease>
   &lt;data-set>
@@ -322,10 +259,7 @@
               </pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/point-types/ellipse.html"
-                  ></object>
+                  <object type="text/html" data="./samples/point-types/ellipse.html"></object>
                 </div>
               </div>
             </div>
@@ -339,22 +273,18 @@
           <h2 class="mb-5">customize</h2>
           <div>
             <!-- Complex Types -->
-            <div class="subheading mb-3">
-              Define complex Point Types and adjust them
-            </div>
+            <div class="subheading mb-3">Define complex Point Types and adjust them</div>
             <p>
-              To create complex point types, you may need to adjust the
-              position, styles, animations, and more. With the `draw` event, you
-              can access each point and draw it yourself. In the
-              <code>ondraw</code> event handler, you can create different types
-              of charts and customize everything.
+              To create complex point types, you may need to adjust the position, styles, animations, and
+              more. With the `draw` event, you can access each point and draw it yourself. In the
+              <code>ondraw</code> event handler, you can create different types of charts and customize
+              everything.
             </p>
             <!-- Ondraw -->
             <h3 class="mb-0">draw event</h3>
             <p>
-              <code>&lt;chart-ease></code> fires a <code>draw</code> event for
-              each point type and passes an object containing the following
-              items to the event handler:
+              <code>&lt;chart-ease></code> fires a <code>draw</code> event for each point type and passes an
+              object containing the following items to the event handler:
             </p>
             <ul class="fa-ul mb-0">
               <li>
@@ -367,8 +297,7 @@
               </li>
               <li>
                 <span class="fa-li"><i class="fas fa-check"></i></span>
-                row: the normalized row of the data array that is computed based
-                on defined or default axes.
+                row: the normalized row of the data array that is computed based on defined or default axes.
               </li>
               <li>
                 <span class="fa-li"><i class="fas fa-check"></i></span>
@@ -382,9 +311,7 @@
               Drawing the value upon each points using
               <code>&lt;text>&lt;/text></code> and customize it based on index.
             </p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
               <pre class="flex-grow-1">
                 <code class="html">&lt;chart-ease id="textType" width="200" height="200">
   &lt;data-set>
@@ -413,19 +340,14 @@
               </pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/ondraw/labels.html"
-                  ></object>
+                  <object type="text/html" data="./samples/ondraw/labels.html"></object>
                 </div>
               </div>
             </div>
             <!-- sample 2: Custom path -->
             <div class="subheading mb-3">sample 2: Custom path</div>
             <p></p>
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between mb-5"
-            >
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
               <pre class="flex-grow-1">
                 <code class="html">&lt;chart-ease id="pathType" width="200" height="200">
   &lt;data-set>
@@ -450,10 +372,7 @@
               </pre>
               <div>
                 <div>
-                  <object
-                    type="text/html"
-                    data="./samples/ondraw/custom-path.html"
-                  ></object>
+                  <object type="text/html" data="./samples/ondraw/custom-path.html"></object>
                 </div>
               </div>
             </div>
@@ -465,32 +384,26 @@
         <div class="resume-section-content">
           <h2 class="mb-5">AXES</h2>
           <p>
-            In addition to the main chart area, you can also define your own
-            axes to accompany your chart. By defining your own axes, you have
-            more control over the layout and appearance of your chart.
+            In addition to the main chart area, you can also define your own axes to accompany your chart. By
+            defining your own axes, you have more control over the layout and appearance of your chart.
           </p>
           <p>
-            To define your own axes, you can use the <code>hAxis</code> and
-            <code>vAxis</code> properties. These properties accept an object
-            with three properties: <code>cols</code>, <code>length</code>, and
-            <code>margin</code>. The <code>cols</code> property specifies the
-            columns that the axis represents, <code>length</code> specifies the
-            length of the axis, and <code>margin</code> specifies the margin
-            between the chart area and the axis.
+            To define your own axes, you can use the <code>hAxis</code> and <code>vAxis</code> properties.
+            These properties accept an object with three properties: <code>cols</code>, <code>length</code>,
+            and <code>margin</code>. The <code>cols</code> property specifies the columns that the axis
+            represents, <code>length</code> specifies the length of the axis, and
+            <code>margin</code> specifies the margin between the chart area and the axis.
           </p>
           <p>
-            By default, if no axes are defined, Chart-It will create axes using
-            the <code>x</code> and <code>y</code> columns of your data set. If
-            you wish to define additional axes, you can use the
-            <code>axes</code> property, which takes an array of axis objects
-            with the same <code>cols</code>, <code>length</code>, and
-            <code>margin</code> properties as <code>hAxis</code> and
+            By default, if no axes are defined, Chart-It will create axes using the <code>x</code> and
+            <code>y</code> columns of your data set. If you wish to define additional axes, you can use the
+            <code>axes</code> property, which takes an array of axis objects with the same <code>cols</code>,
+            <code>length</code>, and <code>margin</code> properties as <code>hAxis</code> and
             <code>vAxis</code>.
           </p>
           <p>
-            For example, the following code defines an <code>hAxis</code> and a
-            <code>vAxis</code>, as well as an additional axis using the
-            <code>r</code> column:
+            For example, the following code defines an <code>hAxis</code> and a <code>vAxis</code>, as well as
+            an additional axis using the <code>r</code> column:
           </p>
           <pre><code class="language-javascript">chart.hAxis = { cols: ["x"], length: 200, margin: 50 };
 chart.vAxis = { cols: ["y"], length: 200, margin: 50 };
@@ -502,19 +415,15 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
         <div class="resume-section-content">
           <h2 class="mb-5">common chart types</h2>
           <p>
-            With <code>&lt;chart-ease></code>, you can create diverse and custom
-            bar charts by using your data with a custom structure and drawing
-            the chart in your own way. In the following sample, we use the
-            <code>&lt;g></code> element to group multiple elements for each
-            point and draw the values of "Silver", "Gold", and "Platinum". Then
-            we adjust the bars by utilizing the <code>ondraw</code> event
-            handler.
+            With <code>&lt;chart-ease></code>, you can create diverse and custom bar charts by using your data
+            with a custom structure and drawing the chart in your own way. In the following sample, we use the
+            <code>&lt;g></code> element to group multiple elements for each point and draw the values of
+            "Silver", "Gold", and "Platinum". Then we adjust the bars by utilizing the
+            <code>ondraw</code> event handler.
           </p>
           <!-- Bar Chart -->
           <div class="subheading mb-3">Bar chart</div>
-          <div
-            class="d-flex flex-column flex-md-row justify-content-between mb-5"
-          >
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
             <pre class="flex-grow-1"><code class="html">&lt;chart-ease id="bar">
   &lt;data-set>
     &lt;g>
@@ -549,35 +458,28 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
   };
   bar.hAxis = {
     cols: ["x"],
-    lowerBound: 10,
-    upperBound: 190,
+    plotStart: 10,
+    plotStop: 190,
     length: 200,
   };
   bar.vAxis = {
     cols: ["Silver", "Gold", "Platinum"],
-    lowerBound: 10,
-    upperBound: 190,
+    plotStart: 10,
+    plotStop: 190,
     length: 200,
   };
   bar.data = data;
 &lt;/script></code></pre>
             <div>
               <div>
-                <object
-                  type="text/html"
-                  data="./samples/ondraw/bar-chart.html"
-                ></object>
+                <object type="text/html" data="./samples/ondraw/bar-chart.html"></object>
               </div>
             </div>
           </div>
           <!-- Candlestick Chart -->
           <div class="subheading mb-3">Candlestick Chart</div>
-          <div
-            class="d-flex flex-column flex-md-row justify-content-between mb-5"
-          >
-            <pre
-              class="flex-grow-1"
-            ><code class="html">&lt;chart-ease id="candlestick">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <pre class="flex-grow-1"><code class="html">&lt;chart-ease id="candlestick">
   &lt;data-set>
     &lt;line>&lt;/line>
     &lt;rect>&lt;/rect>
@@ -629,21 +531,14 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
             </code></pre>
             <div>
               <div>
-                <object
-                  type="text/html"
-                  data="./samples/ondraw/candlestick.html"
-                ></object>
+                <object type="text/html" data="./samples/ondraw/candlestick.html"></object>
               </div>
             </div>
           </div>
           <!-- Scatter Plo -->
           <div class="subheading mb-3">Scatter Plot</div>
-          <div
-            class="d-flex flex-column flex-md-row justify-content-between mb-5"
-          >
-            <pre
-              class="flex-grow-1"
-            ><code class="html">&lt;chart-ease id="chart" width="200" height="200">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <pre class="flex-grow-1"><code class="html">&lt;chart-ease id="chart" width="200" height="200">
   &lt;data-set>&lt;circle fill="aqua" opacity=".2" />&lt;/data-set>
 &lt;/chart-ease>
 &lt;script>
@@ -670,10 +565,7 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
             </code></pre>
             <div>
               <div>
-                <object
-                  type="text/html"
-                  data="./samples/ondraw/scatter-plot.html"
-                ></object>
+                <object type="text/html" data="./samples/ondraw/scatter-plot.html"></object>
               </div>
             </div>
           </div>
@@ -683,9 +575,7 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
       <!-- Awards-->
       <section class="resume-section" id="usage">
         <div class="resume-section-content">
-          <div class="subheading mb-3">
-            The Chart ease can be used in different environments
-          </div>
+          <div class="subheading mb-3">The Chart ease can be used in different environments</div>
           <ul class="list-inline dev-icons">
             <li class="list-inline-item"><i class="fab fa-html5"></i></li>
             <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
