@@ -40,10 +40,7 @@
       const bottomAxisLength = 10;
       const barWidth = width / (barsCount + groupGap + leftAxisLength);
       const margin = 10;
-      const padding = 10;
       bar.setAttribute("margin", margin);
-      bar.setAttribute("padding", padding);
-      bar.setAttribute("padding-right", padding + barWidth * 3);
       bar.ondraw = ({ shape, row }) => {
         const setBar = (bar, x, y) => {
           bar.setAttribute("width", barWidth);

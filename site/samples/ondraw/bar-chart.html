@@ -34,10 +34,7 @@
       const barWidth = Math.round(width / (barsCount + groupGap));
       const bar = document.querySelector("#bar");
       const margin = 10;
-      const padding = 10;
       bar.setAttribute("margin", margin);
-      bar.setAttribute("padding-bottom", padding);
-      bar.setAttribute("padding-right", barWidth);
       bar.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
         shape.setAttribute("x", row.x);

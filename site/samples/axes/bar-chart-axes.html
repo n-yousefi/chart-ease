@@ -12,19 +12,23 @@
     </style>
   </head>
   <body>
-    <chart-ease id="chart" width="200" height="200" margin="20" padding="20" margin-left="40">
+    <chart-ease id="chart" width="200" height="200" margin="20" margin-left="40">
       <data-set id="bar">
         <rect fill="red"></rect>
       </data-set>
       <data-set id="path">
         <circle r="3" fill="black"></circle>
       </data-set>
-      <line is="left-axis" stroke="blue" ticks="6"></line>
-      <line is="bottom-axis" stroke="blue" ticks="6"></line>
-      <text is="left-labels" fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
-      <text is="bottom-labels" fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
-      <line is="v-grid-lines" stroke="#c8c8c830"></line>
-      <line is="h-grid-lines" stroke="#c8c8c830"></line>
+      <g is="v-axis" position="left" ticks="6" min="500" max="6000">
+        <line stroke="blue"></line>
+        <line is="grid" stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </g>
+      <g is="h-axis" position="bottom" ticks="6" min="0" max="7">
+        <line stroke="blue"></line>
+        <line is="grid" stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </g>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
@@ -37,7 +41,7 @@
         { x: 6, y: 6000 },
       ];
       // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
-      const barWidth = Math.round(200 / data.length) * (1 / 2);
+      const barWidth = Math.round(140 / data.length) * (1 / 2);
       chart = document.querySelector("#chart");
       chart.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
