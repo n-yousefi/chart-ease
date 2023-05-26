@@ -298,9 +298,9 @@
     svg.appendChild(g);
   }
 
-  function drawTicks(svg, axes, plot) {
+  function drawTicks(svg, axes) {
     const g = createSVGElements("g");
-    if (axes.h && axes.h.ticks.length > 1) {
+    if (axes.h && axes.h.ticks?.length > 1) {
       axes.h.ticks.forEach((tick) => {
         const tl = cloneSVGElement(axes.h.type);
         tl.setAttribute("x1", tick.position);
@@ -310,7 +310,7 @@
         g.appendChild(tl);
       });
     }
-    if (axes.v && axes.v.ticks.length > 1) {
+    if (axes.v && axes.v.ticks?.length > 1) {
       axes.v.ticks.forEach((tick) => {
         const tl = cloneSVGElement(axes.v.type);
         tl.setAttribute("x1", axes.v.x - 5);
@@ -325,7 +325,7 @@
 
   function drawGridLines(svg, axes) {
     const g = createSVGElements("g");
-    if (axes.h && axes.h.ticks.length > 1 && axes.h.grid) {
+    if (axes.h && axes.h.ticks?.length > 1 && axes.h.grid) {
       axes.v.ticks.forEach((tick) => {
         const tl = cloneSVGElement(axes.h.grid);
         tl.setAttribute("x1", axes.h.x1);
@@ -335,7 +335,7 @@
         g.appendChild(tl);
       });
     }
-    if (axes.v && axes.v.ticks.length > 1 && axes.v.grid) {
+    if (axes.v && axes.v.ticks?.length > 1 && axes.v.grid) {
       axes.h.ticks.forEach((tick) => {
         const tl = cloneSVGElement(axes.v.grid);
         tl.setAttribute("x1", tick.position);
@@ -351,7 +351,7 @@
   function drawLabels(svg, axes, axesLines) {
     const g = createSVGElements("g");
     svg.appendChild(g);
-    if (axes.v && axes.v.ticks.length > 0) {
+    if (axes.v && axes.v.ticks?.length > 0) {
       axes.v.ticks.forEach((tick) => {
         const text = cloneSVGElement(axes.v.label);
         text.innerHTML = tick.value;
@@ -367,7 +367,7 @@
         flip(svg, text);
       });
     }
-    if (axes.h && axes.h.ticks.length > 0) {
+    if (axes.h && axes.h.ticks?.length > 0) {
       axes.h.ticks.forEach((tick) => {
         const text = cloneSVGElement(axes.h.label);
         text.innerHTML = tick.value;
@@ -407,7 +407,14 @@
     constructor() {
       super();
       this.setStyles();
-      this.init();
+      this.height = parseFloat(this.getAttribute("height") ?? HEIGHT);
+      this.width = parseFloat(this.getAttribute("width") ?? WIDTH);
+      this.margin = {
+        top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
+        bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
+        left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
+        right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
+      };
     }
 
     connectedCallback() {
@@ -428,44 +435,36 @@
       this.querySelector("data-set").data = data;
     }
 
-    init() {
-      this.height = parseFloat(this.getAttribute("height") ?? HEIGHT);
-      this.width = parseFloat(this.getAttribute("width") ?? WIDTH);
-      this.margin = {
-        top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
-        bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
-        left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
-        right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
-      };
-      this.querySelectorAll("data-set").forEach((ds) => {});
-    }
-
     axesInit() {
+      this.axes = {
+        v: {
+          y1: this.margin.bottom,
+          y2: this.height - this.margin.top,
+        },
+        h: {
+          x1: this.margin.left,
+          x2: this.width - this.margin.right,
+        },
+      };
+
       const getIntAttr = (elem, attr) => parseInt(elem.getAttribute(attr) ?? 0);
       const vAxis = this.querySelector(`g[is="v-axis"]`);
       const hAxis = this.querySelector(`g[is="h-axis"]`);
 
-      const vStart = this.margin.bottom;
-      const vStop = this.height - this.margin.top;
-      const hStart = this.margin.left;
-      const hStop = this.width - this.margin.right;
-
-      this.axes = {};
       if (vAxis) {
         const position = vAxis.getAttribute("position");
         const min = getIntAttr(vAxis, "min");
         const max = getIntAttr(vAxis, "max");
         this.axes.v = {
-          x: position == "right" ? hStop : hStart,
-          y1: vStart,
-          y2: vStop,
+          ...this.axes.v,
+          x: position == "right" ? this.width - this.margin.right : this.margin.left,
           min,
           max,
           position,
           type: vAxis.querySelector("line"),
           label: vAxis.querySelector("text"),
           grid: vAxis.querySelector(`line[is="grid"]`),
-          ticks: getAxisTicks(min, max, getIntAttr(vAxis, "ticks"), vStart, vStop),
+          ticks: getAxisTicks(min, max, getIntAttr(vAxis, "ticks"), this.axes.v.y1, this.axes.v.y2),
         };
       }
       if (hAxis) {
@@ -473,16 +472,15 @@
         const min = getIntAttr(hAxis, "min");
         const max = getIntAttr(hAxis, "max");
         this.axes.h = {
-          y: position == "top" ? vStop : vStart,
-          x1: hStart,
-          x2: hStop,
+          ...this.axes.h,
+          y: position == "top" ? this.height - this.margin.top : this.margin.bottom,
           min,
           max,
           position,
           type: hAxis.querySelector("line"),
           label: hAxis.querySelector("text"),
           grid: vAxis.querySelector(`line[is="grid"]`),
-          ticks: getAxisTicks(min, max, getIntAttr(hAxis, "ticks"), hStart, hStop),
+          ticks: getAxisTicks(min, max, getIntAttr(hAxis, "ticks"), this.axes.h.x1, this.axes.h.x2),
         };
       }
     }

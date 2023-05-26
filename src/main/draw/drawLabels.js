@@ -5,7 +5,7 @@ import { flip } from "./flip";
 export default function drawLabels(svg, axes, axesLines) {
   const g = createSVGElements("g");
   svg.appendChild(g);
-  if (axes.v && axes.v.ticks.length > 0) {
+  if (axes.v && axes.v.ticks?.length > 0) {
     axes.v.ticks.forEach((tick) => {
       const text = cloneSVGElement(axes.v.label);
       text.innerHTML = tick.value;
@@ -21,7 +21,7 @@ export default function drawLabels(svg, axes, axesLines) {
       flip(svg, text);
     });
   }
-  if (axes.h && axes.h.ticks.length > 0) {
+  if (axes.h && axes.h.ticks?.length > 0) {
     axes.h.ticks.forEach((tick) => {
       const text = cloneSVGElement(axes.h.label);
       text.innerHTML = tick.value;

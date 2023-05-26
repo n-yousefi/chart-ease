@@ -1,9 +1,9 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 
-export default function drawTicks(svg, axes, plot) {
+export default function drawTicks(svg, axes) {
   const g = createSVGElements("g");
-  if (axes.h && axes.h.ticks.length > 1) {
+  if (axes.h && axes.h.ticks?.length > 1) {
     axes.h.ticks.forEach((tick) => {
       const tl = cloneSVGElement(axes.h.type);
       tl.setAttribute("x1", tick.position);
@@ -13,7 +13,7 @@ export default function drawTicks(svg, axes, plot) {
       g.appendChild(tl);
     });
   }
-  if (axes.v && axes.v.ticks.length > 1) {
+  if (axes.v && axes.v.ticks?.length > 1) {
     axes.v.ticks.forEach((tick) => {
       const tl = cloneSVGElement(axes.v.type);
       tl.setAttribute("x1", axes.v.x - 5);

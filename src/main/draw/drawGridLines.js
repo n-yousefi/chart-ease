@@ -3,7 +3,7 @@ import createSVGElements from "./createSVGElements";
 
 export default function drawGridLines(svg, axes) {
   const g = createSVGElements("g");
-  if (axes.h && axes.h.ticks.length > 1 && axes.h.grid) {
+  if (axes.h && axes.h.ticks?.length > 1 && axes.h.grid) {
     axes.v.ticks.forEach((tick) => {
       const tl = cloneSVGElement(axes.h.grid);
       tl.setAttribute("x1", axes.h.x1);
@@ -13,7 +13,7 @@ export default function drawGridLines(svg, axes) {
       g.appendChild(tl);
     });
   }
-  if (axes.v && axes.v.ticks.length > 1 && axes.v.grid) {
+  if (axes.v && axes.v.ticks?.length > 1 && axes.v.grid) {
     axes.h.ticks.forEach((tick) => {
       const tl = cloneSVGElement(axes.v.grid);
       tl.setAttribute("x1", tick.position);
