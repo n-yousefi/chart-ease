@@ -187,23 +187,32 @@
     }
 
     getNormalizeGroups() {
+      const margin = this.parentElement.margin;
       const h = {
         cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
+        start: margin.bottom,
+        stop: this.parentElement.height - margin.top,
       };
-      if (this.parentElement.axes.h) {
-        h.start = this.parentElement.axes.h.x1;
-        h.stop = this.parentElement.axes.h.x2;
-        h.min = this.parentElement.axes.h.min;
-        h.max = this.parentElement.axes.h.max;
+      let hAxis = this.querySelector("bottom-axis") ?? this.querySelector("top-axis");
+      if (hAxis) {
+        h = {
+          ...h,
+          min: hAxis.min,
+          max: hAxis.max,
+        };
       }
       const v = {
         cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
+        start: margin.left,
+        stop: this.parentElement.width - margin.right,
       };
-      if (this.parentElement.axes.v) {
-        v.start = this.parentElement.axes.v.y1;
-        v.stop = this.parentElement.axes.v.y2;
-        v.min = this.parentElement.axes.v.min;
-        v.max = this.parentElement.axes.v.max;
+      let vAxis = this.querySelector("left-axis") ?? this.querySelector("right-axis");
+      if (vAxis) {
+        v = {
+          ...v,
+          min: vAxis.min,
+          max: vAxis.max,
+        };
       }
       return [h, v];
     }
@@ -276,131 +285,219 @@
     return svg;
   }
 
-  function drawAxes(svg, axes) {
+  function drawAxisLine(axis) {
     const g = createSVGElements("g");
-    if (axes.v && axes.v.type) {
-      const axis = cloneSVGElement(axes.v.type);
-      axis.setAttribute("x1", axes.v.x);
-      axis.setAttribute("x2", axes.v.x);
-      axis.setAttribute("y1", axes.v.y1);
-      axis.setAttribute("y2", axes.v.y2);
-      g.appendChild(axis);
+    const axisLine = cloneSVGElement(axis.type);
+    if (axis.isVertical) {
+      axisLine.setAttribute("x1", axis.position);
+      axisLine.setAttribute("x2", axis.position);
+      axisLine.setAttribute("y1", axis.start);
+      axisLine.setAttribute("y2", axis.stop);
+    } else {
+      axisLine.setAttribute("x1", axis.start);
+      axisLine.setAttribute("x2", axis.stop);
+      axisLine.setAttribute("y1", axis.position);
+      axisLine.setAttribute("y2", axis.position);
     }
 
-    if (axes.h && axes.h.type) {
-      const axis = cloneSVGElement(axes.h.type);
-      axis.setAttribute("x1", axes.h.x1);
-      axis.setAttribute("x2", axes.h.x2);
-      axis.setAttribute("y1", axes.h.y);
-      axis.setAttribute("y2", axes.h.y);
-      g.appendChild(axis);
-    }
-    svg.appendChild(g);
+    g.appendChild(axisLine);
+    axis.parentElement.svg.appendChild(g);
   }
 
-  function drawTicks(svg, axes) {
+  function drawTicks(axis) {
     const g = createSVGElements("g");
-    if (axes.h && axes.h.ticks?.length > 1) {
-      axes.h.ticks.forEach((tick) => {
-        const tl = cloneSVGElement(axes.h.type);
-        tl.setAttribute("x1", tick.position);
-        tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", axes.h.y - 5);
-        tl.setAttribute("y2", axes.h.y + 5);
-        g.appendChild(tl);
-      });
-    }
-    if (axes.v && axes.v.ticks?.length > 1) {
-      axes.v.ticks.forEach((tick) => {
-        const tl = cloneSVGElement(axes.v.type);
-        tl.setAttribute("x1", axes.v.x - 5);
-        tl.setAttribute("x2", axes.v.x + 5);
+    axis.ticks.forEach((tick) => {
+      const tl = cloneSVGElement(axis.type);
+      if (axis.isVertical) {
+        tl.setAttribute("x1", axis.position - 5);
+        tl.setAttribute("x2", axis.position + 5);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
-        g.appendChild(tl);
-      });
-    }
-    svg.appendChild(g);
-  }
-
-  function drawGridLines(svg, axes) {
-    const g = createSVGElements("g");
-    if (axes.h && axes.h.ticks?.length > 1 && axes.h.grid) {
-      axes.v.ticks.forEach((tick) => {
-        const tl = cloneSVGElement(axes.h.grid);
-        tl.setAttribute("x1", axes.h.x1);
-        tl.setAttribute("x2", axes.h.x2);
-        tl.setAttribute("y1", tick.position);
-        tl.setAttribute("y2", tick.position);
-        g.appendChild(tl);
-      });
-    }
-    if (axes.v && axes.v.ticks?.length > 1 && axes.v.grid) {
-      axes.h.ticks.forEach((tick) => {
-        const tl = cloneSVGElement(axes.v.grid);
+      } else {
         tl.setAttribute("x1", tick.position);
         tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", axes.v.y1);
-        tl.setAttribute("y2", axes.v.y2);
+        tl.setAttribute("y1", axis.position - 5);
+        tl.setAttribute("y2", axis.position + 5);
+      }
+      g.appendChild(tl);
+    });
+
+    axis.parentElement.svg.appendChild(g);
+  }
+
+  function drawGridLines(axis) {
+    const g = createSVGElements("g");
+    if (axis.grid) {
+      axis.ticks.forEach((tick) => {
+        const tl = cloneSVGElement(axis.grid);
+        if (axis.isVertical) {
+          tl.setAttribute("x1", tick.position);
+          tl.setAttribute("x2", tick.position);
+          tl.setAttribute("y1", axis.y1);
+          tl.setAttribute("y2", axis.y2);
+        } else {
+          tl.setAttribute("x1", axis.x1);
+          tl.setAttribute("x2", axis.x2);
+          tl.setAttribute("y1", tick.position);
+          tl.setAttribute("y2", tick.position);
+        }
         g.appendChild(tl);
       });
     }
-    svg.appendChild(g);
+    axis.parentElement.svg.appendChild(g);
   }
 
-  function drawLabels(svg, axes, axesLines) {
+  function drawLabels(axis) {
+    const svg = axis.parentElement.svg;
     const g = createSVGElements("g");
     svg.appendChild(g);
-    if (axes.v && axes.v.ticks?.length > 0) {
-      axes.v.ticks.forEach((tick) => {
-        const text = cloneSVGElement(axes.v.label);
-        text.innerHTML = tick.value;
-        g.appendChild(text);
-        const { width, height } = text.getBoundingClientRect();
-        if (axes.v.position == "right") {
-          text.setAttribute("x", axes.v.x + 7);
+    axis.ticks.forEach((tick) => {
+      const text = cloneSVGElement(axis.label);
+      text.innerHTML = tick.value;
+      g.appendChild(text);
+      const { width, height } = text.getBoundingClientRect();
+      switch (axis.direction) {
+        case "right":
+          text.setAttribute("x", axis.position + 7);
           text.setAttribute("y", tick.position - height / 3);
-        } else {
-          text.setAttribute("x", axes.v.x - width - 7);
+          break;
+        case "left":
+          text.setAttribute("x", axis.position - width - 7);
           text.setAttribute("y", tick.position - height / 3);
-        }
-        flip(svg, text);
-      });
+          break;
+        case "top":
+          text.setAttribute("x", tick.position - width / 2);
+          text.setAttribute("y", axis.position + 7);
+          break;
+        case "bottom":
+          text.setAttribute("x", tick.position - width / 2);
+          text.setAttribute("y", axis.position - height);
+          break;
+        default:
+          return;
+      }
+      flip(svg, text);
+    });
+  }
+
+  class ChartAxis extends HTMLElement {
+    constructor() {
+      super();
     }
-    if (axes.h && axes.h.ticks?.length > 0) {
-      axes.h.ticks.forEach((tick) => {
-        const text = cloneSVGElement(axes.h.label);
-        text.innerHTML = tick.value;
-        g.appendChild(text);
-        const { width, height } = text.getBoundingClientRect();
-        if (axes.h.position == "top") {
-          text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axes.h.y + 7);
-        } else {
-          text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axes.h.y - height);
-        }
-        flip(svg, text);
-      });
+
+    connectedCallback() {
+      this.setTickPositions();
+      drawAxisLine(this);
+      if (this.ticks.length > 0) {
+        drawTicks(this);
+        drawLabels(this);
+        drawGridLines(this);
+      }
+    }
+    disconnectedCallback() {}
+
+    get margin() {
+      return this.parentElement.margin;
+    }
+
+    get height() {
+      return this.parentElement.height;
+    }
+
+    get width() {
+      return this.parentElement.width;
+    }
+
+    get min() {
+      return parseInt(this.getAttribute("min") ?? 0);
+    }
+
+    get max() {
+      return parseInt(this.getAttribute("max") ?? 0);
+    }
+
+    get type() {
+      return this.querySelector("line");
+    }
+
+    get label() {
+      return this.querySelector("text");
+    }
+
+    get grid() {
+      return this.querySelector(`line[is="grid"]`);
+    }
+
+    get setTickPositions() {
+      this.ticks = [];
+      const ticks = parseInt(this.getAttribute("ticks") ?? 0);
+      if (ticks <= 0) return;
+      const tickSize = Math.round((this.max - this.min) / (ticks - 1));
+      let value = this.min;
+      let position = this.start;
+      while (true) {
+        position = ((value - this.min) / (this.max - this.min)) * (this.stop - this.start) + this.start;
+        if (position > this.stop) break;
+        this.ticks.push({ value, position });
+        value += tickSize;
+      }
     }
   }
 
-  function getAxisTicks(min, max, count, start, stop) {
-    const axisTicks = [];
-    const tickSize = getTickSize(min, max, count);
-    let value = min;
-    let position = start;
-    while (true) {
-      position = ((value - min) / (max - min)) * (stop - start) + start;
-      if (!position || position > stop) break;
-      axisTicks.push({ value, position });
-      value += tickSize;
+  class LeftAxis extends ChartAxis {
+    constructor() {
+      super();
+      this.start = this.margin.bottom;
+      this.stop = this.height - this.margin.top;
+      this.position = this.margin.left;
+      this.isVertical = true;
+      this.direction = "left";
     }
-    return axisTicks;
+
+    connectedCallback() {}
+    disconnectedCallback() {}
   }
 
-  function getTickSize(min, max, count) {
-    return Math.round((max - min) / (count - 1));
+  class RightAxis extends ChartAxis {
+    constructor() {
+      super();
+      this.start = this.margin.bottom;
+      this.stop = this.height - this.margin.top;
+      this.position = this.width - this.margin.right;
+      this.isVertical = true;
+      this.direction = "right";
+    }
+
+    connectedCallback() {}
+    disconnectedCallback() {}
+  }
+
+  class TopAxis extends ChartAxis {
+    constructor() {
+      super();
+      this.start = this.margin.left;
+      this.stop = this.width - this.margin.right;
+      this.position = this.height - this.margin.top;
+      this.isVertical = false;
+      this.direction = "top";
+    }
+
+    connectedCallback() {}
+    disconnectedCallback() {}
+  }
+
+  class BottomAxis extends ChartAxis {
+    constructor() {
+      super();
+      this.start = this.margin.left;
+      this.stop = this.width - this.margin.right;
+      this.position = this.margin.bottom;
+      this.isVertical = false;
+      this.direction = "bottom";
+    }
+
+    connectedCallback() {}
+    disconnectedCallback() {}
   }
 
   class ChartEase extends HTMLElement {
@@ -418,13 +515,8 @@
     }
 
     connectedCallback() {
-      this.axesInit();
       this.svg = createSVG(this.width, this.height);
       this.appendChild(this.svg);
-      drawAxes(this.svg, this.axes);
-      drawTicks(this.svg, this.axes);
-      drawLabels(this.svg, this.axes);
-      drawGridLines(this.svg, this.axes);
     }
     disconnectedCallback() {}
 
@@ -435,60 +527,15 @@
       this.querySelector("data-set").data = data;
     }
 
-    axesInit() {
-      this.axes = {
-        v: {
-          y1: this.margin.bottom,
-          y2: this.height - this.margin.top,
-        },
-        h: {
-          x1: this.margin.left,
-          x2: this.width - this.margin.right,
-        },
-      };
-
-      const getIntAttr = (elem, attr) => parseInt(elem.getAttribute(attr) ?? 0);
-      const vAxis = this.querySelector(`g[is="v-axis"]`);
-      const hAxis = this.querySelector(`g[is="h-axis"]`);
-
-      if (vAxis) {
-        const position = vAxis.getAttribute("position");
-        const min = getIntAttr(vAxis, "min");
-        const max = getIntAttr(vAxis, "max");
-        this.axes.v = {
-          ...this.axes.v,
-          x: position == "right" ? this.width - this.margin.right : this.margin.left,
-          min,
-          max,
-          position,
-          type: vAxis.querySelector("line"),
-          label: vAxis.querySelector("text"),
-          grid: vAxis.querySelector(`line[is="grid"]`),
-          ticks: getAxisTicks(min, max, getIntAttr(vAxis, "ticks"), this.axes.v.y1, this.axes.v.y2),
-        };
-      }
-      if (hAxis) {
-        const position = hAxis.getAttribute("position");
-        const min = getIntAttr(hAxis, "min");
-        const max = getIntAttr(hAxis, "max");
-        this.axes.h = {
-          ...this.axes.h,
-          y: position == "top" ? this.height - this.margin.top : this.margin.bottom,
-          min,
-          max,
-          position,
-          type: hAxis.querySelector("line"),
-          label: hAxis.querySelector("text"),
-          grid: vAxis.querySelector(`line[is="grid"]`),
-          ticks: getAxisTicks(min, max, getIntAttr(hAxis, "ticks"), this.axes.h.x1, this.axes.h.x2),
-        };
-      }
-    }
-
     setStyles() {
       this.style.lineHeight = 0;
     }
   }
+
+  customElements.get("left-axis") ?? customElements.define("left-axis", LeftAxis);
+  customElements.get("right-axis") ?? customElements.define("right-axis", RightAxis);
+  customElements.get("top-axis") ?? customElements.define("top-axis", TopAxis);
+  customElements.get("bottom-axis") ?? customElements.define("bottom-axis", BottomAxis);
 
   customElements.get("data-set") ?? customElements.define("data-set", DataSet);
   customElements.get("chart-ease") ?? customElements.define("chart-ease", ChartEase);

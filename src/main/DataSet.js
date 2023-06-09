@@ -23,23 +23,32 @@ class DataSet extends HTMLElement {
   }
 
   getNormalizeGroups() {
+    const margin = this.parentElement.margin;
     const h = {
       cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
+      start: margin.bottom,
+      stop: this.parentElement.height - margin.top,
     };
-    if (this.parentElement.axes.h) {
-      h.start = this.parentElement.axes.h.x1;
-      h.stop = this.parentElement.axes.h.x2;
-      h.min = this.parentElement.axes.h.min;
-      h.max = this.parentElement.axes.h.max;
+    let hAxis = this.querySelector("bottom-axis") ?? this.querySelector("top-axis");
+    if (hAxis) {
+      h = {
+        ...h,
+        min: hAxis.min,
+        max: hAxis.max,
+      };
     }
     const v = {
       cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
+      start: margin.left,
+      stop: this.parentElement.width - margin.right,
     };
-    if (this.parentElement.axes.v) {
-      v.start = this.parentElement.axes.v.y1;
-      v.stop = this.parentElement.axes.v.y2;
-      v.min = this.parentElement.axes.v.min;
-      v.max = this.parentElement.axes.v.max;
+    let vAxis = this.querySelector("left-axis") ?? this.querySelector("right-axis");
+    if (vAxis) {
+      v = {
+        ...v,
+        min: vAxis.min,
+        max: vAxis.max,
+      };
     }
     return [h, v];
   }

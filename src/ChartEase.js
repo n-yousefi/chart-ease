@@ -2,11 +2,10 @@ import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
 import { HEIGHT, MARGIN, WIDTH } from "./main/defaults";
 import createSVG from "./main/draw/createSVG";
-import drawAxes from "./main/draw/drawAxes";
-import drawTicks from "./main/draw/drawTicks";
-import drawGridLines from "./main/draw/drawGridLines";
-import drawLabels from "./main/draw/drawLabels";
-import { getAxisTicks } from "./main/draw/getAxisTicks";
+import LeftAxis from "./main/axes/LeftAxis";
+import RightAxis from "./main/axes/RightAxis";
+import TopAxis from "./main/axes/TopAxis";
+import BottomAxis from "./main/axes/BottomAxis";
 
 export default class ChartEase extends HTMLElement {
   constructor() {
@@ -23,13 +22,8 @@ export default class ChartEase extends HTMLElement {
   }
 
   connectedCallback() {
-    this.axesInit();
     this.svg = createSVG(this.width, this.height);
     this.appendChild(this.svg);
-    drawAxes(this.svg, this.axes);
-    drawTicks(this.svg, this.axes);
-    drawLabels(this.svg, this.axes);
-    drawGridLines(this.svg, this.axes);
   }
   disconnectedCallback() {}
 
@@ -40,60 +34,15 @@ export default class ChartEase extends HTMLElement {
     this.querySelector("data-set").data = data;
   }
 
-  axesInit() {
-    this.axes = {
-      v: {
-        y1: this.margin.bottom,
-        y2: this.height - this.margin.top,
-      },
-      h: {
-        x1: this.margin.left,
-        x2: this.width - this.margin.right,
-      },
-    };
-
-    const getIntAttr = (elem, attr) => parseInt(elem.getAttribute(attr) ?? 0);
-    const vAxis = this.querySelector(`g[is="v-axis"]`);
-    const hAxis = this.querySelector(`g[is="h-axis"]`);
-
-    if (vAxis) {
-      const position = vAxis.getAttribute("position");
-      const min = getIntAttr(vAxis, "min");
-      const max = getIntAttr(vAxis, "max");
-      this.axes.v = {
-        ...this.axes.v,
-        x: position == "right" ? this.width - this.margin.right : this.margin.left,
-        min,
-        max,
-        position,
-        type: vAxis.querySelector("line"),
-        label: vAxis.querySelector("text"),
-        grid: vAxis.querySelector(`line[is="grid"]`),
-        ticks: getAxisTicks(min, max, getIntAttr(vAxis, "ticks"), this.axes.v.y1, this.axes.v.y2),
-      };
-    }
-    if (hAxis) {
-      const position = hAxis.getAttribute("position");
-      const min = getIntAttr(hAxis, "min");
-      const max = getIntAttr(hAxis, "max");
-      this.axes.h = {
-        ...this.axes.h,
-        y: position == "top" ? this.height - this.margin.top : this.margin.bottom,
-        min,
-        max,
-        position,
-        type: hAxis.querySelector("line"),
-        label: hAxis.querySelector("text"),
-        grid: vAxis.querySelector(`line[is="grid"]`),
-        ticks: getAxisTicks(min, max, getIntAttr(hAxis, "ticks"), this.axes.h.x1, this.axes.h.x2),
-      };
-    }
-  }
-
   setStyles() {
     this.style.lineHeight = 0;
   }
 }
+
+customElements.get("left-axis") ?? customElements.define("left-axis", LeftAxis);
+customElements.get("right-axis") ?? customElements.define("right-axis", RightAxis);
+customElements.get("top-axis") ?? customElements.define("top-axis", TopAxis);
+customElements.get("bottom-axis") ?? customElements.define("bottom-axis", BottomAxis);
 
 customElements.get("data-set") ?? customElements.define("data-set", DataSet);
 customElements.get("chart-ease") ?? customElements.define("chart-ease", ChartEase);
