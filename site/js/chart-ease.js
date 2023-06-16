@@ -188,12 +188,13 @@
 
     getNormalizeGroups() {
       const margin = this.parentElement.margin;
-      const h = {
+      let h = {
         cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
-        start: margin.bottom,
-        stop: this.parentElement.height - margin.top,
+        start: margin.left,
+        stop: this.parentElement.width - margin.right,
       };
-      let hAxis = this.querySelector("bottom-axis") ?? this.querySelector("top-axis");
+      let hAxis =
+        this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
       if (hAxis) {
         h = {
           ...h,
@@ -201,12 +202,13 @@
           max: hAxis.max,
         };
       }
-      const v = {
+      let v = {
         cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
-        start: margin.left,
-        stop: this.parentElement.width - margin.right,
+        start: margin.bottom,
+        stop: this.parentElement.height - margin.top,
       };
-      let vAxis = this.querySelector("left-axis") ?? this.querySelector("right-axis");
+      let vAxis =
+        this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
       if (vAxis) {
         v = {
           ...v,
@@ -331,15 +333,15 @@
       axis.ticks.forEach((tick) => {
         const tl = cloneSVGElement(axis.grid);
         if (axis.isVertical) {
-          tl.setAttribute("x1", tick.position);
-          tl.setAttribute("x2", tick.position);
-          tl.setAttribute("y1", axis.y1);
-          tl.setAttribute("y2", axis.y2);
-        } else {
-          tl.setAttribute("x1", axis.x1);
-          tl.setAttribute("x2", axis.x2);
+          tl.setAttribute("x1", axis.start);
+          tl.setAttribute("x2", axis.stop);
           tl.setAttribute("y1", tick.position);
           tl.setAttribute("y2", tick.position);
+        } else {
+          tl.setAttribute("x1", tick.position);
+          tl.setAttribute("x2", tick.position);
+          tl.setAttribute("y1", axis.start);
+          tl.setAttribute("y2", axis.stop);
         }
         g.appendChild(tl);
       });
@@ -383,9 +385,15 @@
   class ChartAxis extends HTMLElement {
     constructor() {
       super();
+      this.parentElement.addEventListener("created", (e) => {
+        this.render();
+      });
     }
 
-    connectedCallback() {
+    connectedCallback() {}
+    disconnectedCallback() {}
+
+    render() {
       this.setTickPositions();
       drawAxisLine(this);
       if (this.ticks.length > 0) {
@@ -394,18 +402,23 @@
         drawGridLines(this);
       }
     }
-    disconnectedCallback() {}
 
     get margin() {
-      return this.parentElement.margin;
+      const pE = this.parentElement;
+      return {
+        top: parseFloat(pE.getAttribute("margin-top") ?? pE.getAttribute("margin") ?? MARGIN),
+        bottom: parseFloat(pE.getAttribute("margin-bottom") ?? pE.getAttribute("margin") ?? MARGIN),
+        left: parseFloat(pE.getAttribute("margin-left") ?? pE.getAttribute("margin") ?? MARGIN),
+        right: parseFloat(pE.getAttribute("margin-right") ?? pE.getAttribute("margin") ?? MARGIN),
+      };
     }
 
     get height() {
-      return this.parentElement.height;
+      return parseFloat(this.parentElement.getAttribute("height") ?? HEIGHT);
     }
 
     get width() {
-      return this.parentElement.width;
+      return parseFloat(this.parentElement.getAttribute("width") ?? WIDTH);
     }
 
     get min() {
@@ -428,7 +441,7 @@
       return this.querySelector(`line[is="grid"]`);
     }
 
-    get setTickPositions() {
+    setTickPositions() {
       this.ticks = [];
       const ticks = parseInt(this.getAttribute("ticks") ?? 0);
       if (ticks <= 0) return;
@@ -512,12 +525,32 @@
         left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
         right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
       };
-    }
-
-    connectedCallback() {
       this.svg = createSVG(this.width, this.height);
       this.appendChild(this.svg);
+      this.dispatchEvent(new Event("created"));
     }
+
+    //get height() {
+    //  return parseFloat(this.getAttribute("height") ?? HEIGHT);
+    //}
+    //
+    //get width() {
+    //  return parseFloat(this.getAttribute("width") ?? WIDTH);
+    //}
+    //
+    //get margin() {
+    //  return {
+    //    top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
+    //    bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
+    //    left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
+    //    right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
+    //  };
+    //}
+
+    //connectedCallback() {
+    //  this.svg = createSVG(this.width, this.height);
+    //  this.appendChild(this.svg);
+    //}
     disconnectedCallback() {}
 
     set ondraw(ondraw) {

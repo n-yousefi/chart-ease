@@ -7,15 +7,15 @@ export default function drawGridLines(axis) {
     axis.ticks.forEach((tick) => {
       const tl = cloneSVGElement(axis.grid);
       if (axis.isVertical) {
-        tl.setAttribute("x1", tick.position);
-        tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", axis.y1);
-        tl.setAttribute("y2", axis.y2);
-      } else {
-        tl.setAttribute("x1", axis.x1);
-        tl.setAttribute("x2", axis.x2);
+        tl.setAttribute("x1", axis.start);
+        tl.setAttribute("x2", axis.stop);
         tl.setAttribute("y1", tick.position);
         tl.setAttribute("y2", tick.position);
+      } else {
+        tl.setAttribute("x1", tick.position);
+        tl.setAttribute("x2", tick.position);
+        tl.setAttribute("y1", axis.start);
+        tl.setAttribute("y2", axis.stop);
       }
       g.appendChild(tl);
     });

@@ -24,12 +24,13 @@ class DataSet extends HTMLElement {
 
   getNormalizeGroups() {
     const margin = this.parentElement.margin;
-    const h = {
+    let h = {
       cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
-      start: margin.bottom,
-      stop: this.parentElement.height - margin.top,
+      start: margin.left,
+      stop: this.parentElement.width - margin.right,
     };
-    let hAxis = this.querySelector("bottom-axis") ?? this.querySelector("top-axis");
+    let hAxis =
+      this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
     if (hAxis) {
       h = {
         ...h,
@@ -37,12 +38,13 @@ class DataSet extends HTMLElement {
         max: hAxis.max,
       };
     }
-    const v = {
+    let v = {
       cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
-      start: margin.left,
-      stop: this.parentElement.width - margin.right,
+      start: margin.bottom,
+      stop: this.parentElement.height - margin.top,
     };
-    let vAxis = this.querySelector("left-axis") ?? this.querySelector("right-axis");
+    let vAxis =
+      this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
     if (vAxis) {
       v = {
         ...v,

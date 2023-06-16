@@ -68,7 +68,7 @@
             <a class="nav-link js-scroll-trigger" href="#get-started">Get Started</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#point-types">Point types</a>
+            <a class="nav-link js-scroll-trigger" href="#markers">Markers</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#axes">Axes</a>
@@ -200,13 +200,13 @@
       </section>
       <hr class="m-0" />
       <!-- Points-->
-      <section class="resume-section" id="point-types">
+      <section class="resume-section" id="markers">
         <div class="resume-section-content">
-          <h2 class="mb-5">Point types</h2>
+          <h2 class="mb-5">Markers</h2>
           <div>
-            <div class="subheading mb-3">Define Custom Point Types for Your Chart Points</div>
+            <h3 class="mb-3">Default markers</h3>
             <p>
-              You can define any type of SVG element or combination of them as point types. Basic elements are
+              You can define any type of SVG element or combination of them as markers. Basic elements are
               adjusted by default, so you only need to put them inside the same <code>data-set</code> element.
               Chart-ease will draw them at the corresponding position of each point.
             </p>
@@ -218,12 +218,12 @@
                 <code class="html">&lt;chart-ease>
   &lt;data-set>
     &lt;path is="path-type" stroke="aqua" fill="none">&lt;/path>
-    &lt;circle is="point-type" r="5" fill="aliceblue">&lt;/circle>
+    &lt;circle is="marker" r="5" fill="aliceblue">&lt;/circle>
   &lt;/data-set>
 &lt;/chart-ease></code></pre>
               <div>
                 <div>
-                  <object type="text/html" data="./samples/point-types/circle.html"></object>
+                  <object type="text/html" data="./samples/markers/circle.html"></object>
                 </div>
               </div>
             </div>
@@ -241,7 +241,7 @@
               </pre>
               <div>
                 <div>
-                  <object type="text/html" data="./samples/point-types/rect.html"></object>
+                  <object type="text/html" data="./samples/markers/rect.html"></object>
                 </div>
               </div>
             </div>
@@ -259,31 +259,24 @@
               </pre>
               <div>
                 <div>
-                  <object type="text/html" data="./samples/point-types/ellipse.html"></object>
+                  <object type="text/html" data="./samples/markers/ellipse.html"></object>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <hr class="m-0" />
-      <!-- Samples -->
-      <section class="resume-section" id="customize">
-        <div class="resume-section-content">
-          <h2 class="mb-5">customize</h2>
+          <h3 class="mb-3">complex markers</h3>
           <div>
             <!-- Complex Types -->
-            <div class="subheading mb-3">Define complex Point Types and adjust them</div>
             <p>
-              To create complex point types, you may need to adjust the position, styles, animations, and
-              more. With the `draw` event, you can access each point and draw it yourself. In the
+              To create complex markers, you may need to adjust the position, styles, animations, and more.
+              With the `draw` event, you can access each point and draw it yourself. In the
               <code>ondraw</code> event handler, you can create different types of charts and customize
               everything.
             </p>
             <!-- Ondraw -->
             <h3 class="mb-0">draw event</h3>
             <p>
-              <code>&lt;chart-ease></code> fires a <code>draw</code> event for each point type and passes an
+              <code>&lt;chart-ease></code> fires a <code>draw</code> event for each marker and passes an
               object containing the following items to the event handler:
             </p>
             <ul class="fa-ul mb-0">
@@ -565,7 +558,7 @@ chart.axes = [{ cols: ["r"], length: 50 }];</code></pre>
             </code></pre>
             <div>
               <div>
-                <object type="text/html" data="./samples/ondraw/scatter-plot.html"></object>
+                <object type="text/html" data="./samples/ondraw/bubble-chart.html"></object>
               </div>
             </div>
           </div>
