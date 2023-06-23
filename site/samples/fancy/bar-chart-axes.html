@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <chart-ease id="chart" width="500" height="400" margin="20">
+      <data-set>
+        <rect fill="#1D46D6"></rect>
+        <circle r="20" fill="white" stroke="#1A3495" stroke-width="2"></circle>
+        <text class="value" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
+        <text class="labels" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
+      </data-set>
+      <left-axis ticks="6" min="0" max="80"></left-axis>
+      <bottom-axis ticks="5" min="1" max="6"></bottom-axis>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data = [
+        { x: 1, y: 10, label: "Jan" },
+        { x: 2, y: 40, label: "Feb" },
+        { x: 3, y: 50, label: "Mar" },
+        { x: 4, y: 70, label: "Apr" },
+        { x: 5, y: 30, label: "May" },
+      ];
+      // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
+      const barWidth = Math.round(440 / data.length) * (2 / 3);
+      chart = document.querySelector("#chart");
+      chart.ondraw = ({ shape, row, originalRow }) => {
+        switch (shape.tagName) {
+          case "rect":
+            shape.setAttribute("width", barWidth);
+            shape.setAttribute("x", row.x - barWidth / 2);
+
+            shape.setAttribute("height", row.y - 20); // y - margin
+            shape.setAttribute("y", 20); // margin
+
+            if (originalRow.y == 70) shape.setAttribute("fill", "#158EF9");
+            break;
+          case "circle":
+            if (row.x > 0) shape.setAttribute("cx", row.x);
+            if (row.y > 0) shape.setAttribute("cy", row.y);
+            break;
+          case "text":
+            const shapeFontSize = 20;
+            shape.setAttribute("x", row.x - (originalRow.x.toString().length * shapeFontSize) / 2);
+            if (shape.getAttribute("class") == "value") {
+              shape.innerHTML = originalRow.y;
+              shape.setAttribute("y", row.y - 5);
+            } else {
+              shape.innerHTML = originalRow.label;
+              shape.setAttribute("y", 0);
+            }
+            break;
+        }
+      };
+      chart.data = data;
+    </script>
+  </body>
+</html>
