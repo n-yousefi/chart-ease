@@ -52,7 +52,7 @@ class ChartAxis extends HTMLElement {
   }
 
   get type() {
-    return this.querySelector("line");
+    return this.querySelector("line[axis-line]");
   }
 
   get label() {
@@ -60,7 +60,7 @@ class ChartAxis extends HTMLElement {
   }
 
   get grid() {
-    return this.querySelector(`line[is="grid"]`);
+    return this.querySelector(`line[grid-line]`);
   }
 
   setTickPositions() {

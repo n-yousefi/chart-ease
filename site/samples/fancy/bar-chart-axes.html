@@ -13,21 +13,24 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <chart-ease id="chart" width="500" height="400" margin="20">
+    <chart-ease id="chart" width="500" height="400">
       <data-set>
         <rect fill="#1D46D6"></rect>
         <circle r="20" fill="white" stroke="#1A3495" stroke-width="2"></circle>
         <text class="value" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
         <text class="labels" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
       </data-set>
-      <left-axis ticks="6" min="0" max="80"></left-axis>
-      <bottom-axis ticks="5" min="1" max="6"></bottom-axis>
+      <left-axis ticks="6" min="0" max="80">
+        <line grid-line stroke="#c8c8c830"></line>
+        <line axis-line stroke="blue"></line>
+      </left-axis>
+      <bottom-axis ticks="5" min="0" max="6">
+        <line grid-line stroke="#c8c8c830"></line>
+        <line axis-line stroke="blue"></line>
+      </bottom-axis>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>

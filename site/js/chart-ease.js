@@ -289,6 +289,7 @@
 
   function drawAxisLine(axis) {
     const g = createSVGElements("g");
+    if (!axis.type) return;
     const axisLine = cloneSVGElement(axis.type);
     if (axis.isVertical) {
       axisLine.setAttribute("x1", axis.position);
@@ -309,6 +310,7 @@
   function drawTicks(axis) {
     const g = createSVGElements("g");
     axis.ticks.forEach((tick) => {
+      if (!axis.type) return;
       const tl = cloneSVGElement(axis.type);
       if (axis.isVertical) {
         tl.setAttribute("x1", axis.position - 5);
@@ -331,6 +333,7 @@
     const g = createSVGElements("g");
     if (axis.grid) {
       axis.ticks.forEach((tick) => {
+        if (!axis.grid) return;
         const tl = cloneSVGElement(axis.grid);
         if (axis.isVertical) {
           tl.setAttribute("x1", axis.start);
@@ -354,6 +357,7 @@
     const g = createSVGElements("g");
     svg.appendChild(g);
     axis.ticks.forEach((tick) => {
+      if (!axis.label) return;
       const text = cloneSVGElement(axis.label);
       text.innerHTML = tick.value;
       g.appendChild(text);
@@ -430,7 +434,7 @@
     }
 
     get type() {
-      return this.querySelector("line");
+      return this.querySelector("line[axis-line]");
     }
 
     get label() {
@@ -438,7 +442,7 @@
     }
 
     get grid() {
-      return this.querySelector(`line[is="grid"]`);
+      return this.querySelector(`line[grid-line]`);
     }
 
     setTickPositions() {
@@ -530,27 +534,6 @@
       this.dispatchEvent(new Event("created"));
     }
 
-    //get height() {
-    //  return parseFloat(this.getAttribute("height") ?? HEIGHT);
-    //}
-    //
-    //get width() {
-    //  return parseFloat(this.getAttribute("width") ?? WIDTH);
-    //}
-    //
-    //get margin() {
-    //  return {
-    //    top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
-    //    bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
-    //    left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
-    //    right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
-    //  };
-    //}
-
-    //connectedCallback() {
-    //  this.svg = createSVG(this.width, this.height);
-    //  this.appendChild(this.svg);
-    //}
     disconnectedCallback() {}
 
     set ondraw(ondraw) {

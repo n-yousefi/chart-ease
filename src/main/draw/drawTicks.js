@@ -4,6 +4,7 @@ import createSVGElements from "./createSVGElements";
 export default function drawTicks(axis) {
   const g = createSVGElements("g");
   axis.ticks.forEach((tick) => {
+    if (!axis.type) return;
     const tl = cloneSVGElement(axis.type);
     if (axis.isVertical) {
       tl.setAttribute("x1", axis.position - 5);

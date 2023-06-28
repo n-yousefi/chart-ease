@@ -24,27 +24,6 @@ export default class ChartEase extends HTMLElement {
     this.dispatchEvent(new Event("created"));
   }
 
-  //get height() {
-  //  return parseFloat(this.getAttribute("height") ?? HEIGHT);
-  //}
-  //
-  //get width() {
-  //  return parseFloat(this.getAttribute("width") ?? WIDTH);
-  //}
-  //
-  //get margin() {
-  //  return {
-  //    top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
-  //    bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
-  //    left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
-  //    right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
-  //  };
-  //}
-
-  //connectedCallback() {
-  //  this.svg = createSVG(this.width, this.height);
-  //  this.appendChild(this.svg);
-  //}
   disconnectedCallback() {}
 
   set ondraw(ondraw) {

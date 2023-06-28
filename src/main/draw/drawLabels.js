@@ -7,6 +7,7 @@ export default function drawLabels(axis) {
   const g = createSVGElements("g");
   svg.appendChild(g);
   axis.ticks.forEach((tick) => {
+    if (!axis.label) return;
     const text = cloneSVGElement(axis.label);
     text.innerHTML = tick.value;
     g.appendChild(text);

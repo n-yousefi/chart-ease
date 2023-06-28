@@ -5,6 +5,7 @@ export default function drawGridLines(axis) {
   const g = createSVGElements("g");
   if (axis.grid) {
     axis.ticks.forEach((tick) => {
+      if (!axis.grid) return;
       const tl = cloneSVGElement(axis.grid);
       if (axis.isVertical) {
         tl.setAttribute("x1", axis.start);

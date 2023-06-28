@@ -3,6 +3,7 @@ import createSVGElements from "./createSVGElements";
 
 export default function drawAxisLine(axis) {
   const g = createSVGElements("g");
+  if (!axis.type) return;
   const axisLine = cloneSVGElement(axis.type);
   if (axis.isVertical) {
     axisLine.setAttribute("x1", axis.position);

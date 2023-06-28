@@ -33,7 +33,7 @@
       const groupGap = 3;
       const barWidth = Math.round(width / (barsCount + groupGap));
       const bar = document.querySelector("#bar");
-      const margin = 10;
+      const margin = 20;
       bar.setAttribute("margin", margin);
       bar.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
