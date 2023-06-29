@@ -6,6 +6,8 @@ class LeftAxis extends ChartAxis {
     this.start = this.margin.bottom;
     this.stop = this.height - this.margin.top;
     this.position = this.margin.left;
+    this.gridStart = this.margin.left;
+    this.gridStop = this.width - this.margin.right;
     this.isVertical = true;
     this.direction = "left";
   }

@@ -7,6 +7,7 @@ import { HEIGHT, MARGIN, WIDTH } from "../defaults";
 class ChartAxis extends HTMLElement {
   constructor() {
     super();
+    this.init();
     this.parentElement.addEventListener("created", (e) => {
       this.render();
     });
@@ -25,42 +26,21 @@ class ChartAxis extends HTMLElement {
     }
   }
 
-  get margin() {
+  init() {
     const pE = this.parentElement;
-    return {
+    this.height = parseFloat(pE.getAttribute("height") ?? HEIGHT);
+    this.width = parseFloat(pE.getAttribute("width") ?? WIDTH);
+    this.margin = {
       top: parseFloat(pE.getAttribute("margin-top") ?? pE.getAttribute("margin") ?? MARGIN),
       bottom: parseFloat(pE.getAttribute("margin-bottom") ?? pE.getAttribute("margin") ?? MARGIN),
       left: parseFloat(pE.getAttribute("margin-left") ?? pE.getAttribute("margin") ?? MARGIN),
       right: parseFloat(pE.getAttribute("margin-right") ?? pE.getAttribute("margin") ?? MARGIN),
     };
-  }
-
-  get height() {
-    return parseFloat(this.parentElement.getAttribute("height") ?? HEIGHT);
-  }
-
-  get width() {
-    return parseFloat(this.parentElement.getAttribute("width") ?? WIDTH);
-  }
-
-  get min() {
-    return parseInt(this.getAttribute("min") ?? 0);
-  }
-
-  get max() {
-    return parseInt(this.getAttribute("max") ?? 0);
-  }
-
-  get type() {
-    return this.querySelector("line[axis-line]");
-  }
-
-  get label() {
-    return this.querySelector("text");
-  }
-
-  get grid() {
-    return this.querySelector(`line[grid-line]`);
+    this.min = parseInt(this.getAttribute("min") ?? 0);
+    this.max = parseInt(this.getAttribute("max") ?? 0);
+    this.type = this.querySelector("line[axis-line]");
+    this.label = this.querySelector("text");
+    this.grid = this.querySelector(`line[grid-line]`);
   }
 
   setTickPositions() {

@@ -6,6 +6,8 @@ class TopAxis extends ChartAxis {
     this.start = this.margin.left;
     this.stop = this.width - this.margin.right;
     this.position = this.height - this.margin.top;
+    this.gridStart = this.margin.bottom;
+    this.gridStop = this.height - this.margin.top;
     this.isVertical = false;
     this.direction = "top";
   }

@@ -336,15 +336,15 @@
         if (!axis.grid) return;
         const tl = cloneSVGElement(axis.grid);
         if (axis.isVertical) {
-          tl.setAttribute("x1", axis.start);
-          tl.setAttribute("x2", axis.stop);
+          tl.setAttribute("x1", axis.gridStart);
+          tl.setAttribute("x2", axis.gridStop);
           tl.setAttribute("y1", tick.position);
           tl.setAttribute("y2", tick.position);
         } else {
           tl.setAttribute("x1", tick.position);
           tl.setAttribute("x2", tick.position);
-          tl.setAttribute("y1", axis.start);
-          tl.setAttribute("y2", axis.stop);
+          tl.setAttribute("y1", axis.gridStart);
+          tl.setAttribute("y2", axis.gridStop);
         }
         g.appendChild(tl);
       });
@@ -389,6 +389,7 @@
   class ChartAxis extends HTMLElement {
     constructor() {
       super();
+      this.init();
       this.parentElement.addEventListener("created", (e) => {
         this.render();
       });
@@ -407,42 +408,21 @@
       }
     }
 
-    get margin() {
+    init() {
       const pE = this.parentElement;
-      return {
+      this.height = parseFloat(pE.getAttribute("height") ?? HEIGHT);
+      this.width = parseFloat(pE.getAttribute("width") ?? WIDTH);
+      this.margin = {
         top: parseFloat(pE.getAttribute("margin-top") ?? pE.getAttribute("margin") ?? MARGIN),
         bottom: parseFloat(pE.getAttribute("margin-bottom") ?? pE.getAttribute("margin") ?? MARGIN),
         left: parseFloat(pE.getAttribute("margin-left") ?? pE.getAttribute("margin") ?? MARGIN),
         right: parseFloat(pE.getAttribute("margin-right") ?? pE.getAttribute("margin") ?? MARGIN),
       };
-    }
-
-    get height() {
-      return parseFloat(this.parentElement.getAttribute("height") ?? HEIGHT);
-    }
-
-    get width() {
-      return parseFloat(this.parentElement.getAttribute("width") ?? WIDTH);
-    }
-
-    get min() {
-      return parseInt(this.getAttribute("min") ?? 0);
-    }
-
-    get max() {
-      return parseInt(this.getAttribute("max") ?? 0);
-    }
-
-    get type() {
-      return this.querySelector("line[axis-line]");
-    }
-
-    get label() {
-      return this.querySelector("text");
-    }
-
-    get grid() {
-      return this.querySelector(`line[grid-line]`);
+      this.min = parseInt(this.getAttribute("min") ?? 0);
+      this.max = parseInt(this.getAttribute("max") ?? 0);
+      this.type = this.querySelector("line[axis-line]");
+      this.label = this.querySelector("text");
+      this.grid = this.querySelector(`line[grid-line]`);
     }
 
     setTickPositions() {
@@ -467,6 +447,8 @@
       this.start = this.margin.bottom;
       this.stop = this.height - this.margin.top;
       this.position = this.margin.left;
+      this.gridStart = this.margin.left;
+      this.gridStop = this.width - this.margin.right;
       this.isVertical = true;
       this.direction = "left";
     }
@@ -481,6 +463,8 @@
       this.start = this.margin.bottom;
       this.stop = this.height - this.margin.top;
       this.position = this.width - this.margin.right;
+      this.gridStart = this.margin.left;
+      this.gridStop = this.width - this.margin.right;
       this.isVertical = true;
       this.direction = "right";
     }
@@ -495,6 +479,8 @@
       this.start = this.margin.left;
       this.stop = this.width - this.margin.right;
       this.position = this.height - this.margin.top;
+      this.gridStart = this.margin.bottom;
+      this.gridStop = this.height - this.margin.top;
       this.isVertical = false;
       this.direction = "top";
     }
@@ -509,6 +495,8 @@
       this.start = this.margin.left;
       this.stop = this.width - this.margin.right;
       this.position = this.margin.bottom;
+      this.gridStart = this.margin.bottom;
+      this.gridStop = this.height - this.margin.top;
       this.isVertical = false;
       this.direction = "bottom";
     }
