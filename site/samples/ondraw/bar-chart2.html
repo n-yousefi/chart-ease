@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="200" height="200">
+    <chart-ease id="bar" width="200" height="200" margin="20">
       <data-set hAxis="x" vAxis="Silver,Gold,Platinum">
         <g>
           <rect for="Silver" fill="red"></rect>
@@ -35,11 +35,9 @@
       const width = 200;
       const height = 200;
       const barsCount = data.length * 3;
-      const groupGap = 3;
-      const leftAxisLength = 10;
-      const bottomAxisLength = 10;
-      const barWidth = width / (barsCount + groupGap + leftAxisLength);
-      const margin = 10;
+      const groupGap = 10;
+      const barWidth = width / (barsCount + groupGap);
+      const margin = 20;
       bar.setAttribute("margin", margin);
       bar.ondraw = ({ shape, row }) => {
         const setBar = (bar, x, y) => {
@@ -47,7 +45,7 @@
           bar.setAttribute("x", x);
 
           bar.setAttribute("height", y - margin);
-          bar.setAttribute("y", margin + bottomAxisLength / 2);
+          bar.setAttribute("y", margin);
         };
         Array.from(shape.children).forEach((bar, index) => {
           setBar(bar, row.x + index * barWidth, row[bar.getAttribute("for")]);
