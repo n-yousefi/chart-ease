@@ -12,7 +12,6 @@ class DataSet extends HTMLElement {
   disconnectedCallback() {}
 
   set data(originalData) {
-    debugger;
     const normalizeGroups = this.getNormalizeGroups();
     setGroupsMinMax(originalData, normalizeGroups);
     if (this["ondataSet"]) this["ondataSet"]();
@@ -30,8 +29,7 @@ class DataSet extends HTMLElement {
       start: margin.left,
       stop: this.parentElement.width - margin.right,
     };
-    let hAxis =
-      this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+    let hAxis = this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
     if (hAxis) {
       h = {
         ...h,
@@ -44,8 +42,7 @@ class DataSet extends HTMLElement {
       start: margin.bottom,
       stop: this.parentElement.height - margin.top,
     };
-    let vAxis =
-      this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+    let vAxis = this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
     if (vAxis) {
       v = {
         ...v,

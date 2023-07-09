@@ -176,7 +176,6 @@
     disconnectedCallback() {}
 
     set data(originalData) {
-      debugger;
       const normalizeGroups = this.getNormalizeGroups();
       setGroupsMinMax(originalData, normalizeGroups);
       if (this["ondataSet"]) this["ondataSet"]();
@@ -194,8 +193,7 @@
         start: margin.left,
         stop: this.parentElement.width - margin.right,
       };
-      let hAxis =
-        this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+      let hAxis = this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
       if (hAxis) {
         h = {
           ...h,
@@ -208,8 +206,7 @@
         start: margin.bottom,
         stop: this.parentElement.height - margin.top,
       };
-      let vAxis =
-        this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+      let vAxis = this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
       if (vAxis) {
         v = {
           ...v,
@@ -278,7 +275,7 @@
 
   const WIDTH = 200;
   const HEIGHT = 200;
-  const MARGIN = 0;
+  const MARGIN = 10;
 
   function createSVG(width, height) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
