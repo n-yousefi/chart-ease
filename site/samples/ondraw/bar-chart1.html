@@ -12,42 +12,35 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="200" height="200">
-      <data-set hAxis="x" vAxis="Silver,Gold,Platinum">
+    <chart-ease id="bar" width="200" height="200" margin-right="15">
+      <data-set hAxis="x" vAxis="Silver,Gold,Bronze">
         <g>
-          <rect for="Silver" fill="red"></rect>
-          <rect for="Gold" fill="blue"></rect>
-          <rect for="Platinum" fill="green"></rect>
+          <rect for="Gold" fill="gold"></rect>
+          <rect for="Silver" fill="silver"></rect>
+          <rect for="Bronze" fill="#B08D57"></rect>
         </g>
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [
-        { x: 1, Silver: 2, Gold: 5, Platinum: 5 },
-        { x: 2, Silver: 5, Gold: 7, Platinum: 6 },
-        { x: 3, Silver: 9, Gold: 3, Platinum: 8 },
-        { x: 4, Silver: 2, Gold: 7, Platinum: 0 },
-        { x: 5, Silver: 9, Gold: 2, Platinum: 2 },
-        { x: 6, Silver: 2, Gold: 9, Platinum: 3 },
-        { x: 7, Silver: 9, Gold: 1, Platinum: 4 },
-        { x: 8, Silver: 1, Gold: 3, Platinum: 2 },
+        { x: 1, Bronze: 1, Silver: 2, Gold: 5 },
+        { x: 2, Bronze: 3, Silver: 4, Gold: 7 },
+        { x: 3, Bronze: 2, Silver: 4, Gold: 9 },
+        { x: 4, Bronze: 2, Silver: 3, Gold: 6 },
+        { x: 5, Bronze: 7, Silver: 12, Gold: 14 },
+        { x: 6, Bronze: 2, Silver: 9, Gold: 10 },
+        { x: 7, Bronze: 1, Silver: 2, Gold: 3 },
+        { x: 8, Bronze: 2, Silver: 5, Gold: 6 },
       ];
       const bar = document.querySelector("#bar");
-      const width = 200;
-      const height = 200;
-      const barsCount = data.length;
-      const groupGap = 3;
-      const barWidth = width / (barsCount + groupGap);
-      const margin = 10;
-      bar.setAttribute("margin", margin);
       bar.ondraw = ({ shape, row }) => {
         const setBar = (bar, x, y) => {
-          bar.setAttribute("width", barWidth);
+          bar.setAttribute("width", 15);
           bar.setAttribute("x", x);
 
-          bar.setAttribute("height", y - margin);
-          bar.setAttribute("y", margin);
+          bar.setAttribute("height", y);
+          bar.setAttribute("y", 0);
         };
         Array.from(shape.children).forEach((bar) => {
           setBar(bar, row.x, row[bar.getAttribute("for")]);

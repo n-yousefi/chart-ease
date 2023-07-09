@@ -176,6 +176,7 @@
     disconnectedCallback() {}
 
     set data(originalData) {
+      debugger;
       const normalizeGroups = this.getNormalizeGroups();
       setGroupsMinMax(originalData, normalizeGroups);
       if (this["ondataSet"]) this["ondataSet"]();

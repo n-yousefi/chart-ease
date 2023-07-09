@@ -41,10 +41,11 @@
         { x: 4, y: 70, label: "Apr" },
         { x: 5, y: 30, label: "May" },
       ];
-      // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
-      const barWidth = Math.round(440 / data.length) * (2 / 3);
+
       chart = document.querySelector("#chart");
       const margin = 40;
+      // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
+      const barWidth = Math.round(500 / data.length) * 0.6;
       chart.ondraw = ({ shape, row, originalRow }) => {
         switch (shape.tagName) {
           case "rect":
