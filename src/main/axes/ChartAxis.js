@@ -38,9 +38,10 @@ class ChartAxis extends HTMLElement {
     };
     this.min = parseInt(this.getAttribute("min") ?? 0);
     this.max = parseInt(this.getAttribute("max") ?? 0);
-    this.type = this.querySelector("line[axis-line]");
     this.label = this.querySelector("text");
     this.grid = this.querySelector(`line[grid-line]`);
+    this.line = this.querySelector("line[axis-line]");
+    this.tick = this.querySelector("rect[axis-tick]");
   }
 
   setTickPositions() {

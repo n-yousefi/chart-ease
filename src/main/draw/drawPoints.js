@@ -19,7 +19,7 @@ export default function drawPoints(svg, pointTypes, data, originalData, ondraw) 
       flip(svg, shape);
     });
   });
-  svg.appendChild(g);
+  svg.prepend(g);
 }
 
 function setDefaultPosition(shape, x, y) {

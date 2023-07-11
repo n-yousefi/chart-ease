@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease id="chart" width="500" height="400" margin="50">
+      <data-set hAxis="x" vAxis="y">
+        <rect fill="#EFF2FA" width="1"></rect>
+      </data-set>
+      <left-axis ticks="10" min="0" max="10">
+        <line axis-line stroke="#C7CFE2" stroke-width="1"></line>
+        <rect axis-tick stroke="#C7CFE2" data-offset="30" width="30" height="1"></rect>
+      </left-axis>
+      <bottom-axis ticks="8" min="0" max="8">
+        <line axis-line stroke="#C7CFE2" stroke-width="1"></line>
+        <rect axis-tick stroke="#C7CFE2" data-offset="30" width="1" height="30"></rect>
+      </bottom-axis>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data1 = [
+        { x: 1, y: 2 },
+        { x: 4, y: 1 },
+        { x: 6, y: 3 },
+        { x: 7, y: 7 },
+      ];
+      const data2 = [
+        { x: 2, y: 4 },
+        { x: 3, y: 5 },
+        { x: 5, y: 2 },
+        { x: 8, y: 1 },
+      ];
+      const bar = document.querySelector("#chart");
+      const margin = 50;
+      const barWidth = 1;
+      bar.ondraw = ({ shape, row }) => {
+        shape.setAttribute("width", barWidth);
+        shape.setAttribute("x", row.x - barWidth / 2);
+
+        shape.setAttribute("height", row.y + margin);
+        shape.setAttribute("y", margin);
+      };
+      bar.data = data1;
+    </script>
+  </body>
+</html>

@@ -77,7 +77,7 @@
         flip(svg, shape);
       });
     });
-    svg.appendChild(g);
+    svg.prepend(g);
   }
 
   function setDefaultPosition(shape, x, y) {
@@ -287,8 +287,8 @@
 
   function drawAxisLine(axis) {
     const g = createSVGElements("g");
-    if (!axis.type) return;
-    const axisLine = cloneSVGElement(axis.type);
+    if (!axis.line) return;
+    const axisLine = cloneSVGElement(axis.line);
     if (axis.isVertical) {
       axisLine.setAttribute("x1", axis.position);
       axisLine.setAttribute("x2", axis.position);
@@ -308,19 +308,17 @@
   function drawTicks(axis) {
     const g = createSVGElements("g");
     axis.ticks.forEach((tick) => {
-      if (!axis.type) return;
-      const tl = cloneSVGElement(axis.type);
-      const w = Number(axis.type.getAttribute("stroke-width")) || 5;
+      if (!axis.tick) return;
+      const tl = cloneSVGElement(axis.tick);
+      const offset = Number(tl.getAttribute("data-offset") || 0);
+      const height = Number(tl.getAttribute("height") || 0);
+      const width = Number(tl.getAttribute("width") || 0);
       if (axis.isVertical) {
-        tl.setAttribute("x1", axis.position - w);
-        tl.setAttribute("x2", axis.position + w);
-        tl.setAttribute("y1", tick.position);
-        tl.setAttribute("y2", tick.position);
+        tl.setAttribute("x", axis.position - offset);
+        tl.setAttribute("y", tick.position - height / 2);
       } else {
-        tl.setAttribute("x1", tick.position);
-        tl.setAttribute("x2", tick.position);
-        tl.setAttribute("y1", axis.position - w);
-        tl.setAttribute("y2", axis.position + w);
+        tl.setAttribute("x", tick.position - width / 2);
+        tl.setAttribute("y", axis.position - offset);
       }
       g.appendChild(tl);
     });
@@ -419,9 +417,10 @@
       };
       this.min = parseInt(this.getAttribute("min") ?? 0);
       this.max = parseInt(this.getAttribute("max") ?? 0);
-      this.type = this.querySelector("line[axis-line]");
       this.label = this.querySelector("text");
       this.grid = this.querySelector(`line[grid-line]`);
+      this.line = this.querySelector("line[axis-line]");
+      this.tick = this.querySelector("rect[axis-tick]");
     }
 
     setTickPositions() {

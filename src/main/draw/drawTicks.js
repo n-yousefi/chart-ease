@@ -4,19 +4,17 @@ import createSVGElements from "./createSVGElements";
 export default function drawTicks(axis) {
   const g = createSVGElements("g");
   axis.ticks.forEach((tick) => {
-    if (!axis.type) return;
-    const tl = cloneSVGElement(axis.type);
-    const w = Number(axis.type.getAttribute("stroke-width")) || 5;
+    if (!axis.tick) return;
+    const tl = cloneSVGElement(axis.tick);
+    const offset = Number(tl.getAttribute("data-offset") || 0);
+    const height = Number(tl.getAttribute("height") || 0);
+    const width = Number(tl.getAttribute("width") || 0);
     if (axis.isVertical) {
-      tl.setAttribute("x1", axis.position - w);
-      tl.setAttribute("x2", axis.position + w);
-      tl.setAttribute("y1", tick.position);
-      tl.setAttribute("y2", tick.position);
+      tl.setAttribute("x", axis.position - offset);
+      tl.setAttribute("y", tick.position - height / 2);
     } else {
-      tl.setAttribute("x1", tick.position);
-      tl.setAttribute("x2", tick.position);
-      tl.setAttribute("y1", axis.position - w);
-      tl.setAttribute("y2", axis.position + w);
+      tl.setAttribute("x", tick.position - width / 2);
+      tl.setAttribute("y", axis.position - offset);
     }
     g.appendChild(tl);
   });
