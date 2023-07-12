@@ -14,9 +14,14 @@
   <body>
     <chart-ease width="500" height="400" margin="50">
       <data-set id="chart1" hAxis="x" vAxis="y">
-        <circle fill="#FF6464" r="15"></circle>
+        <path path-type stroke="#8F96AC" fill="none" stroke-width="15"></path>
         <rect fill="#EFF2FA" width="15"></rect>
-        <path is="path-type" stroke="#8F96AC" fill="none" stroke-width="15"></path>
+        <circle fill="#FF6464" r="15"></circle>
+      </data-set>
+      <data-set id="chart2" hAxis="x" vAxis="y">
+        <path path-type stroke="#AFB9D2" fill="none" stroke-width="15"></path>
+        <rect fill="#EFF2FA" width="15"></rect>
+        <circle fill="#C3E678" r="15"></circle>
       </data-set>
       <left-axis ticks="10" min="0" max="8">
         <line axis-line stroke="#C7CFE2" stroke-width="14"></line>
@@ -37,6 +42,7 @@
         { x: 7, y: 7 },
       ];
       const data2 = [
+        { x: 0, y: 5 },
         { x: 2, y: 4 },
         { x: 3, y: 5 },
         { x: 5, y: 2 },
@@ -45,7 +51,7 @@
       const chart1 = document.querySelector("#chart1");
       const margin = 50;
       const barWidth = 15;
-      chart1.ondraw = ({ shape, row, index }) => {
+      const ondraw = ({ shape, row, index }) => {
         switch (shape.tagName) {
           case "rect":
             shape.setAttribute("width", barWidth);
@@ -63,7 +69,10 @@
             break;
         }
       };
+      chart1.ondraw = ondraw;
+      chart2.ondraw = ondraw;
       chart1.data = data1;
+      chart2.data = data2;
     </script>
   </body>
 </html>

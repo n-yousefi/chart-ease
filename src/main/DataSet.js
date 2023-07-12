@@ -1,6 +1,5 @@
 import normalize from "./calcs/normalize";
-import drawPoints from "./draw/drawPoints";
-import drawPath from "./draw/drawPath";
+import drawDataSet from "./draw/drawDataSet";
 import setGroupsMinMax from "./calcs/setGroupsMinMax";
 
 class DataSet extends HTMLElement {
@@ -14,11 +13,8 @@ class DataSet extends HTMLElement {
   set data(originalData) {
     const normalizeGroups = this.getNormalizeGroups();
     setGroupsMinMax(originalData, normalizeGroups);
-    if (this["ondataSet"]) this["ondataSet"]();
     const data = normalize(originalData, normalizeGroups);
-    const svg = this.parentElement.querySelector("svg");
-    drawPath(svg, this.pathType, data);
-    drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
+    drawDataSet(this, data, originalData);
     this.parentElement.removeChild(this);
   }
 
@@ -29,7 +25,8 @@ class DataSet extends HTMLElement {
       start: margin.left,
       stop: this.parentElement.width - margin.right,
     };
-    let hAxis = this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+    let hAxis =
+      this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
     if (hAxis) {
       h = {
         ...h,
@@ -42,7 +39,8 @@ class DataSet extends HTMLElement {
       start: margin.bottom,
       stop: this.parentElement.height - margin.top,
     };
-    let vAxis = this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+    let vAxis =
+      this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
     if (vAxis) {
       v = {
         ...v,
@@ -51,14 +49,6 @@ class DataSet extends HTMLElement {
       };
     }
     return [h, v];
-  }
-
-  get pathType() {
-    return this.querySelector(`path[is="path-type"]`);
-  }
-
-  get pointTypes() {
-    return Array.from(this.children).filter((item) => !item.getAttribute("is"));
   }
 }
 

@@ -60,24 +60,48 @@
     }
   }
 
-  function drawPoints(svg, pointTypes, data, originalData, ondraw) {
-    const g = createSVGElements("g");
-    data.forEach((row, index) => {
-      pointTypes.forEach((pointType) => {
-        const shape = cloneSVGElement(pointType);
-        if (!ondraw) setDefaultPosition(shape, row.x, row.y);
-        else
-          ondraw({
-            shape,
-            row,
-            originalRow: originalData[index],
-            index,
-          });
-        g.appendChild(shape);
-        flip(svg, shape);
-      });
+  function drawDataSet(dataset, data, originalData) {
+    const g = dataset.parentElement.querySelector('g[name="dataset"]');
+    Array.prototype.slice.call(dataset.children).forEach((child) => {
+      if (child.hasAttribute("path-type")) drawPath(g, child, data);
+      else drawPoints(g, dataset, data, child, originalData);
     });
-    svg.prepend(g);
+  }
+
+  function drawPath(g, pathType, data) {
+    if (!pathType) return;
+    const path = cloneSVGElement(pathType);
+    loadPathData(path, data);
+    g.appendChild(path);
+  }
+
+  function loadPathData(path, data) {
+    path.setAttribute(
+      "d",
+      data
+        .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
+        .join(" ")
+    );
+    path.removeAttribute("is");
+  }
+
+  function drawPoints(g, dataset, data, child, originalData) {
+    const element = createSVGElements("g");
+    data.forEach((row, index) => {
+      const ondraw = dataset["ondraw"];
+      const shape = cloneSVGElement(child);
+      if (!ondraw) setDefaultPosition(shape, row.x, row.y);
+      else
+        ondraw({
+          shape,
+          row,
+          originalRow: originalData[index],
+          index,
+        });
+      element.appendChild(shape);
+      flip(g, shape);
+    });
+    g.appendChild(element);
   }
 
   function setDefaultPosition(shape, x, y) {
@@ -103,23 +127,6 @@
         if (y > 0) shape.setAttribute("y", y);
         break;
     }
-  }
-
-  function drawPath(parent, pathType, data) {
-    if (!pathType) return;
-    const path = cloneSVGElement(pathType);
-    loadPathData(path, data);
-    parent.appendChild(path);
-  }
-
-  function loadPathData(path, data) {
-    path.setAttribute(
-      "d",
-      data
-        .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
-        .join(" ")
-    );
-    path.removeAttribute("is");
   }
 
   function setGroupsMinMax(data, groups) {
@@ -178,11 +185,8 @@
     set data(originalData) {
       const normalizeGroups = this.getNormalizeGroups();
       setGroupsMinMax(originalData, normalizeGroups);
-      if (this["ondataSet"]) this["ondataSet"]();
       const data = normalize(originalData, normalizeGroups);
-      const svg = this.parentElement.querySelector("svg");
-      drawPath(svg, this.pathType, data);
-      drawPoints(svg, this.pointTypes, data, originalData, this["ondraw"]);
+      drawDataSet(this, data, originalData);
       this.parentElement.removeChild(this);
     }
 
@@ -193,7 +197,8 @@
         start: margin.left,
         stop: this.parentElement.width - margin.right,
       };
-      let hAxis = this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+      let hAxis =
+        this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
       if (hAxis) {
         h = {
           ...h,
@@ -206,7 +211,8 @@
         start: margin.bottom,
         stop: this.parentElement.height - margin.top,
       };
-      let vAxis = this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+      let vAxis =
+        this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
       if (vAxis) {
         v = {
           ...v,
@@ -215,14 +221,6 @@
         };
       }
       return [h, v];
-    }
-
-    get pathType() {
-      return this.querySelector(`path[is="path-type"]`);
-    }
-
-    get pointTypes() {
-      return Array.from(this.children).filter((item) => !item.getAttribute("is"));
     }
   }
 
@@ -282,6 +280,10 @@
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
     svg.setAttribute("transform", "scale(1,-1)");
+    const gDataSet = createSVGElements("g");
+    gDataSet.setAttribute("name", "dataset");
+    svg.appendChild(gDataSet);
+
     return svg;
   }
 
