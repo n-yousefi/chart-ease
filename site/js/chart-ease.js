@@ -312,15 +312,16 @@
     axis.ticks.forEach((tick) => {
       if (!axis.tick) return;
       const tl = cloneSVGElement(axis.tick);
-      const offset = Number(tl.getAttribute("data-offset") || 0);
+      const xOffset = Number(tl.getAttribute("x-offset") || 0);
+      const yOffset = Number(tl.getAttribute("y-offset") || 0);
       const height = Number(tl.getAttribute("height") || 0);
       const width = Number(tl.getAttribute("width") || 0);
       if (axis.isVertical) {
-        tl.setAttribute("x", axis.position - offset);
-        tl.setAttribute("y", tick.position - height / 2);
+        tl.setAttribute("x", axis.position - xOffset);
+        tl.setAttribute("y", tick.position - yOffset - height / 2);
       } else {
-        tl.setAttribute("x", tick.position - width / 2);
-        tl.setAttribute("y", axis.position - offset);
+        tl.setAttribute("x", tick.position - xOffset - width / 2);
+        tl.setAttribute("y", axis.position - yOffset);
       }
       g.appendChild(tl);
     });
@@ -361,22 +362,24 @@
       text.innerHTML = tick.value;
       g.appendChild(text);
       const { width, height } = text.getBoundingClientRect();
+      const xOffset = Number(text.getAttribute("x-offset") || 0);
+      Number(text.getAttribute("y-offset") || 0);
       switch (axis.direction) {
-        case "right":
-          text.setAttribute("x", axis.position + 7);
-          text.setAttribute("y", tick.position - height / 3);
-          break;
         case "left":
-          text.setAttribute("x", axis.position - width - 7);
+          text.setAttribute("x", axis.position - width - xOffset);
           text.setAttribute("y", tick.position - height / 3);
           break;
-        case "top":
-          text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axis.position + 7);
+        case "right":
+          text.setAttribute("x", axis.position);
+          text.setAttribute("y", tick.position - height / 3);
           break;
         case "bottom":
           text.setAttribute("x", tick.position - width / 2);
           text.setAttribute("y", axis.position - height);
+          break;
+        case "top":
+          text.setAttribute("x", tick.position - width / 2);
+          text.setAttribute("y", axis.position);
           break;
         default:
           return;

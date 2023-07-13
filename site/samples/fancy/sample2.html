@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease width="500" height="400" margin="50">
+    <chart-ease width="500" height="400" margin="25">
       <data-set id="chart1" hAxis="x" vAxis="y">
         <path path-type stroke="#8F96AC" fill="none" stroke-width="15"></path>
         <circle fill="#FF6464" r="15"></circle>
@@ -26,11 +26,11 @@
       </data-set>
       <left-axis ticks="10" min="0" max="8">
         <line axis-line stroke="#C7CFE2" stroke-width="14"></line>
-        <rect axis-tick fill="#D7DEED" data-offset="25" width="30" height="15" rx="10" ry="10"></rect>
+        <rect axis-tick fill="#D7DEED" x-offset="25" width="30" height="15" rx="10" ry="10"></rect>
       </left-axis>
       <bottom-axis ticks="8" min="0" max="8">
         <line axis-line stroke="#C7CFE2" stroke-width="15"></line>
-        <rect axis-tick fill="#D7DEED" data-offset="25" width="15" height="30" rx="10" ry="10"></rect>
+        <rect axis-tick fill="#D7DEED" y-offset="25" width="15" height="30" rx="10" ry="10"></rect>
       </bottom-axis>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
@@ -50,7 +50,7 @@
         { x: 8, y: 1 },
       ];
       //const chart1 = document.querySelector("#chart1");
-      const margin = 50;
+      const margin = 25;
       const barWidth = 15;
       chart3.ondraw = ({ shape, row }) => {
         shape.setAttribute("width", barWidth);
