@@ -2,8 +2,7 @@ import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 import { flip } from "./flip";
 
-export default function drawDataSet(dataset, data, originalData) {
-  const g = dataset.parentElement.querySelector('g[name="dataset"]');
+export default function drawDataSet(g, dataset, data, originalData) {
   Array.prototype.slice.call(dataset.children).forEach((child) => {
     if (child.hasAttribute("path-type")) drawPath(g, child, data);
     else drawPoints(g, dataset, data, child, originalData);

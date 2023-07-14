@@ -3,13 +3,34 @@ import ChartAxis from "./ChartAxis";
 class LeftAxis extends ChartAxis {
   constructor() {
     super();
-    this.start = this.margin.bottom;
-    this.stop = this.height - this.margin.top;
-    this.position = this.margin.left;
-    this.gridStart = this.margin.left;
-    this.gridStop = this.width - this.margin.right;
-    this.isVertical = true;
-    this.direction = "left";
+  }
+
+  get start() {
+    return this.margin.bottom;
+  }
+
+  get stop() {
+    return this.height - this.margin.top;
+  }
+
+  get position() {
+    return this.margin.left;
+  }
+
+  get gridStart() {
+    return this.margin.left;
+  }
+
+  get gridStop() {
+    return this.width - this.margin.right;
+  }
+
+  get isVertical() {
+    return true;
+  }
+
+  get direction() {
+    return "left";
   }
 
   connectedCallback() {}

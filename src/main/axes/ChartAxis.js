@@ -2,12 +2,10 @@ import drawAxisLine from "../draw/drawAxisLine";
 import drawTicks from "../draw/drawTicks";
 import drawGridLines from "../draw/drawGridLines";
 import drawLabels from "../draw/drawLabels";
-import { HEIGHT, MARGIN, WIDTH } from "../defaults";
 
 class ChartAxis extends HTMLElement {
   constructor() {
     super();
-    this.init();
     this.parentElement.addEventListener("created", (e) => {
       this.render();
     });
@@ -26,24 +24,6 @@ class ChartAxis extends HTMLElement {
     }
   }
 
-  init() {
-    const pE = this.parentElement;
-    this.height = parseFloat(pE.getAttribute("height") ?? HEIGHT);
-    this.width = parseFloat(pE.getAttribute("width") ?? WIDTH);
-    this.margin = {
-      top: parseFloat(pE.getAttribute("margin-top") ?? pE.getAttribute("margin") ?? MARGIN),
-      bottom: parseFloat(pE.getAttribute("margin-bottom") ?? pE.getAttribute("margin") ?? MARGIN),
-      left: parseFloat(pE.getAttribute("margin-left") ?? pE.getAttribute("margin") ?? MARGIN),
-      right: parseFloat(pE.getAttribute("margin-right") ?? pE.getAttribute("margin") ?? MARGIN),
-    };
-    this.min = parseInt(this.getAttribute("min") ?? 0);
-    this.max = parseInt(this.getAttribute("max") ?? 0);
-    this.label = this.querySelector("text");
-    this.grid = this.querySelector(`line[grid-line]`);
-    this.line = this.querySelector("line[axis-line]");
-    this.tick = this.querySelector("rect[axis-tick]");
-  }
-
   setTickPositions() {
     this.ticks = [];
     const ticks = parseInt(this.getAttribute("ticks") ?? 0);
@@ -53,10 +33,38 @@ class ChartAxis extends HTMLElement {
     let position = this.start;
     while (true) {
       position = ((value - this.min) / (this.max - this.min)) * (this.stop - this.start) + this.start;
-      if (position > this.stop) break;
+      if (position > this.stop || isNaN(position)) break;
       this.ticks.push({ value, position });
       value += tickSize;
     }
+  }
+
+  get min() {
+    return parseInt(this.getAttribute("min") ?? 0);
+  }
+  get max() {
+    return parseInt(this.getAttribute("max") ?? 0);
+  }
+  get label() {
+    return this.querySelector("text");
+  }
+  get grid() {
+    return this.querySelector(`line[grid-line]`);
+  }
+  get line() {
+    return this.querySelector("line[axis-line]");
+  }
+  get tick() {
+    return this.querySelector("rect[axis-tick]");
+  }
+  get margin() {
+    return this.parentElement.margin;
+  }
+  get height() {
+    return this.parentElement.height;
+  }
+  get width() {
+    return this.parentElement.width;
   }
 }
 

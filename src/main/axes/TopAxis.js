@@ -3,13 +3,34 @@ import ChartAxis from "./ChartAxis";
 class TopAxis extends ChartAxis {
   constructor() {
     super();
-    this.start = this.margin.left;
-    this.stop = this.width - this.margin.right;
-    this.position = this.height - this.margin.top;
-    this.gridStart = this.margin.bottom;
-    this.gridStop = this.height - this.margin.top;
-    this.isVertical = false;
-    this.direction = "top";
+  }
+
+  get start() {
+    return this.margin.left;
+  }
+
+  get stop() {
+    return this.width - this.margin.right;
+  }
+
+  get position() {
+    return this.height - this.margin.top;
+  }
+
+  get gridStart() {
+    return this.margin.bottom;
+  }
+
+  get gridStop() {
+    return this.height - this.margin.top;
+  }
+
+  get isVertical() {
+    return false;
+  }
+
+  get direction() {
+    return "top";
   }
 
   connectedCallback() {}

@@ -11,44 +11,50 @@ class DataSet extends HTMLElement {
   disconnectedCallback() {}
 
   set data(originalData) {
-    const normalizeGroups = this.getNormalizeGroups();
-    setGroupsMinMax(originalData, normalizeGroups);
-    const data = normalize(originalData, normalizeGroups);
-    drawDataSet(this, data, originalData);
-    this.parentElement.removeChild(this);
+    const h = this.getDirection("h");
+    const v = this.getDirection("v");
+    const directionGroups = [h, v];
+    setGroupsMinMax(originalData, directionGroups);
+    this.normalizedData = normalize(originalData, directionGroups);
+
+    const g = this.parentElement.querySelector('g[name="dataset"]');
+    g.innerHTML = "";
+    drawDataSet(g, this, this.normalizedData, originalData);
   }
 
-  getNormalizeGroups() {
-    const margin = this.parentElement.margin;
-    let h = {
-      cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
-      start: margin.left,
-      stop: this.parentElement.width - margin.right,
+  getDirection(dir) {
+    let group = {
+      cols: this.getCols(dir),
+      start: this.getStart(dir),
+      stop: this.getStop(dir),
     };
-    let hAxis =
-      this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
-    if (hAxis) {
-      h = {
-        ...h,
-        min: hAxis.min,
-        max: hAxis.max,
+    let axis = this.getAxis();
+    if (axis) {
+      group = {
+        ...group,
+        min: axis.min,
+        max: axis.max,
       };
     }
-    let v = {
-      cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
-      start: margin.bottom,
-      stop: this.parentElement.height - margin.top,
-    };
-    let vAxis =
-      this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
-    if (vAxis) {
-      v = {
-        ...v,
-        min: vAxis.min,
-        max: vAxis.max,
-      };
-    }
-    return [h, v];
+    return group;
+  }
+
+  getAxis(dir) {
+    if (dir === "h")
+      return this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+    return this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+  }
+  getStart(dir) {
+    if (dir === "h") return this.parentElement.margin.left;
+    return this.parentElement.margin.bottom;
+  }
+  getStop(dir) {
+    if (dir === "h") return this.parentElement.width - this.parentElement.margin.right;
+    return this.parentElement.height - this.parentElement.margin.top;
+  }
+  getCols(dir) {
+    if (dir === "h") return this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"];
+    return this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"];
   }
 }
 

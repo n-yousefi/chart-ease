@@ -60,8 +60,7 @@
     }
   }
 
-  function drawDataSet(dataset, data, originalData) {
-    const g = dataset.parentElement.querySelector('g[name="dataset"]');
+  function drawDataSet(g, dataset, data, originalData) {
     Array.prototype.slice.call(dataset.children).forEach((child) => {
       if (child.hasAttribute("path-type")) drawPath(g, child, data);
       else drawPoints(g, dataset, data, child, originalData);
@@ -183,44 +182,50 @@
     disconnectedCallback() {}
 
     set data(originalData) {
-      const normalizeGroups = this.getNormalizeGroups();
-      setGroupsMinMax(originalData, normalizeGroups);
-      const data = normalize(originalData, normalizeGroups);
-      drawDataSet(this, data, originalData);
-      this.parentElement.removeChild(this);
+      const h = this.getDirection("h");
+      const v = this.getDirection("v");
+      const directionGroups = [h, v];
+      setGroupsMinMax(originalData, directionGroups);
+      this.normalizedData = normalize(originalData, directionGroups);
+
+      const g = this.parentElement.querySelector('g[name="dataset"]');
+      g.innerHTML = "";
+      drawDataSet(g, this, this.normalizedData, originalData);
     }
 
-    getNormalizeGroups() {
-      const margin = this.parentElement.margin;
-      let h = {
-        cols: this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"],
-        start: margin.left,
-        stop: this.parentElement.width - margin.right,
+    getDirection(dir) {
+      let group = {
+        cols: this.getCols(dir),
+        start: this.getStart(dir),
+        stop: this.getStop(dir),
       };
-      let hAxis =
-        this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
-      if (hAxis) {
-        h = {
-          ...h,
-          min: hAxis.min,
-          max: hAxis.max,
+      let axis = this.getAxis();
+      if (axis) {
+        group = {
+          ...group,
+          min: axis.min,
+          max: axis.max,
         };
       }
-      let v = {
-        cols: this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"],
-        start: margin.bottom,
-        stop: this.parentElement.height - margin.top,
-      };
-      let vAxis =
-        this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
-      if (vAxis) {
-        v = {
-          ...v,
-          min: vAxis.min,
-          max: vAxis.max,
-        };
-      }
-      return [h, v];
+      return group;
+    }
+
+    getAxis(dir) {
+      if (dir === "h")
+        return this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+      return this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
+    }
+    getStart(dir) {
+      if (dir === "h") return this.parentElement.margin.left;
+      return this.parentElement.margin.bottom;
+    }
+    getStop(dir) {
+      if (dir === "h") return this.parentElement.width - this.parentElement.margin.right;
+      return this.parentElement.height - this.parentElement.margin.top;
+    }
+    getCols(dir) {
+      if (dir === "h") return this.getAttribute("hAxis") ? this.getAttribute("hAxis").split(",") : ["x"];
+      return this.getAttribute("vAxis") ? this.getAttribute("vAxis").split(",") : ["y"];
     }
   }
 
@@ -275,16 +280,26 @@
   const HEIGHT = 200;
   const MARGIN = 10;
 
-  function createSVG(width, height) {
+  function init(chart) {
+    chart.svg = appendSVG(chart.width, chart.height);
+    chart.appendChild(chart.svg);
+    appendG(chart.svg, "dataset");
+
+    chart.dispatchEvent(new Event("created"));
+  }
+
+  function appendSVG(width, height) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
     svg.setAttribute("transform", "scale(1,-1)");
-    const gDataSet = createSVGElements("g");
-    gDataSet.setAttribute("name", "dataset");
-    svg.appendChild(gDataSet);
-
     return svg;
+  }
+
+  function appendG(svg, name) {
+    const g = createSVGElements("g");
+    g.setAttribute("name", name);
+    svg.appendChild(g);
   }
 
   function drawAxisLine(axis) {
@@ -391,7 +406,6 @@
   class ChartAxis extends HTMLElement {
     constructor() {
       super();
-      this.init();
       this.parentElement.addEventListener("created", (e) => {
         this.render();
       });
@@ -410,24 +424,6 @@
       }
     }
 
-    init() {
-      const pE = this.parentElement;
-      this.height = parseFloat(pE.getAttribute("height") ?? HEIGHT);
-      this.width = parseFloat(pE.getAttribute("width") ?? WIDTH);
-      this.margin = {
-        top: parseFloat(pE.getAttribute("margin-top") ?? pE.getAttribute("margin") ?? MARGIN),
-        bottom: parseFloat(pE.getAttribute("margin-bottom") ?? pE.getAttribute("margin") ?? MARGIN),
-        left: parseFloat(pE.getAttribute("margin-left") ?? pE.getAttribute("margin") ?? MARGIN),
-        right: parseFloat(pE.getAttribute("margin-right") ?? pE.getAttribute("margin") ?? MARGIN),
-      };
-      this.min = parseInt(this.getAttribute("min") ?? 0);
-      this.max = parseInt(this.getAttribute("max") ?? 0);
-      this.label = this.querySelector("text");
-      this.grid = this.querySelector(`line[grid-line]`);
-      this.line = this.querySelector("line[axis-line]");
-      this.tick = this.querySelector("rect[axis-tick]");
-    }
-
     setTickPositions() {
       this.ticks = [];
       const ticks = parseInt(this.getAttribute("ticks") ?? 0);
@@ -437,23 +433,72 @@
       let position = this.start;
       while (true) {
         position = ((value - this.min) / (this.max - this.min)) * (this.stop - this.start) + this.start;
-        if (position > this.stop) break;
+        if (position > this.stop || isNaN(position)) break;
         this.ticks.push({ value, position });
         value += tickSize;
       }
+    }
+
+    get min() {
+      return parseInt(this.getAttribute("min") ?? 0);
+    }
+    get max() {
+      return parseInt(this.getAttribute("max") ?? 0);
+    }
+    get label() {
+      return this.querySelector("text");
+    }
+    get grid() {
+      return this.querySelector(`line[grid-line]`);
+    }
+    get line() {
+      return this.querySelector("line[axis-line]");
+    }
+    get tick() {
+      return this.querySelector("rect[axis-tick]");
+    }
+    get margin() {
+      return this.parentElement.margin;
+    }
+    get height() {
+      return this.parentElement.height;
+    }
+    get width() {
+      return this.parentElement.width;
     }
   }
 
   class LeftAxis extends ChartAxis {
     constructor() {
       super();
-      this.start = this.margin.bottom;
-      this.stop = this.height - this.margin.top;
-      this.position = this.margin.left;
-      this.gridStart = this.margin.left;
-      this.gridStop = this.width - this.margin.right;
-      this.isVertical = true;
-      this.direction = "left";
+    }
+
+    get start() {
+      return this.margin.bottom;
+    }
+
+    get stop() {
+      return this.height - this.margin.top;
+    }
+
+    get position() {
+      return this.margin.left;
+    }
+
+    get gridStart() {
+      return this.margin.left;
+    }
+
+    get gridStop() {
+      return this.width - this.margin.right;
+    }
+
+    get isVertical() {
+      return true;
+    }
+
+    get direction() {
+      return "left";
     }
 
     connectedCallback() {}
@@ -463,13 +508,34 @@
   class RightAxis extends ChartAxis {
     constructor() {
       super();
-      this.start = this.margin.bottom;
-      this.stop = this.height - this.margin.top;
-      this.position = this.width - this.margin.right;
-      this.gridStart = this.margin.left;
-      this.gridStop = this.width - this.margin.right;
-      this.isVertical = true;
-      this.direction = "right";
+    }
+
+    get start() {
+      return this.margin.bottom;
+    }
+
+    get stop() {
+      return this.height - this.margin.top;
+    }
+
+    get position() {
+      return this.width - this.margin.right;
+    }
+
+    get gridStart() {
+      return this.margin.left;
+    }
+
+    get gridStop() {
+      return this.width - this.margin.right;
+    }
+
+    get isVertical() {
+      return true;
+    }
+
+    get direction() {
+      return "right";
     }
 
     connectedCallback() {}
@@ -479,13 +545,34 @@
   class TopAxis extends ChartAxis {
     constructor() {
       super();
-      this.start = this.margin.left;
-      this.stop = this.width - this.margin.right;
-      this.position = this.height - this.margin.top;
-      this.gridStart = this.margin.bottom;
-      this.gridStop = this.height - this.margin.top;
-      this.isVertical = false;
-      this.direction = "top";
+    }
+
+    get start() {
+      return this.margin.left;
+    }
+
+    get stop() {
+      return this.width - this.margin.right;
+    }
+
+    get position() {
+      return this.height - this.margin.top;
+    }
+
+    get gridStart() {
+      return this.margin.bottom;
+    }
+
+    get gridStop() {
+      return this.height - this.margin.top;
+    }
+
+    get isVertical() {
+      return false;
+    }
+
+    get direction() {
+      return "top";
     }
 
     connectedCallback() {}
@@ -495,13 +582,34 @@
   class BottomAxis extends ChartAxis {
     constructor() {
       super();
-      this.start = this.margin.left;
-      this.stop = this.width - this.margin.right;
-      this.position = this.margin.bottom;
-      this.gridStart = this.margin.bottom;
-      this.gridStop = this.height - this.margin.top;
-      this.isVertical = false;
-      this.direction = "bottom";
+    }
+
+    get start() {
+      return this.margin.left;
+    }
+
+    get stop() {
+      return this.width - this.margin.right;
+    }
+
+    get position() {
+      return this.margin.bottom;
+    }
+
+    get gridStart() {
+      return this.margin.bottom;
+    }
+
+    get gridStop() {
+      return this.height - this.margin.top;
+    }
+
+    get isVertical() {
+      return false;
+    }
+
+    get direction() {
+      return "bottom";
     }
 
     connectedCallback() {}
@@ -512,20 +620,25 @@
     constructor() {
       super();
       this.setStyles();
-      this.height = parseFloat(this.getAttribute("height") ?? HEIGHT);
-      this.width = parseFloat(this.getAttribute("width") ?? WIDTH);
-      this.margin = {
+      init(this);
+    }
+
+    disconnectedCallback() {}
+
+    get height() {
+      return parseFloat(this.getAttribute("height") ?? HEIGHT);
+    }
+    get width() {
+      return parseFloat(this.getAttribute("width") ?? WIDTH);
+    }
+    get margin() {
+      return {
         top: parseFloat(this.getAttribute("margin-top") ?? this.getAttribute("margin") ?? MARGIN),
         bottom: parseFloat(this.getAttribute("margin-bottom") ?? this.getAttribute("margin") ?? MARGIN),
         left: parseFloat(this.getAttribute("margin-left") ?? this.getAttribute("margin") ?? MARGIN),
         right: parseFloat(this.getAttribute("margin-right") ?? this.getAttribute("margin") ?? MARGIN),
       };
-      this.svg = createSVG(this.width, this.height);
-      this.appendChild(this.svg);
-      this.dispatchEvent(new Event("created"));
     }
-
-    disconnectedCallback() {}
 
     set ondraw(ondraw) {
       this.querySelector("data-set").ondraw = ondraw;
