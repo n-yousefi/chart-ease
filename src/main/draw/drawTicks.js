@@ -1,7 +1,7 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 
-export default function drawTicks(axis) {
+export default function drawTicks(axis, group) {
   const g = createSVGElements("g");
   axis.ticks.forEach((tick) => {
     if (!axis.tick) return;
@@ -20,5 +20,5 @@ export default function drawTicks(axis) {
     g.appendChild(tl);
   });
 
-  axis.parentElement.svg.appendChild(g);
+  group.appendChild(g);
 }

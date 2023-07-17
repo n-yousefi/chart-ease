@@ -1,7 +1,7 @@
 import DataSet from "./main/DataSet";
 import CandleStick from "./main/CandleStick";
 import { HEIGHT, MARGIN, WIDTH } from "./main/defaults";
-import init from "./main/draw/init";
+import createSVG from "./main/draw/createSVG";
 import LeftAxis from "./main/axes/LeftAxis";
 import RightAxis from "./main/axes/RightAxis";
 import TopAxis from "./main/axes/TopAxis";
@@ -11,7 +11,7 @@ export default class ChartEase extends HTMLElement {
   constructor() {
     super();
     this.setStyles();
-    init(this);
+    createSVG(this);
   }
 
   disconnectedCallback() {}

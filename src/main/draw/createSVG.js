@@ -1,9 +1,11 @@
 import createSVGElements from "./createSVGElements";
 
-export default function init(chart) {
+export default function createSVG(chart) {
   chart.svg = appendSVG(chart.width, chart.height);
   chart.appendChild(chart.svg);
+  appendG(chart.svg, "grid");
   appendG(chart.svg, "dataset");
+  appendG(chart.svg, "axes");
 
   chart.dispatchEvent(new Event("created"));
 }

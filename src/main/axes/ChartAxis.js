@@ -15,12 +15,14 @@ class ChartAxis extends HTMLElement {
   disconnectedCallback() {}
 
   render() {
+    const group = this.parentElement.querySelector('g[name="axes"]');
+    const grid = this.parentElement.querySelector('g[name="grid"]');
     this.setTickPositions();
-    drawAxisLine(this);
+    drawAxisLine(this, group);
     if (this.ticks.length > 0) {
-      drawTicks(this);
-      drawLabels(this);
-      drawGridLines(this);
+      drawTicks(this, group);
+      drawLabels(this, group);
+      drawGridLines(this, grid);
     }
   }
 

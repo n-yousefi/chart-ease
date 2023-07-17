@@ -2,47 +2,47 @@ import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 import { flip } from "./flip";
 
-export default function drawDataSet(g, dataset, data, originalData) {
-  Array.prototype.slice.call(dataset.children).forEach((child) => {
-    if (child.hasAttribute("path-type")) drawPath(g, child, data);
-    else drawPoints(g, dataset, data, child, originalData);
+export default function drawDataSet(dataset) {
+  Array.prototype.slice.call(dataset.children).forEach((element) => {
+    if (element.hasAttribute("path-type")) drawPath(element, dataset);
+    else drawPoints(dataset, element);
   });
 }
 
-function drawPath(g, pathType, data) {
+function drawPath(pathType, dataset) {
   if (!pathType) return;
   const path = cloneSVGElement(pathType);
-  loadPathData(path, data);
-  g.appendChild(path);
+  loadPathData(path, dataset.normalizedData);
+  dataset.g.appendChild(path);
 }
 
-function loadPathData(path, data) {
+function loadPathData(path, normalizedData) {
   path.setAttribute(
     "d",
-    data
+    normalizedData
       .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
       .join(" ")
   );
   path.removeAttribute("is");
 }
 
-function drawPoints(g, dataset, data, child, originalData) {
-  const element = createSVGElements("g");
-  data.forEach((row, index) => {
+function drawPoints(dataset, element) {
+  const pointGroup = createSVGElements("g");
+  dataset.normalizedData.forEach((row, index) => {
     const ondraw = dataset["ondraw"];
-    const shape = cloneSVGElement(child);
+    const shape = cloneSVGElement(element);
     if (!ondraw) setDefaultPosition(shape, row.x, row.y);
     else
       ondraw({
         shape,
         row,
-        originalRow: originalData[index],
+        originalRow: dataset.originalData[index],
         index,
       });
-    element.appendChild(shape);
-    flip(g, shape);
+    pointGroup.appendChild(shape);
+    flip(pointGroup, shape);
   });
-  g.appendChild(element);
+  dataset.g.appendChild(pointGroup);
 }
 
 function setDefaultPosition(shape, x, y) {

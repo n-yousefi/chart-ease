@@ -1,7 +1,7 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 
-export default function drawGridLines(axis) {
+export default function drawGridLines(axis, group) {
   const g = createSVGElements("g");
   if (axis.grid) {
     axis.ticks.forEach((tick) => {
@@ -21,5 +21,5 @@ export default function drawGridLines(axis) {
       g.appendChild(tl);
     });
   }
-  axis.parentElement.svg.appendChild(g);
+  group.appendChild(g);
 }

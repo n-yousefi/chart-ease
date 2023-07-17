@@ -1,6 +1,7 @@
 import normalize from "./calcs/normalize";
 import drawDataSet from "./draw/drawDataSet";
 import setGroupsMinMax from "./calcs/setGroupsMinMax";
+import createSVGElements from "./draw/createSVGElements";
 
 class DataSet extends HTMLElement {
   constructor() {
@@ -11,15 +12,23 @@ class DataSet extends HTMLElement {
   disconnectedCallback() {}
 
   set data(originalData) {
+    this.originalData = originalData;
+    this.init();
     const h = this.getDirection("h");
     const v = this.getDirection("v");
     const directionGroups = [h, v];
     setGroupsMinMax(originalData, directionGroups);
     this.normalizedData = normalize(originalData, directionGroups);
+    this.g.innerHTML = "";
+    drawDataSet(this);
+  }
 
-    const g = this.parentElement.querySelector('g[name="dataset"]');
-    g.innerHTML = "";
-    drawDataSet(g, this, this.normalizedData, originalData);
+  init() {
+    const dataSet = this.parentElement.querySelector('g[name="dataset"]');
+    if (!this.g) {
+      this.g = createSVGElements("g");
+      dataSet.append(this.g);
+    }
   }
 
   getDirection(dir) {
@@ -28,7 +37,7 @@ class DataSet extends HTMLElement {
       start: this.getStart(dir),
       stop: this.getStop(dir),
     };
-    let axis = this.getAxis();
+    let axis = this.getAxis(dir);
     if (axis) {
       group = {
         ...group,

@@ -60,47 +60,47 @@
     }
   }
 
-  function drawDataSet(g, dataset, data, originalData) {
-    Array.prototype.slice.call(dataset.children).forEach((child) => {
-      if (child.hasAttribute("path-type")) drawPath(g, child, data);
-      else drawPoints(g, dataset, data, child, originalData);
+  function drawDataSet(dataset) {
+    Array.prototype.slice.call(dataset.children).forEach((element) => {
+      if (element.hasAttribute("path-type")) drawPath(element, dataset);
+      else drawPoints(dataset, element);
     });
   }
 
-  function drawPath(g, pathType, data) {
+  function drawPath(pathType, dataset) {
     if (!pathType) return;
     const path = cloneSVGElement(pathType);
-    loadPathData(path, data);
-    g.appendChild(path);
+    loadPathData(path, dataset.normalizedData);
+    dataset.g.appendChild(path);
   }
 
-  function loadPathData(path, data) {
+  function loadPathData(path, normalizedData) {
     path.setAttribute(
       "d",
-      data
+      normalizedData
         .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
         .join(" ")
     );
     path.removeAttribute("is");
   }
 
-  function drawPoints(g, dataset, data, child, originalData) {
-    const element = createSVGElements("g");
-    data.forEach((row, index) => {
+  function drawPoints(dataset, element) {
+    const pointGroup = createSVGElements("g");
+    dataset.normalizedData.forEach((row, index) => {
       const ondraw = dataset["ondraw"];
-      const shape = cloneSVGElement(child);
+      const shape = cloneSVGElement(element);
       if (!ondraw) setDefaultPosition(shape, row.x, row.y);
       else
         ondraw({
           shape,
           row,
-          originalRow: originalData[index],
+          originalRow: dataset.originalData[index],
           index,
         });
-      element.appendChild(shape);
-      flip(g, shape);
+      pointGroup.appendChild(shape);
+      flip(pointGroup, shape);
     });
-    g.appendChild(element);
+    dataset.g.appendChild(pointGroup);
   }
 
   function setDefaultPosition(shape, x, y) {
@@ -182,15 +182,23 @@
     disconnectedCallback() {}
 
     set data(originalData) {
+      this.originalData = originalData;
+      this.init();
       const h = this.getDirection("h");
       const v = this.getDirection("v");
       const directionGroups = [h, v];
       setGroupsMinMax(originalData, directionGroups);
       this.normalizedData = normalize(originalData, directionGroups);
+      this.g.innerHTML = "";
+      drawDataSet(this);
+    }
 
-      const g = this.parentElement.querySelector('g[name="dataset"]');
-      g.innerHTML = "";
-      drawDataSet(g, this, this.normalizedData, originalData);
+    init() {
+      const dataSet = this.parentElement.querySelector('g[name="dataset"]');
+      if (!this.g) {
+        this.g = createSVGElements("g");
+        dataSet.append(this.g);
+      }
     }
 
     getDirection(dir) {
@@ -199,7 +207,7 @@
         start: this.getStart(dir),
         stop: this.getStop(dir),
       };
-      let axis = this.getAxis();
+      let axis = this.getAxis(dir);
       if (axis) {
         group = {
           ...group,
@@ -280,10 +288,12 @@
   const HEIGHT = 200;
   const MARGIN = 10;
 
-  function init(chart) {
+  function createSVG(chart) {
     chart.svg = appendSVG(chart.width, chart.height);
     chart.appendChild(chart.svg);
+    appendG(chart.svg, "grid");
     appendG(chart.svg, "dataset");
+    appendG(chart.svg, "axes");
 
     chart.dispatchEvent(new Event("created"));
   }
@@ -302,7 +312,7 @@
     svg.appendChild(g);
   }
 
-  function drawAxisLine(axis) {
+  function drawAxisLine(axis, group) {
     const g = createSVGElements("g");
     if (!axis.line) return;
     const axisLine = cloneSVGElement(axis.line);
@@ -319,10 +329,10 @@
     }
 
     g.appendChild(axisLine);
-    axis.parentElement.svg.appendChild(g);
+    group.appendChild(g);
   }
 
-  function drawTicks(axis) {
+  function drawTicks(axis, group) {
     const g = createSVGElements("g");
     axis.ticks.forEach((tick) => {
       if (!axis.tick) return;
@@ -341,10 +351,10 @@
       g.appendChild(tl);
     });
 
-    axis.parentElement.svg.appendChild(g);
+    group.appendChild(g);
   }
 
-  function drawGridLines(axis) {
+  function drawGridLines(axis, group) {
     const g = createSVGElements("g");
     if (axis.grid) {
       axis.ticks.forEach((tick) => {
@@ -364,13 +374,12 @@
         g.appendChild(tl);
       });
     }
-    axis.parentElement.svg.appendChild(g);
+    group.appendChild(g);
   }
 
-  function drawLabels(axis) {
-    const svg = axis.parentElement.svg;
+  function drawLabels(axis, group) {
     const g = createSVGElements("g");
-    svg.appendChild(g);
+    group.appendChild(g);
     axis.ticks.forEach((tick) => {
       if (!axis.label) return;
       const text = cloneSVGElement(axis.label);
@@ -399,7 +408,7 @@
         default:
           return;
       }
-      flip(svg, text);
+      flip(group, text);
     });
   }
 
@@ -415,12 +424,14 @@
     disconnectedCallback() {}
 
     render() {
+      const group = this.parentElement.querySelector('g[name="axes"]');
+      const grid = this.parentElement.querySelector('g[name="grid"]');
       this.setTickPositions();
-      drawAxisLine(this);
+      drawAxisLine(this, group);
       if (this.ticks.length > 0) {
-        drawTicks(this);
-        drawLabels(this);
-        drawGridLines(this);
+        drawTicks(this, group);
+        drawLabels(this, group);
+        drawGridLines(this, grid);
       }
     }
 
@@ -620,7 +631,7 @@
     constructor() {
       super();
       this.setStyles();
-      init(this);
+      createSVG(this);
     }
 
     disconnectedCallback() {}

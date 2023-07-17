@@ -2,10 +2,9 @@ import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 import { flip } from "./flip";
 
-export default function drawLabels(axis) {
-  const svg = axis.parentElement.svg;
+export default function drawLabels(axis, group) {
   const g = createSVGElements("g");
-  svg.appendChild(g);
+  group.appendChild(g);
   axis.ticks.forEach((tick) => {
     if (!axis.label) return;
     const text = cloneSVGElement(axis.label);
@@ -34,6 +33,6 @@ export default function drawLabels(axis) {
       default:
         return;
     }
-    flip(svg, text);
+    flip(group, text);
   });
 }

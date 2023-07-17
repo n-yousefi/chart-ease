@@ -1,7 +1,7 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
 
-export default function drawAxisLine(axis) {
+export default function drawAxisLine(axis, group) {
   const g = createSVGElements("g");
   if (!axis.line) return;
   const axisLine = cloneSVGElement(axis.line);
@@ -18,5 +18,5 @@ export default function drawAxisLine(axis) {
   }
 
   g.appendChild(axisLine);
-  axis.parentElement.svg.appendChild(g);
+  group.appendChild(g);
 }
