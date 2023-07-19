@@ -13,12 +13,16 @@ class DataSet extends HTMLElement {
 
   set data(originalData) {
     this.originalData = originalData;
-    this.init();
     const h = this.getDirection("h");
     const v = this.getDirection("v");
     const directionGroups = [h, v];
     setGroupsMinMax(originalData, directionGroups);
     this.normalizedData = normalize(originalData, directionGroups);
+    this.render();
+  }
+
+  render() {
+    this.init();
     this.g.innerHTML = "";
     drawDataSet(this);
   }

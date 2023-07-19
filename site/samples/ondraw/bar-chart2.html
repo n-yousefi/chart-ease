@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="200" height="200" margin="40">
+    <chart-ease id="bar" width="200" height="200">
       <data-set hAxis="x" vAxis="Silver,Gold,Platinum">
         <g>
           <rect for="Silver" fill="red"></rect>
@@ -20,6 +20,7 @@
           <rect for="Platinum" fill="green"></rect>
         </g>
       </data-set>
+      <bottom-axis min="1" max="7"> </bottom-axis>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
@@ -33,7 +34,7 @@
       ];
       const bar = document.querySelector("#bar");
       // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
-      const barWidth = Math.round(200 / data.length) * 0.2;
+      const barWidth = Math.round(200 / data.length) * 0.25;
       bar.ondraw = ({ shape, row }) => {
         const setBar = (bar, x, y) => {
           bar.setAttribute("width", barWidth);

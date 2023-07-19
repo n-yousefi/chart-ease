@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="200" height="200" margin-right="15">
+    <chart-ease id="bar" width="200" height="200">
       <data-set hAxis="x" vAxis="Silver,Gold,Bronze">
         <g>
           <rect for="Gold" fill="gold"></rect>
@@ -20,6 +20,7 @@
           <rect for="Bronze" fill="#B08D57"></rect>
         </g>
       </data-set>
+      <bottom-axis min="1" max="9"> </bottom-axis>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>

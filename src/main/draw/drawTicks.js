@@ -6,16 +6,15 @@ export default function drawTicks(axis, group) {
   axis.ticks.forEach((tick) => {
     if (!axis.tick) return;
     const tl = cloneSVGElement(axis.tick);
-    const xOffset = Number(tl.getAttribute("x-offset") || 0);
-    const yOffset = Number(tl.getAttribute("y-offset") || 0);
     const height = Number(tl.getAttribute("height") || 0);
     const width = Number(tl.getAttribute("width") || 0);
+    const offset = axis.line?.getAttribute("stroke-width") || 0;
     if (axis.isVertical) {
-      tl.setAttribute("x", axis.position - xOffset);
-      tl.setAttribute("y", tick.position - yOffset - height / 2);
+      tl.setAttribute("x", axis.position - offset);
+      tl.setAttribute("y", tick.position - height / 2);
     } else {
-      tl.setAttribute("x", tick.position - xOffset - width / 2);
-      tl.setAttribute("y", axis.position - yOffset);
+      tl.setAttribute("x", tick.position - width / 2);
+      tl.setAttribute("y", axis.position - offset);
     }
     g.appendChild(tl);
   });

@@ -183,12 +183,16 @@
 
     set data(originalData) {
       this.originalData = originalData;
-      this.init();
       const h = this.getDirection("h");
       const v = this.getDirection("v");
       const directionGroups = [h, v];
       setGroupsMinMax(originalData, directionGroups);
       this.normalizedData = normalize(originalData, directionGroups);
+      this.render();
+    }
+
+    render() {
+      this.init();
       this.g.innerHTML = "";
       drawDataSet(this);
     }
@@ -337,16 +341,15 @@
     axis.ticks.forEach((tick) => {
       if (!axis.tick) return;
       const tl = cloneSVGElement(axis.tick);
-      const xOffset = Number(tl.getAttribute("x-offset") || 0);
-      const yOffset = Number(tl.getAttribute("y-offset") || 0);
       const height = Number(tl.getAttribute("height") || 0);
       const width = Number(tl.getAttribute("width") || 0);
+      const offset = axis.line?.getAttribute("stroke-width") || 0;
       if (axis.isVertical) {
-        tl.setAttribute("x", axis.position - xOffset);
-        tl.setAttribute("y", tick.position - yOffset - height / 2);
+        tl.setAttribute("x", axis.position - offset);
+        tl.setAttribute("y", tick.position - height / 2);
       } else {
-        tl.setAttribute("x", tick.position - xOffset - width / 2);
-        tl.setAttribute("y", axis.position - yOffset);
+        tl.setAttribute("x", tick.position - width / 2);
+        tl.setAttribute("y", axis.position - offset);
       }
       g.appendChild(tl);
     });
@@ -385,25 +388,26 @@
       const text = cloneSVGElement(axis.label);
       text.innerHTML = tick.value;
       g.appendChild(text);
-      const { width, height } = text.getBoundingClientRect();
-      const xOffset = Number(text.getAttribute("x-offset") || 0);
-      Number(text.getAttribute("y-offset") || 0);
+      let { width, height } = text.getBoundingClientRect();
+      const tickWidth = axis.tick?.getAttribute("width") || 0;
+      const tickHeight = axis.tick?.getAttribute("height") || 0;
       switch (axis.direction) {
         case "left":
-          text.setAttribute("x", axis.position - width - xOffset);
+          width += width / tick.value.toString().length;
+          text.setAttribute("x", axis.position - width - tickWidth / 2);
           text.setAttribute("y", tick.position - height / 3);
           break;
         case "right":
-          text.setAttribute("x", axis.position);
+          text.setAttribute("x", axis.position + tickWidth / 2);
           text.setAttribute("y", tick.position - height / 3);
           break;
         case "bottom":
           text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axis.position - height);
+          text.setAttribute("y", axis.position - height - tickHeight / 2);
           break;
         case "top":
           text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axis.position);
+          text.setAttribute("y", axis.position + tickHeight);
           break;
         default:
           return;
