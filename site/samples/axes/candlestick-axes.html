@@ -13,18 +13,18 @@
     </style>
   </head>
   <body>
-    <chart-ease id="candlestick" margin="20" margin-left="40">
+    <chart-ease id="candlestick">
       <data-set hAxis="x" vAxis="low,open,close,high">
         <line></line>
         <rect></rect>
       </data-set>
-      <bottom-axis ticks="8" min="0" max="9">
+      <bottom-axis ticks="8" min="0" max="9" size="20">
         <line axis-line stroke="blue"></line>
         <rect axis-tick fill="blue" width="1" height="5"></rect>
         <line grid-line stroke="#c8c8c830"></line>
         <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
       </bottom-axis>
-      <left-axis ticks="6" min="100" max="1600">
+      <left-axis ticks="6" min="100" max="1600" size="40">
         <line axis-line stroke="blue"></line>
         <line axis-tick stroke="blue"></line>
         <line grid-line stroke="#c8c8c830"></line>
