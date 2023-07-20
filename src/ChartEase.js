@@ -25,13 +25,13 @@ export default class ChartEase extends HTMLElement {
   get margin() {
     const getAxisSize = (name) => parseFloat(this.querySelector(name)?.getAttribute("size")) || 0;
     const getMargin = (name) => parseFloat(this.getAttribute(name) ?? this.getAttribute("margin") ?? MARGIN);
-    const box = {
+    const margin = {
       top: getAxisSize("top-axis") + getMargin("margin-top"),
       bottom: getAxisSize("bottom-axis") + getMargin("margin-bottom"),
       left: getAxisSize("left-axis") + getMargin("margin-left"),
       right: getAxisSize("right-axis") + getMargin("margin-right"),
     };
-    return box;
+    return margin;
   }
 
   set ondraw(ondraw) {
