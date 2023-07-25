@@ -70,18 +70,23 @@
   function drawPath(pathType, dataset) {
     if (!pathType) return;
     const path = cloneSVGElement(pathType);
-    loadPathData(path, dataset.normalizedData);
+    if (path.nodeName === "path") loadPathData(path, dataset);
+    else if (path.nodeName === "polyline") loadPolylineData(path, dataset);
     dataset.g.appendChild(path);
   }
 
-  function loadPathData(path, normalizedData) {
+  function loadPathData(path, dataset) {
     path.setAttribute(
       "d",
-      normalizedData
+      dataset.normalizedData
         .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
         .join(" ")
     );
     path.removeAttribute("is");
+  }
+
+  function loadPolylineData(node, dataset) {
+    node.setAttribute("points", dataset.normalizedData.map((point) => `${point.x},${point.y}`).join(" "));
   }
 
   function drawPoints(dataset, element) {
@@ -183,9 +188,9 @@
 
     set data(originalData) {
       this.originalData = originalData;
-      const h = this.getDirection("h");
-      const v = this.getDirection("v");
-      const directionGroups = [h, v];
+      this.hAxis = this.getDirection("h");
+      this.vAxis = this.getDirection("v");
+      const directionGroups = [this.hAxis, this.vAxis];
       setGroupsMinMax(originalData, directionGroups);
       this.normalizedData = normalize(originalData, directionGroups);
       this.render();

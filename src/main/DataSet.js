@@ -13,9 +13,9 @@ class DataSet extends HTMLElement {
 
   set data(originalData) {
     this.originalData = originalData;
-    const h = this.getDirection("h");
-    const v = this.getDirection("v");
-    const directionGroups = [h, v];
+    this.hAxis = this.getDirection("h");
+    this.vAxis = this.getDirection("v");
+    const directionGroups = [this.hAxis, this.vAxis];
     setGroupsMinMax(originalData, directionGroups);
     this.normalizedData = normalize(originalData, directionGroups);
     this.render();
