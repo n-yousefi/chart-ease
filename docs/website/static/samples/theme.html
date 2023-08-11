@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>markers</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient
+          id="pathGradient"
+          xmlns="http://www.w3.org/2000/svg"
+          gradientTransform="rotate(90)"
+        >
+          <stop stop-color="chartreuse" offset="30%" />
+          <stop stop-color="coral" offset="70%" />
+        </linearGradient>
+        <filter id="softGlow" width="300%" height="300%" x="-100%" y="-100%">
+          <feGaussianBlur
+            in="thicken"
+            stdDeviation="2"
+            result="blurred"
+          ></feGaussianBlur>
+        </filter>
+      </defs>
+    </svg>
+    <chart-ease width="400" height="400">
+      <data-set>
+        <path
+          path-type
+          stroke-linecap="round"
+          stroke="url(#pathGradient)"
+          stroke-width="2.5"
+          fill="none"
+        ></path>
+        </circle>
+        <text
+          x="0"
+          y="15"
+          font-size="30px"
+          font-weight="bold"
+          fill="none"
+          stroke="black"
+        ></text>
+        <circle r="5" fill="white" filter="url(#softGlow)" fill-opacity="1">
+      </data-set>
+      <left-axis min="0" max="8"></left-axis>
+    </chart-ease>
+    <script src="../js/chart-ease.js"></script>
+    <script>
+      const data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0, label: "MIN" },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7, label: "MAX" },
+        { x: 8, y: 3 },
+      ];
+      const chart = document.querySelector("chart-ease");
+      chart.ondraw = ({ shape, row, index, originalRow }) => {
+        switch (shape.tagName) {
+          case "text":
+            if (!originalRow.label) break;
+            shape.setAttribute(
+              "x",
+              row.x - originalRow.label.toString().length * 10
+            );
+            shape.setAttribute("y", row.y + 10);
+            shape.innerHTML = originalRow.label;
+            break;
+          case "circle":
+            shape.setAttribute("cx", row.x);
+            shape.setAttribute("cy", row.y);
+            if (
+              data[index].y > (data[index - 1]?.y ?? Number.MIN_VALUE) &&
+              data[index].y > (data[index + 1]?.y ?? Number.MIN_VALUE)
+            )
+              shape.setAttribute("fill", "chartreuse");
+            else if (
+              data[index].y < (data[index - 1]?.y ?? Number.MAX_VALUE) &&
+              data[index].y < (data[index + 1]?.y ?? Number.MAX_VALUE)
+            )
+              shape.setAttribute("fill", "coral");
+            else shape.setAttribute("fill-opacity", 0);
+            break;
+        }
+      };
+      chart.data = data;      
+    </script>
+  </body>
+</html>

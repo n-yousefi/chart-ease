@@ -2,46 +2,16 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Chart Ease
 
-Let's discover **Docusaurus in less than 5 minutes**.
+`<chart-ease>` is a lightweight and highly customizable **web component** designed for creating small and precise charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex scatterplot, chart-ease makes it easy to build and display your data in a clear and meaningful way.
 
-## Getting Started
+## SVG rendering
 
-Get started by **creating a new site**.
+Chart-Ease utilizes SVG (Scalable Vector Graphics) as the underlying technology for drawing charts. The choice of SVG for chart rendering is a deliberate decision made to achieve optimal performance and customization for the intended use cases.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+### Why SVG?
 
-### What you'll need
+SVG is particularly well-suited for rendering charts with a smaller number of objects or a larger surface area. This makes it an ideal choice for Chart-Ease, which aims to draw small charts quickly and with a high degree of customization. SVG's vector-based nature allows for smooth scaling of graphics without loss of quality, making it suitable for responsive and high-resolution displays.
 
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+On the contrary, Canvas exhibits better performance when working with a smaller surface area or a larger number of objects. It has performance advantages in specific scenarios that are not intended for us.

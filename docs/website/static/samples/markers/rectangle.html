@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="200" height="200">
+      <data-set>
+        <path path-type stroke="aqua" fill="none"></path>
+        <rect rx="0" ry="10" width="10" height="10" stroke="aqua" fill="aliceblue" />
+      </data-set>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      document.querySelector("chart-ease").data = [
+        { x: 1, y: 6 },
+        { x: 2, y: 4 },
+        { x: 3, y: 0 },
+        { x: 4, y: 3 },
+        { x: 5, y: 5 },
+        { x: 6, y: 2 },
+        { x: 7, y: 7 },
+        { x: 8, y: 3 },
+      ];
+    </script>
+  </body>
+</html>

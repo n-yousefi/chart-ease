@@ -8,13 +8,13 @@ export default [
       clearScreen: false,
     },
     output: {
-      file: "site/js/chart-ease.js",
+      file: "docs/website/static/js/chart-ease.js",
       format: "iife",
     },
   },
 
   {
-    input: "site/js/chart-ease.js",
+    input: "docs/website/static/js/chart-ease.js",
     watch: {
       include: "./dist/**",
       clearScreen: false,
