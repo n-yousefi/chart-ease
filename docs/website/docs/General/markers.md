@@ -3,11 +3,11 @@ sidebar_label: "Markers"
 sidebar_position: 2
 ---
 
-# Default markers
+## Default markers
 
 You can define any type of SVG element or combination of them as markers. Basic elements are adjusted by default, so you only need to put them inside the same data-set element. Chart-ease will draw them at the corresponding position of each point.
 
-## Circle
+### Circle
 
 Use the `<circle>` element to create circular points.
 
@@ -34,7 +34,7 @@ Use the `<circle>` element to create circular points.
 
 <iframe src="/samples/markers/circle.html" style={{ width: '250px', height: '250px' }}></iframe>
 
-## Rectangle
+### Rectangle
 
 Use the **`<rect>`** element to create rectangular points.
 
@@ -61,7 +61,7 @@ Use the **`<rect>`** element to create rectangular points.
 
 <iframe src="/samples/markers/rectangle.html" style={{ width: '250px', height: '250px' }}></iframe>
 
-## Ellipse
+### Ellipse
 
 Use the **`<ellipse>`** element to create elliptical points.
 
@@ -88,7 +88,7 @@ Use the **`<ellipse>`** element to create elliptical points.
 
 <iframe src="/samples/markers/ellipse.html" style={{ width: '250px', height: '250px' }}></iframe>
 
-# Complex markers
+## Complex markers
 
 To create complex markers, you may need to adjust the position, styles, animations, and more. With the `draw` event, you can access each point and draw it yourself. In the ondraw event handler, you can create different types of charts and customize everything.
 
