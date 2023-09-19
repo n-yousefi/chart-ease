@@ -54,7 +54,7 @@
             break;
         }
       };
-      chart.data = [
+      let data = [
         { low: 1100, open: 1100, close: 1200, high: 1300 },
         { low: 1200, open: 1200, close: 1300, high: 1300 },
         { low: 1300, open: 1300, close: 1400, high: 1500 },
@@ -64,6 +64,21 @@
         { low: 500, open: 700, close: 600, high: 710 },
         { low: 500, open: 600, close: 1000, high: 1000 },
       ];
+      const ds = document.querySelector("data-set");
+      setInterval(() => {
+        data.shift;
+        let low = Math.round(Math.random() * 1500);
+        let high = Math.round(Math.random() * 1500);
+        let open = Math.round(Math.random() * 1500);
+        let close = Math.round(Math.random() * 1500);
+        if (high < low) high = low + 100;
+        if (open < low) open = low;
+        if (open > high) open = high;
+        if (close < low) close = low;
+        if (close > high) close = high;
+        data.push({ low, open, close, high });
+        ds.data = data;
+      }, 1000);
     </script>
   </body>
 </html>

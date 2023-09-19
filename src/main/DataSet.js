@@ -11,14 +11,31 @@ class DataSet extends HTMLElement {
   connectedCallback() {}
   disconnectedCallback() {}
 
-  set data(originalData) {
-    this.originalData = originalData;
+  set data(data) {
     this.hAxis = this.getDirection("h");
     this.vAxis = this.getDirection("v");
+    this.originalData = data;
+    this.initData();
     const directionGroups = [this.hAxis, this.vAxis];
-    setGroupsMinMax(originalData, directionGroups);
-    this.normalizedData = normalize(originalData, directionGroups);
+    setGroupsMinMax(this.originalData, directionGroups);
+    this.normalizedData = normalize(this.originalData, directionGroups);
     this.render();
+  }
+
+  initData() {
+    if (typeof this.originalData[0] !== "object") {
+      this.originalData = this.originalData.map((item, index) => {
+        return { x: index + 1, y: item };
+      });
+    }
+    this.hAxis.cols.concat(this.vAxis.cols).forEach((col) => {
+      if (typeof this.originalData[0][col] === "undefined") {
+        this.originalData = this.originalData.map((item, index) => {
+          item[col] = index + 1;
+          return item;
+        });
+      }
+    });
   }
 
   render() {

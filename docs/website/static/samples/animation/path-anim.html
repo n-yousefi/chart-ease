@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Path</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="200" height="200">
+      <data-set>
+        <path path-type stroke="aqua" fill="none"></path>
+      </data-set>
+      <left-axis ticks="10" min="0" max="20" size="15">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </left-axis>
+      <bottom-axis ticks="10" min="1" max="10" size="10">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </bottom-axis>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data = [6, 4, 0, 3, 5, 2, 7, 3, 3, 9];
+      setInterval(() => {
+        data.splice(0, 1);
+        data.push(Math.round(Math.random() * 20));
+        document.querySelector("data-set").data = data;
+      }, 1000);
+    </script>
+  </body>
+</html>

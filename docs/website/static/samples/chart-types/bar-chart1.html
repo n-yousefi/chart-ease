@@ -13,7 +13,7 @@
   </head>
   <body>
     <chart-ease id="bar" width="200" height="200">
-      <data-set hAxis="x" vAxis="Silver,Gold,Bronze">
+      <data-set vAxis="Silver,Gold,Bronze">
         <g>
           <rect for="Gold" fill="gold"></rect>
           <rect for="Silver" fill="silver"></rect>
@@ -25,14 +25,14 @@
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [
-        { x: 1, Bronze: 1, Silver: 2, Gold: 5 },
-        { x: 2, Bronze: 3, Silver: 4, Gold: 7 },
-        { x: 3, Bronze: 2, Silver: 4, Gold: 9 },
-        { x: 4, Bronze: 2, Silver: 3, Gold: 6 },
-        { x: 5, Bronze: 7, Silver: 12, Gold: 14 },
-        { x: 6, Bronze: 2, Silver: 9, Gold: 10 },
-        { x: 7, Bronze: 1, Silver: 2, Gold: 3 },
-        { x: 8, Bronze: 2, Silver: 5, Gold: 6 },
+        { Bronze: 1, Silver: 2, Gold: 5 },
+        { Bronze: 3, Silver: 4, Gold: 7 },
+        { Bronze: 2, Silver: 4, Gold: 9 },
+        { Bronze: 2, Silver: 3, Gold: 6 },
+        { Bronze: 7, Silver: 12, Gold: 14 },
+        { Bronze: 2, Silver: 9, Gold: 10 },
+        { Bronze: 1, Silver: 2, Gold: 3 },
+        { Bronze: 2, Silver: 5, Gold: 6 },
       ];
       const bar = document.querySelector("#bar");
       bar.ondraw = ({ shape, row }) => {
