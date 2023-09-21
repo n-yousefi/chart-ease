@@ -3,9 +3,13 @@ sidebar_label: "Markers"
 sidebar_position: 2
 ---
 
-## Default markers
+# Markers
 
-You can define any type of SVG element or combination of them as markers. Basic elements are adjusted by default, so you only need to put them inside the same data-set element. Chart-ease will draw them at the corresponding position of each point.
+Markers are visual elements that can be added to your chart to represent data points. Chart Ease provides flexibility in defining and customizing markers.
+
+## Default Markers
+
+Chart Ease supports default markers like circles, ellipses, and rectangles, which can be added directly within a `<data-set>` element.
 
 ### Circle
 
@@ -18,18 +22,10 @@ Use the `<circle>` element to create circular points.
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
 </chart-ease>
-<script>
-  document.querySelector("chart-ease").data = [
-    { x: 1, y: 6 },
-    { x: 2, y: 4 },
-    { x: 3, y: 0 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 },
-    { x: 6, y: 2 },
-    { x: 7, y: 7 },
-    { x: 8, y: 3 },
-  ];
-</script>
+```
+
+```javascript
+dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
 <iframe src="/samples/markers/circle.html" style={{ width: '250px', height: '250px' }}></iframe>
@@ -45,18 +41,10 @@ Use the **`<rect>`** element to create rectangular points.
     <rect rx="0" ry="10" width="10" height="10" stroke="aqua" fill="aliceblue" />
   </data-set>
 </chart-ease>
-<script>
-  document.querySelector("chart-ease").data = [
-    { x: 1, y: 6 },
-    { x: 2, y: 4 },
-    { x: 3, y: 0 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 },
-    { x: 6, y: 2 },
-    { x: 7, y: 7 },
-    { x: 8, y: 3 },
-  ];
-</script>
+```
+
+```javascript
+dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
 <iframe src="/samples/markers/rectangle.html" style={{ width: '250px', height: '250px' }}></iframe>
@@ -72,18 +60,10 @@ Use the **`<ellipse>`** element to create elliptical points.
     <ellipse rx="10" ry="4" fill="aliceblue" stroke="aqua" />
   </data-set>
 </chart-ease>
-<script>
-  document.querySelector("chart-ease").data = [
-    { x: 1, y: 6 },
-    { x: 2, y: 4 },
-    { x: 3, y: 0 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 },
-    { x: 6, y: 2 },
-    { x: 7, y: 7 },
-    { x: 8, y: 3 },
-  ];
-</script>
+```
+
+```javascript
+dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
 <iframe src="/samples/markers/ellipse.html" style={{ width: '250px', height: '250px' }}></iframe>
@@ -99,6 +79,18 @@ To create complex markers, you may need to adjust the position, styles, animatio
 - row: the normalized row of the data array that is computed based on defined or default axes.
 - index: the index of the row inside the data array.
 
+```html
+<script>
+  const chart = document.querySelector("chart-ease");
+
+  chart.ondraw = ({ shape, row, index, originalRow }) => {
+    // Customize marker drawing based on data
+    // Example: Add text labels or unique markers
+    // Modify shape attributes as needed
+  };
+</script>
+```
+
 See these examples:
 
 ### Samples 1: Value labels
@@ -112,6 +104,7 @@ Drawing the value upon each points using `<text>` element and customize it based
     <text x="0" y="15" fill="black" font-size="10px"></text>
   </data-set>
 </chart-ease>
+<script src="../../js/chart-ease.js"></script>
 <script>
   const textType = document.querySelector("#textType");
   textType.ondraw = ({ shape, row, index, originalRow }) => {
@@ -121,16 +114,7 @@ Drawing the value upon each points using `<text>` element and customize it based
     if (index === 0) shape.setAttribute("opacity", 0.1);
     if (index === 1) shape.setAttribute("opacity", 0.5);
   };
-  textType.data = [
-    { x: 1, y: 0.6152156 },
-    { x: 2, y: 0.6152154 },
-    { x: 3, y: 0.615215 },
-    { x: 4, y: 0.6152153 },
-    { x: 5, y: 0.6152155 },
-    { x: 6, y: 0.6152152 },
-    { x: 7, y: 0.6152157 },
-    { x: 8, y: 0.6152153 },
-  ];
+  textType.data = [0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153];
 </script>
 ```
 
@@ -145,6 +129,7 @@ Drawing the value upon each points using `<text>` element and customize it based
     <path fill="none" stroke="blue" stroke-width="2" />
   </data-set>
 </chart-ease>
+<script src="../../js/chart-ease.js"></script>
 <script>
   const pathType = document.querySelector("#pathType");
   pathType.ondraw = ({ shape, row, index }) => {
@@ -152,17 +137,10 @@ Drawing the value upon each points using `<text>` element and customize it based
     shape.setAttribute("d", `M${x - 4},${y - 4} V${y + 4} H${x + 4} V${y - 4} H${x - 4}`);
     if (index === 0) shape.setAttribute("opacity", 0.1);
   };
-  pathType.data = [
-    { x: 1, y: 6 },
-    { x: 2, y: 4 },
-    { x: 3, y: 0 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 },
-    { x: 6, y: 2 },
-    { x: 7, y: 7 },
-    { x: 8, y: 3 },
-  ];
+  pathType.data = [6, 4, 0, 3, 5, 2, 7, 3];
 </script>
 ```
 
 <iframe src="/samples/ondraw/custom-path.html" style={{ width: '250px', height: '250px' }}></iframe>
+
+By using the ondraw event, you have complete control over how markers are drawn, opening up possibilities for highly customized and interactive charts.

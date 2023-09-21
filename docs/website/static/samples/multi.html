@@ -13,23 +13,23 @@
   </head>
   <body>
     <chart-ease width="200" height="200">
-      <data-set id="chart1">
+      <data-set id="set1">
         <path path-type stroke="antiquewhite" fill="none"></path>
       </data-set>
-      <data-set id="chart2">
+      <data-set id="set2">
         <path path-type stroke="blue" fill="none"></path>
         <rect rx="0" ry="10" width="2" height="2" stroke="aqua" stroke-width="5" />
       </data-set>
-      <data-set id="chart3">
+      <data-set id="set3">
         <path path-type stroke-linecap="round" stroke="fuchsia" fill="none"></path>
         <circle r="5" fill="fuchsia" fill-opacity=".3" stroke-width="5"></circle>
       </data-set>
     </chart-ease>
     <script src="../js/chart-ease.js"></script>
     <script>
-      document.getElementById("chart1").data = [6, 4, 0, 3, 5, 2, 7, 3];
-      document.getElementById("chart2").data = [2, 5, 3, 1, 0, 3, 9, 12];
-      document.getElementById("chart3").data = [1, 2, 3, 7, 6, 5, 2, 1];
+      document.getElementById("set1").data = [6, 4, 0, 3, 5, 2, 7, 3];
+      document.getElementById("set2").data = [2, 5, 3, 1, 0, 3, 9, 12];
+      document.getElementById("set3").data = [1, 2, 3, 7, 6, 5, 2, 1];
     </script>
   </body>
 </html>
