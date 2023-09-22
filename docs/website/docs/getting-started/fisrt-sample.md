@@ -52,6 +52,6 @@ dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 
 You've successfully created your first chart with Chart Ease.
 
-<iframe src="/samples/path.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/samples/path-types/path.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 Now, you can explore further customization options, add markers, and design your charts to convey data effectively. In the following sections, we'll dive deeper into various aspects of using Chart Ease, including data sets, axes configuration, path customization, markers, and more.

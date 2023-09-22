@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Path</title>
+    <title>My Chart Example</title>
     <link rel="shortcut icon" href="#" />
     <style>
       body {
@@ -14,12 +14,12 @@
   <body>
     <chart-ease width="200" height="200">
       <data-set>
-        <path path-type stroke="aqua" fill="none"></path>
+        <polyline path-type fill="none" stroke="aqua"></polyline>
       </data-set>
     </chart-ease>
-    <script src="../js/chart-ease.js"></script>
+    <script src="../../js/chart-ease.js"></script>
     <script>
-      document.querySelector("data-set").data = [6, 4, 0, 3, 5, 2, 7, 3];
+      document.querySelector("chart-ease").data = [6, 4, 0, 3, 5, 2, 7, 3];
     </script>
   </body>
 </html>
