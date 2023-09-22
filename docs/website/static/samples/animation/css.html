@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Path</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+    <style>
+      path {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: dash 4s infinite forwards, hide 4s infinite forwards;
+        filter: url(#blurFilter);
+      }
+
+      @keyframes dash {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes hide {
+        0% {
+          opacity: 0;
+          filter: url(#blurFilter);
+        }
+        50% {
+          opacity: 1;
+          filter: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="400" height="100">
+      <data-set>
+        <path path-type stroke="red" strok-width="2" fill="none"></path>
+      </data-set>
+      <defs>
+        <filter id="blurFilter">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+        </filter>
+      </defs>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      document.querySelector("data-set").data = [
+        20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20,
+        20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 22,
+        18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20,
+      ];
+    </script>
+  </body>
+</html>

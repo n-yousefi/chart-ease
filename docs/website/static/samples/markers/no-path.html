@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="200" height="200" margin="20">
+      <data-set>
+        <circle r="12" stroke="#c5d3e8" fill="none"></circle>
+        <circle r="10" fill="#6b8fc9" stroke="none"></circle>
+        <rect rx="0" ry="10" width="10" height="10" stroke="none" fill="white" />
+      </data-set>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      document.querySelector("chart-ease").data = [6, 4, 0, 3, 5, 2, 7, 3];
+    </script>
+  </body>
+</html>
