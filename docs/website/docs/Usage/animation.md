@@ -52,9 +52,21 @@ path {
 </chart-ease>
 ```
 
+```javascript
+dataSet.data = [
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 22, 18, 22, 20, 20, 2, 40, 20, 23, 20, 20, 20, 20, 20, 20, 22, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+];
+```
+
 <iframe src="/samples/animation/css.html" style={{ width: '500px', height: '150px' }}></iframe>
 
-In this example, we're animating the drawing of the Line Chart. The **stroke-dasharray** and **stroke-dashoffset** properties control the animation effect. You can adjust the animation duration and timing function to achieve the desired effect.
+In this example, we're animating the drawing of the Line Chart to simulate _ECG pulse line_. The **stroke-dasharray** and **stroke-dashoffset** properties control the animation effect. You can adjust the animation duration and timing function to achieve the desired effect.
 
 ### Animating Data Points
 
@@ -94,3 +106,5 @@ setInterval(() => {
 ```
 
 <iframe src="/samples/animation/live-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+
+In this example, we're updating the data and redrawing the Line Chart every .5 seconds. This creates a dynamic and continuously updating chart.
