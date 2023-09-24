@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Bar chart
 
-With Chart Ease, you can create a variety of bar chart types to effectively visualize your data. This section demonstrates how to draw three common bar chart types: Simple Bar Chart, Stacked Bar Chart, and Grouped Bar Chart. Chart Ease provides you with flexibility, allowing you to configure and customize these chart types according to your unique requirements.
+With Chart Ease, you can create a variety of bar chart types to effectively visualize your data. This section demonstrates how to draw some common bar chart types. Chart Ease provides you with flexibility, allowing you to configure and customize these chart types according to your unique requirements.
 
 ## Simple Bar Chart
 
@@ -16,15 +16,14 @@ In the Simple Bar Chart, each data point is represented as a separate bar. You c
   <data-set>
     <rect fill="red"></rect>
   </data-set>
-  <bottom-axis min="0" max="6"> </bottom-axis>
 </chart-ease>
 ```
 
 ```javascript
-const data = [1, 2, 3, 4, 5, 6];
+const data = [6, 4, 0, 3, 5, 2];
 const bar = document.querySelector("#chart");
 bar.ondraw = ({ shape, row }) => {
-  shape.setAttribute("x", row.x);
+  shape.setAttribute("x", row.x - 10);
   shape.setAttribute("y", 0);
 
   shape.setAttribute("width", 20);
@@ -65,21 +64,20 @@ const data = [
 ];
 const bar = document.querySelector("#bar");
 bar.ondraw = ({ shape, row }) => {
-  const setBar = (bar, x, y) => {
-    bar.setAttribute("x", x);
+  Array.from(shape.children).forEach((bar) => {
+    bar.setAttribute("x", row.x);
     bar.setAttribute("y", 0);
 
     bar.setAttribute("width", 15);
-    bar.setAttribute("height", y);
-  };
-  Array.from(shape.children).forEach((bar) => {
-    setBar(bar, row.x, row[bar.getAttribute("for")]);
+    bar.setAttribute("height", row[bar.getAttribute("for")]);
   });
 };
 bar.data = data;
 ```
 
 <iframe src="/samples/chart-types/stacked-bar-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+
+In the this sample, we use three `<rect>` elements for each unit of data, include as **Silver**, **Gold**, and **Platinum**, each with a custom attribute named `for`. This custom attribute plays a crucial role in our `ondraw` event handler. Within the event handler, we dynamically access the data attribute relative to the `for` value, allowing us to precisely position and size each bar segment.
 
 ## Grouped Bar Chart
 
@@ -113,18 +111,47 @@ const barGap = 0.25;
 // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
 const barWidth = Math.round(400 / data.length) * 0.25;
 bar.ondraw = ({ shape, row }) => {
-  const setBar = (bar, x, y) => {
-    bar.setAttribute("x", x);
+  Array.from(shape.children).forEach((bar, index) => {
+    bar.setAttribute("x", row.x + index * barWidth);
     bar.setAttribute("y", 0);
 
     bar.setAttribute("width", barWidth);
-    bar.setAttribute("height", y);
-  };
-  Array.from(shape.children).forEach((bar, index) => {
-    setBar(bar, row.x + index * barWidth, row[bar.getAttribute("for")]);
+    bar.setAttribute("height", row[bar.getAttribute("for")]);
   });
 };
 bar.data = data;
 ```
 
 <iframe src="/samples/chart-types/grouped-bar-chart.html" style={{ width: '500px', height: '250px' }}></iframe>
+
+Like the Stacked Bar Chart example, the Grouped Bar Chart sample also utilizes three `<rect>` elements per data category. These elements have been enhanced with a custom attribute named "for," which is employed in the ondraw event.
+
+## Bar Line Chart
+
+A Bar Line Chart is a hybrid chart that combines the characteristics of both a bar chart and a line chart. It allows you to represent data points using bars and lines in the same chart. To create a Bar Line Chart, you can use a combination of `<rect>` elements for the bars and a `<path>` element for the line. This allows you to visualize different aspects of your data simultaneously.
+
+```html
+<chart-ease id="chart" width="200" height="200" margin="20">
+  <data-set>
+    <rect fill="red"></rect>
+    <path path-type stroke="aqua" stroke-width="2" fill="none"></path>
+  </data-set>
+</chart-ease>
+```
+
+```javascript
+const data = [6, 4, 0, 3, 5, 2];
+const bar = document.querySelector("#chart");
+bar.ondraw = ({ shape, row }) => {
+  shape.setAttribute("width", 20);
+  shape.setAttribute("x", row.x - 10);
+
+  shape.setAttribute("height", row.y);
+  shape.setAttribute("y", 0);
+};
+bar.data = data;
+```
+
+<iframe src="/samples/chart-types/bar-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+
+These examples demonstrate how you can create different types of bar charts using Chart Ease. Feel free to explore and customize these chart types according to your data visualization needs.

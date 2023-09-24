@@ -38,15 +38,12 @@
       // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
       const barWidth = Math.round(400 / data.length) * 0.25;
       bar.ondraw = ({ shape, row }) => {
-        const setBar = (bar, x, y) => {
-          bar.setAttribute("width", barWidth);
-          bar.setAttribute("x", x);
-
-          bar.setAttribute("height", y);
-          bar.setAttribute("y", 0);
-        };
         Array.from(shape.children).forEach((bar, index) => {
-          setBar(bar, row.x + index * barWidth, row[bar.getAttribute("for")]);
+          bar.setAttribute("x", row.x + index * barWidth);
+          bar.setAttribute("y", 0);
+
+          bar.setAttribute("width", barWidth);
+          bar.setAttribute("height", row[bar.getAttribute("for")]);
         });
       };
       bar.data = data;

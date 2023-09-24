@@ -36,15 +36,12 @@
       ];
       const bar = document.querySelector("#bar");
       bar.ondraw = ({ shape, row }) => {
-        const setBar = (bar, x, y) => {
-          bar.setAttribute("width", 15);
-          bar.setAttribute("x", x);
-
-          bar.setAttribute("height", y);
-          bar.setAttribute("y", 0);
-        };
         Array.from(shape.children).forEach((bar) => {
-          setBar(bar, row.x, row[bar.getAttribute("for")]);
+          bar.setAttribute("x", row.x);
+          bar.setAttribute("y", 0);
+
+          bar.setAttribute("width", 15);
+          bar.setAttribute("height", row[bar.getAttribute("for")]);
         });
       };
       bar.data = data;

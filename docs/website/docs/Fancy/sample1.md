@@ -1,0 +1,68 @@
+---
+sidebar_label: "Sample 1"
+sidebar_position: 2
+---
+
+# Sample 1
+
+```html
+<chart-ease id="chart" width="500" height="400" margin="40">
+  <data-set>
+    <rect fill="#1D46D6"></rect>
+    <circle r="20" fill="white" stroke="#1A3495" stroke-width="2"></circle>
+    <text class="value" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
+    <text class="labels" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
+  </data-set>
+  <left-axis ticks="6" min="0" max="80"> </left-axis>
+  <bottom-axis ticks="7" min="0" max="6">
+    <line grid-line stroke="#c8c8c830"></line>
+    <line axis-line stroke="blue"></line>
+  </bottom-axis>
+</chart-ease>
+```
+
+```javascript
+const data = [
+  { y: 10, label: "Jan" },
+  { y: 40, label: "Feb" },
+  { y: 50, label: "Mar" },
+  { y: 70, label: "Apr" },
+  { y: 30, label: "May" },
+];
+
+chart = document.querySelector("#chart");
+const margin = 40;
+// Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
+const barWidth = Math.round(500 / data.length) * 0.6;
+chart.ondraw = ({ shape, row, originalRow }) => {
+  switch (shape.tagName) {
+    case "rect":
+      shape.setAttribute("width", barWidth);
+      shape.setAttribute("x", row.x - barWidth / 2);
+
+      shape.setAttribute("height", row.y - margin); // y - margin
+      shape.setAttribute("y", margin); // margin
+
+      if (originalRow.y == 70) shape.setAttribute("fill", "#158EF9");
+      break;
+    case "circle":
+      if (row.x > 0) shape.setAttribute("cx", row.x);
+      if (row.y > 0) shape.setAttribute("cy", row.y);
+      break;
+    case "text":
+      const shapeFontSize = 20;
+      shape.setAttribute("x", row.x - (originalRow.x.toString().length * shapeFontSize) / 2);
+      if (shape.getAttribute("class") == "value") {
+        shape.innerHTML = originalRow.y;
+        shape.setAttribute("y", row.y - 5);
+      } else {
+        shape.innerHTML = originalRow.label;
+        shape.setAttribute("y", margin / 2);
+      }
+      break;
+  }
+};
+chart.data = data;
+```
+
+<iframe src="/samples/fancy/sample1.html" style={{ width: '550px', height: '450px' }}></iframe>

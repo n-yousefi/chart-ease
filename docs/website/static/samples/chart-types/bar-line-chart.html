@@ -15,6 +15,7 @@
     <chart-ease id="chart" width="200" height="200" margin="20">
       <data-set>
         <rect fill="red"></rect>
+        <path path-type stroke="aqua" stroke-width="2" fill="none"></path>
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
@@ -22,11 +23,11 @@
       const data = [6, 4, 0, 3, 5, 2];
       const bar = document.querySelector("#chart");
       bar.ondraw = ({ shape, row }) => {
-        shape.setAttribute("x", row.x - 10);
-        shape.setAttribute("y", 0);
-
         shape.setAttribute("width", 20);
+        shape.setAttribute("x", row.x - 10);
+
         shape.setAttribute("height", row.y);
+        shape.setAttribute("y", 0);
       };
       bar.data = data;
     </script>

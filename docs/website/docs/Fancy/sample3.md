@@ -1,0 +1,64 @@
+---
+sidebar_label: "Sample 3"
+sidebar_position: 4
+---
+
+# Sample 3
+
+```html
+<chart-ease id="chart" width="500" height="400" margin="40">
+  <data-set>
+    <rect name="shaddow" fill="#fafafa" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
+    <rect fill="#1D46D6" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
+    <text name="value" fill="white" font-size="20" font-family="tahoma"></text>
+    <text name="labels" fill="#1D46D6" font-size="20" font-family="tahoma"></text>
+  </data-set>
+  <left-axis ticks="6" min="0" max="80"></left-axis>
+</chart-ease>
+```
+
+```javascript
+const data = [
+  { x: 1, y: 30, label: "2018", color: "#B5E792" },
+  { x: 2, y: 50, label: "2019", color: "#82D897" },
+  { x: 3, y: 70, label: "2020", color: "#6ED2C8" },
+  { x: 4, y: 45, label: "2021", color: "#A4D8E8" },
+  { x: 5, y: 90, label: "2022", color: "#79AEDB" },
+];
+
+chart = document.querySelector("#chart");
+const margin = 40;
+const clipPath = 30;
+// Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
+const barWidth = Math.round(500 / data.length) * 0.6;
+chart.ondraw = ({ shape, row, originalRow }) => {
+  switch (shape.tagName) {
+    case "rect":
+      shape.setAttribute("width", barWidth);
+      shape.setAttribute("x", row.x - barWidth / 2);
+      shape.setAttribute("y", margin - clipPath); // margin
+      if (shape.getAttribute("name") == "shaddow") {
+        shape.setAttribute("height", 400 - clipPath); // y - margin
+      } else {
+        shape.setAttribute("height", row.y - margin - clipPath); // y - margin
+        shape.setAttribute("fill", originalRow.color);
+      }
+      break;
+    case "text":
+      if (shape.getAttribute("name") == "value") {
+        shape.innerHTML = originalRow.y;
+        shape.innerHTML += "%";
+        shape.setAttribute("x", row.x - 20);
+        shape.setAttribute("y", row.y - margin - clipPath - 30);
+      } else {
+        shape.innerHTML = originalRow.label;
+        shape.setAttribute("x", row.x - 20);
+        shape.setAttribute("y", margin / 2);
+      }
+      break;
+  }
+};
+chart.data = data;
+```
+
+<iframe src="/samples/fancy/sample3.html" style={{ width: '550px', height: '450px' }}></iframe>
