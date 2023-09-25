@@ -420,7 +420,7 @@
           text.setAttribute("y", tick.position - height / 3);
           break;
         case "right":
-          text.setAttribute("x", axis.position + tickWidth / 2);
+          text.setAttribute("x", axis.position + tickWidth / 2 + 5);
           text.setAttribute("y", tick.position - height / 3);
           break;
         case "bottom":
@@ -429,7 +429,7 @@
           break;
         case "top":
           text.setAttribute("x", tick.position - width / 2);
-          text.setAttribute("y", axis.position + tickHeight);
+          text.setAttribute("y", axis.position + tickHeight + 5);
           break;
         default:
           return;

@@ -66,3 +66,62 @@ chart.data = [
 ```
 
 <iframe src="/samples/chart-types/candlestick.html" style={{ width: '250px', height: '250px' }}></iframe>
+
+You can use axes for labeling points price values and understanding the scale of your chart.
+
+```html
+<chart-ease id="candlestick">
+  <data-set vAxis="low,open,close,high">
+    <line></line>
+    <rect></rect>
+  </data-set>
+  <bottom-axis ticks="8" min="0" max="9" height="20">
+    <line axis-line stroke="blue"></line>
+    <rect axis-tick fill="blue" width="1" height="5"></rect>
+    <line grid-line stroke="#c8c8c830"></line>
+    <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+  </bottom-axis>
+  <left-axis ticks="6" min="100" max="1600" width="40">
+    <line axis-line stroke="blue"></line>
+    <line axis-tick stroke="blue"></line>
+    <line grid-line stroke="#c8c8c830"></line>
+    <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+  </left-axis>
+</chart-ease>
+```
+
+```javascript
+const chart = document.querySelector("#candlestick");
+chart.ondraw = ({ shape, row }) => {
+  const green = row.open < row.close;
+  switch (shape.tagName) {
+    case "line":
+      shape.setAttribute("x1", row.x);
+      shape.setAttribute("x2", row.x);
+      shape.setAttribute("y1", row.low);
+      shape.setAttribute("y2", row.high);
+      shape.setAttribute("stroke", green ? "#28A69A" : "#EE5355");
+      break;
+    case "rect":
+      shape.setAttribute("width", 10);
+      shape.setAttribute("x", row.x - 5);
+
+      shape.setAttribute("height", Math.abs(row.close - row.open));
+      shape.setAttribute("y", green ? row.open : row.close);
+      shape.setAttribute("fill", green ? "#28A69A" : "#EE5355");
+      break;
+  }
+};
+chart.data = [
+  { low: 1100, open: 1100, close: 1200, high: 1300 },
+  { low: 1200, open: 1200, close: 1300, high: 1300 },
+  { low: 1300, open: 1300, close: 1400, high: 1500 },
+  { low: 1400, open: 1400, close: 1300, high: 1600 },
+  { low: 800, open: 1300, close: 1000, high: 1350 },
+  { low: 700, open: 1000, close: 700, high: 1100 },
+  { low: 500, open: 700, close: 600, high: 710 },
+  { low: 500, open: 600, close: 1000, high: 1000 },
+];
+```
+
+<iframe src="/samples/axes/candlestick-axes.html" style={{ width: '250px', height: '250px' }}></iframe>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="200" height="200">
+      <data-set>
+        <path path-type stroke="aqua" fill="none"></path>
+        <circle r="5" fill="aliceblue" stroke="aqua"></circle>
+      </data-set>
+      <left-axis ticks="6" min="0" max="10" width="15">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </left-axis>
+      <bottom-axis ticks="6" min="0" max="10" height="15">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </bottom-axis>
+    </chart-ease>
+    <chart-ease width="200" height="200">
+      <data-set>
+        <path path-type stroke="aqua" fill="none"></path>
+        <circle r="5" fill="aliceblue" stroke="aqua"></circle>
+      </data-set>
+      <right-axis ticks="6" min="0" max="10" width="15">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </right-axis>
+      <top-axis ticks="6" min="0" max="10" height="15">
+        <line axis-line stroke="blue"></line>
+        <line grid-line stroke="#c8c8c830"></line>
+        <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
+      </top-axis>
+    </chart-ease>
+
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data = [6, 9, 1, 3, 5, 4, 7, 3];
+      document.querySelectorAll("chart-ease").forEach((chart) => (chart.data = data));
+    </script>
+  </body>
+</html>
