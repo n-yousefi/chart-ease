@@ -21,12 +21,12 @@ To create an Area Chart, you can use the `<polyline>` element within the `<data-
     <path path-type stroke="#A4D8E8" fill="none" stroke-width="1"></path>
     <polyline path-type fill="#A4D8E8" opacity="0.9"></polyline>
   </data-set>
-  <left-axis ticks="8" min="0" max="7000" size="30">
+  <left-axis ticks="8" min="0" max="7000" width="30">
     <line axis-line stroke="blue"></line>
     <line grid-line stroke="#c8c8c830"></line>
     <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
   </left-axis>
-  <bottom-axis ticks="8" min="0" max="8" size="15">
+  <bottom-axis ticks="8" min="0" max="8" height="15">
     <line axis-line stroke="blue"></line>
     <line grid-line stroke="#c8c8c830"></line>
     <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>

@@ -83,12 +83,12 @@ Here's an example of creating a live Line Chart with real-time data updates:
   <data-set>
     <path path-type stroke="aqua" fill="none"></path>
   </data-set>
-  <left-axis ticks="10" min="0" max="20" size="15">
+  <left-axis ticks="10" min="0" max="20" width="15">
     <line axis-line stroke="blue"></line>
     <line grid-line stroke="#c8c8c830"></line>
     <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>
   </left-axis>
-  <bottom-axis ticks="10" min="1" max="10" size="10">
+  <bottom-axis ticks="10" min="1" max="10" height="10">
     <line axis-line stroke="blue"></line>
     <line grid-line stroke="#c8c8c830"></line>
     <text fill="#c8c8c8" font-size="14" font-family="Tahoma"></text>

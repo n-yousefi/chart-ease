@@ -23,13 +23,14 @@ export default class ChartEase extends HTMLElement {
     return parseFloat(this.getAttribute("width") ?? WIDTH);
   }
   get margin() {
-    const getAxisSize = (name) => parseFloat(this.querySelector(name)?.getAttribute("size")) || 0;
+    const getAxisWidth = (name) => parseFloat(this.querySelector(name)?.getAttribute("width")) || 0;
+    const getAxisHeight = (name) => parseFloat(this.querySelector(name)?.getAttribute("height")) || 0;
     const getMargin = (name) => parseFloat(this.getAttribute(name) ?? this.getAttribute("margin") ?? MARGIN);
     const margin = {
-      top: getAxisSize("top-axis") + getMargin("margin-top"),
-      bottom: getAxisSize("bottom-axis") + getMargin("margin-bottom"),
-      left: getAxisSize("left-axis") + getMargin("margin-left"),
-      right: getAxisSize("right-axis") + getMargin("margin-right"),
+      top: getAxisHeight("top-axis") + getMargin("margin-top"),
+      bottom: getAxisHeight("bottom-axis") + getMargin("margin-bottom"),
+      left: getAxisWidth("left-axis") + getMargin("margin-left"),
+      right: getAxisWidth("right-axis") + getMargin("margin-right"),
     };
     return margin;
   }
