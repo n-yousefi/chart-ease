@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Chart Example</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <chart-ease width="500" height="400" margin="25">
+      <data-set id="redLine">
+        <path data-drawn-as="edge" stroke="#8F96AC" fill="none" stroke-width="15"></path>
+        <circle fill="#FF6464" r="15"></circle>
+      </data-set>
+      <data-set id="greenLine">
+        <path data-drawn-as="edge" stroke="#AFB9D2" fill="none" stroke-width="15"></path>
+        <circle fill="#C3E678" r="15"></circle>
+      </data-set>
+      <data-set id="barChart">
+        <rect fill="#EFF2FA" width="15"></rect>
+      </data-set>
+      <left-axis ticks="10" min="0" max="10">
+        <line axis-line stroke="#C7CFE2" stroke-width="14"></line>
+        <rect axis-tick fill="#D7DEED" width="30" height="15" rx="10" ry="10"></rect>
+      </left-axis>
+      <bottom-axis ticks="8" min="1" max="8">
+        <line axis-line stroke="#C7CFE2" stroke-width="15"></line>
+        <rect axis-tick fill="#D7DEED" width="15" height="30" rx="10" ry="10"></rect>
+      </bottom-axis>
+    </chart-ease>
+    <script src="../../js/chart-ease.js"></script>
+    <script>
+      const data1 = [6, 4, 1, 3, 5, 1, 2, 3];
+      const data2 = [2, 3, 5, 1, 1, 2, 6, 5];
+      const margin = 25;
+      const barWidth = 15;
+
+      const barChart = document.getElementById("barChart");
+      const redLine = document.getElementById("redLine");
+      const greenLine = document.getElementById("greenLine");
+
+      barChart.ondraw = onBarsDraw;
+      redLine.ondraw = onLinesDraw;
+      greenLine.ondraw = onLinesDraw;
+
+      setInterval(() => {
+        data1.splice(0, 1);
+        data1.push(Math.round(Math.random() * 7 + 1));
+
+        data2.splice(0, 1);
+        let newValue = 0;
+        do {
+          newValue = Math.round(Math.random() * 7 + 1);
+        } while (data1[data1.length - 1] == newValue);
+        data2.push(newValue);
+
+        barChart.data = data1.concat(data2);
+        redLine.data = data1;
+        greenLine.data = data2;
+      }, 1000);
+
+      function onBarsDraw({ shape, row }) {
+        shape.setAttribute("x", row.x - barWidth / 2);
+        shape.setAttribute("y", margin);
+        shape.setAttribute("width", barWidth);
+        shape.setAttribute("height", row.y - margin);
+      }
+
+      function onLinesDraw({ shape, row, index }) {
+        if (index == 0) shape.setAttribute("fill", "none");
+        shape.setAttribute("cx", row.x);
+        shape.setAttribute("cy", row.y);
+      }
+    </script>
+  </body>
+</html>

@@ -61,7 +61,9 @@
   }
 
   function drawDataSet(dataset) {
-    Array.prototype.slice.call(dataset.children).forEach((element) => {
+    let children = dataset.children;
+    if (children.length == 1 && children[0].nodeName === "svg") children = children[0].children;
+    Array.prototype.slice.call(children).forEach((element) => {
       if (element.hasAttribute("data-drawn-as") && element.getAttribute("data-drawn-as") === "edge")
         drawPath(element, dataset);
       else drawPoints(dataset, element);

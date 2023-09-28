@@ -9,7 +9,11 @@ In Chart Ease, you have the flexibility to connect data points using different e
 
 ## `data-drawn-as` attribute
 
-Any element with the`data-drawn-as` attribute equal to **edge** attribute within a `<data-set>` will be used to connect the nodes. All other children of a `<data-set>`, will be used to draw the nodes.
+Any element with the`data-drawn-as` attribute equal to **edge** attribute within a `<data-set>` will be used to connect the nodes.
+
+:::note
+All other children of a `<data-set>` will be used to draw the nodes.
+:::
 
 This flexibility allows you to create a wide range of custom chart designs and styles.
 

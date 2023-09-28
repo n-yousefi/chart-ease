@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Welcome to **Chart Ease** Documentation
 
-`<chart-ease>` is a lightweight and highly customizable **web component** designed for creating small and precise charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex bar chart, chart-ease makes it easy to build and display your data in a clear and meaningful way. It leverages Scalable Vector Graphics (SVG) technology to render charts, ensuring optimal performance and high customization for various use cases.
+`<chart-ease>` is a lightweight and highly customizable **web component** designed for creating small and beautiful charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex bar chart, chart-ease makes it easy to build and display your data in a clear and meaningful way. It leverages Scalable Vector Graphics (SVG) technology to render charts, ensuring optimal performance and high customization for various use cases.
 
 ## Key Features
 
@@ -14,9 +14,9 @@ Chart Ease comes packed with a rich set of features:
 
 - SVG Rendering: SVG is particularly well-suited for rendering charts with a small number of objects. This makes it an ideal choice for Chart-Ease, which aims to draw small charts quickly.
 
-- Tailor-Made Paths: With Chart Ease, you can craft custom path element to connect data points, enabling you to create unique and visually striking charts.
+- Custom edges: With Chart Ease, you can craft custom path element to connect data points, enabling you to create unique and visually striking charts.
 
-- Customizable Markers: Easily add markers like circles, ellipses, and rectangles to your data points. Chart Ease gives you the flexibility to customize markers as per your preferences.
+- Custom Markers: Easily add markers like circles, ellipses, and rectangles to your data points. Chart Ease gives you the flexibility to customize markers as per your preferences.
 
 - Multiset charts: Visualize multiple charts in a single component by using multiple data sets. Each data set can be tailored to meet specific requirements.
 
