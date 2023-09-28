@@ -29,12 +29,12 @@ To create a chart, you need to provide data to it. This is done using the `<data
 
 ## Step 3: Define a Path
 
-There is no default line path in `<chart-ease>`. Instead, you can define your own customized path to connect the points together. Simply add a `<path>` element inside the `<data-set>` element and set the is attribute to "path-type". This will draw the `path` element as your chart's path. You can further customize the path by setting attributes like stroke, stroke-width, and fill and etc.
+There is no default line path in `<chart-ease>`. Instead, you can define your own customized path to connect the points together. Simply add a `<path>` element inside the `<data-set>` element and set the `data-drawn-as` attribute to **edge**. This will draw an `path` element as your chart's path. You can further customize the path by setting attributes like stroke, stroke-width, and fill and etc.
 
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
   </data-set>
 </chart-ease>
 ```

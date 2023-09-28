@@ -14,7 +14,7 @@
   <body>
     <chart-ease width="200" height="200">
       <data-set>
-        <path path-type stroke="aqua" fill="none"></path>
+        <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
         <circle r="5" fill="aliceblue" stroke="aqua"></circle>
       </data-set>
       <left-axis ticks="6" min="0" max="10" width="15">
@@ -30,7 +30,7 @@
     </chart-ease>
     <chart-ease width="200" height="200">
       <data-set>
-        <path path-type stroke="aqua" fill="none"></path>
+        <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
         <circle r="5" fill="aliceblue" stroke="aqua"></circle>
       </data-set>
       <right-axis ticks="6" min="0" max="10" width="15">
@@ -48,7 +48,7 @@
     <script src="../../js/chart-ease.js"></script>
     <script>
       const data = [6, 9, 1, 3, 5, 4, 7, 3];
-      document.querySelectorAll("chart-ease").forEach((chart) => (chart.data = data));
+      document.querySelectorAll("data-set").forEach((chart) => (chart.data = data));
     </script>
   </body>
 </html>

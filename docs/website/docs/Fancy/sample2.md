@@ -7,12 +7,12 @@ sidebar_position: 3
 
 ```html
 <chart-ease width="500" height="400" margin="25">
-  <data-set id="RedChart">
-    <path path-type stroke="#8F96AC" fill="none" stroke-width="15"></path>
+  <data-set id="redLine">
+    <path data-drawn-as="edge" stroke="#8F96AC" fill="none" stroke-width="15"></path>
     <circle fill="#FF6464" r="15"></circle>
   </data-set>
-  <data-set id="GreenChart">
-    <path path-type stroke="#AFB9D2" fill="none" stroke-width="15"></path>
+  <data-set id="greenLine">
+    <path data-drawn-as="edge" stroke="#AFB9D2" fill="none" stroke-width="15"></path>
     <circle fill="#C3E678" r="15"></circle>
   </data-set>
   <data-set id="barChart">
@@ -44,9 +44,11 @@ const data2 = [
   { x: 5, y: 2 },
   { x: 8, y: 1 },
 ];
-//const RedChart = document.querySelector("#RedChart");
 const margin = 25;
 const barWidth = 15;
+const barChart = document.getElementById("barChart");
+const redLine = document.getElementById("redLine");
+const greenLine = document.getElementById("greenLine");
 barChart.ondraw = ({ shape, row }) => {
   shape.setAttribute("width", barWidth);
   shape.setAttribute("x", row.x - barWidth / 2);
@@ -61,10 +63,10 @@ const ondraw = ({ shape, row, index }) => {
   shape.setAttribute("cx", row.x);
   shape.setAttribute("cy", row.y);
 };
-RedChart.ondraw = ondraw;
-GreenChart.ondraw = ondraw;
-RedChart.data = data1;
-GreenChart.data = data2;
+redLine.ondraw = ondraw;
+greenLine.ondraw = ondraw;
+redLine.data = data1;
+greenLine.data = data2;
 ```
 
 <iframe src="/samples/fancy/sample2.html" style={{ width: '550px', height: '450px' }}></iframe>

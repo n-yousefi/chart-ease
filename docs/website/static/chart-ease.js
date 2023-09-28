@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+  "use strict";
 
   function normalize(arr, normalizeGroups) {
     const normalizedArr = arr.map((item) => {
@@ -35,10 +35,7 @@
   }
 
   function cloneSVGElement(element) {
-    const newElement = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      element.tagName.toLowerCase()
-    );
+    const newElement = document.createElementNS("http://www.w3.org/2000/svg", element.tagName.toLowerCase());
     copyAttrs(element, newElement);
     copyStyles(element, newElement);
     const children = Array.from(element.children);
@@ -62,7 +59,8 @@
 
   function drawDataSet(dataset) {
     Array.prototype.slice.call(dataset.children).forEach((element) => {
-      if (element.hasAttribute("path-type")) drawPath(element, dataset);
+      if (element.hasAttribute("data-drawn-as") && element.getAttribute("data-drawn-as") === "edge")
+        drawPath(element, dataset);
       else drawPoints(dataset, element);
     });
   }
@@ -229,7 +227,9 @@
 
     getAxis(dir) {
       if (dir === "h")
-        return this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis");
+        return (
+          this.parentElement.querySelector("bottom-axis") ?? this.parentElement.querySelector("top-axis")
+        );
       return this.parentElement.querySelector("left-axis") ?? this.parentElement.querySelector("right-axis");
     }
     getStart(dir) {
@@ -265,20 +265,14 @@
             shape.setAttribute("x2", row.x + 5);
             shape.setAttribute("y1", row.low);
             shape.setAttribute("y2", row.high);
-            shape.setAttribute(
-              "stroke",
-              row.open > row.close ? "#28A69A" : "#EE5355"
-            );
+            shape.setAttribute("stroke", row.open > row.close ? "#28A69A" : "#EE5355");
             break;
           case "rect":
             shape.setAttribute("width", 10);
             shape.setAttribute("height", Math.abs(row.open - row.close));
             shape.setAttribute("x", row.x);
             shape.setAttribute("y", row.open);
-            shape.setAttribute(
-              "fill",
-              row.open > row.close ? "#28A69A" : "#EE5355"
-            );
+            shape.setAttribute("fill", row.open > row.close ? "#28A69A" : "#EE5355");
             break;
         }
       };
@@ -653,7 +647,8 @@
     }
     get margin() {
       const getAxisSize = (name) => parseFloat(this.querySelector(name)?.getAttribute("size")) || 0;
-      const getMargin = (name) => parseFloat(this.getAttribute(name) ?? this.getAttribute("margin") ?? MARGIN);
+      const getMargin = (name) =>
+        parseFloat(this.getAttribute(name) ?? this.getAttribute("margin") ?? MARGIN);
       const margin = {
         top: getAxisSize("top-axis") + getMargin("margin-top"),
         bottom: getAxisSize("bottom-axis") + getMargin("margin-bottom"),
@@ -685,6 +680,5 @@
   customElements.get("candle-stick") ?? customElements.define("candle-stick", CandleStick);
 
   return ChartEase;
-
 })();
 //# sourceMappingURL=chart-ease.js.map

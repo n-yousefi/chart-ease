@@ -18,7 +18,7 @@ Use the `<circle>` element to create circular points.
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
 </chart-ease>
@@ -37,7 +37,7 @@ Use the **`<rect>`** element to create rectangular points.
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <rect rx="0" ry="10" width="10" height="10" stroke="aqua" fill="aliceblue" />
   </data-set>
 </chart-ease>
@@ -56,7 +56,7 @@ Use the **`<ellipse>`** element to create elliptical points.
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <ellipse rx="10" ry="4" fill="aliceblue" stroke="aqua" />
   </data-set>
 </chart-ease>

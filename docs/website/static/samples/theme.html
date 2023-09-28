@@ -35,7 +35,7 @@
     <chart-ease width="400" height="400">
       <data-set>
         <path
-          path-type
+          data-drawn-as="edge"
           stroke-linecap="round"
           stroke="url(#pathGradient)"
           stroke-width="2.5"
@@ -66,8 +66,8 @@
         { x: 7, y: 7, label: "MAX" },
         { x: 8, y: 3 },
       ];
-      const chart = document.querySelector("chart-ease");
-      chart.ondraw = ({ shape, row, index, originalRow }) => {
+      const dataSet = document.querySelector("data-set");
+      dataSet.ondraw = ({ shape, row, index, originalRow }) => {
         switch (shape.tagName) {
           case "text":
             if (!originalRow.label) break;
@@ -95,7 +95,7 @@
             break;
         }
       };
-      chart.data = data;      
+      dataSet.data = data;      
     </script>
   </body>
 </html>

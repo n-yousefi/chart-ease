@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="chart" width="200" height="200" margin="40">
+    <chart-ease width="200" height="200" margin="40">
       <data-set>
         <circle fill="aqua" opacity=".2" />
       </data-set>
@@ -20,15 +20,16 @@
 
     <script src="../../js/chart-ease.js"></script>
     <script>
-      const chart = document.querySelector("#chart");
-      chart.ondraw = ({ shape, row, originalRow }) => {
+      const chart = document.querySelector("chart-ease");
+      chart.axes = [{ cols: ["r"], length: 50 }];
+      const dataSet = document.querySelector("data-set");
+      dataSet.ondraw = ({ shape, row, originalRow }) => {
         shape.setAttribute("cx", row.x);
         shape.setAttribute("cy", row.y);
         shape.setAttribute("r", row.r);
         shape.setAttribute("opacity", 1.1 - originalRow.r / 50);
       };
-      chart.axes = [{ cols: ["r"], length: 50 }];
-      chart.data = [
+      dataSet.data = [
         { y: 6, r: 10 },
         { y: 4, r: 50 },
         { y: 9, r: 20 },

@@ -78,7 +78,7 @@ In this sample, we demonstrate how you can fully customize the appearance of axe
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
   <left-axis ticks="3" min="0" max="10" width="15">
@@ -94,7 +94,7 @@ In this sample, we demonstrate how you can fully customize the appearance of axe
 </chart-ease>
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
   <left-axis ticks="6" min="0" max="10" width="15">
@@ -110,7 +110,7 @@ In this sample, we demonstrate how you can fully customize the appearance of axe
 </chart-ease>
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
   <left-axis ticks="10" min="0" max="10" width="15">
@@ -137,7 +137,7 @@ In this sample, we explore the flexibility of Chart Ease in terms of axis positi
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
   <left-axis ticks="6" min="0" max="10" width="15">
@@ -153,7 +153,7 @@ In this sample, we explore the flexibility of Chart Ease in terms of axis positi
 </chart-ease>
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
     <circle r="5" fill="aliceblue" stroke="aqua"></circle>
   </data-set>
   <right-axis ticks="6" min="0" max="10" width="15">

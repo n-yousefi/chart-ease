@@ -16,9 +16,9 @@ To create complex markers, you may need to adjust the position, styles, animatio
 
 ```html
 <script>
-  const chart = document.querySelector("chart-ease");
+  const dataSet = document.querySelector("data-set");
 
-  chart.ondraw = ({ index, shape, row, originalRow }) => {
+  dataSet.ondraw = ({ index, shape, row, originalRow }) => {
     // Customize marker drawing based on data
     // Example: Add text labels or unique markers
     // Modify shape attributes as needed
@@ -33,24 +33,24 @@ See these example:
 Drawing the value upon each points using `<text>` element and customize it based on index.
 
 ```html
-<chart-ease id="textType" width="200" height="200">
+<chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" stroke-width="2.5" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" stroke-width="2.5" fill="none"></path>
     <text x="0" y="15" fill="black" font-size="10px"></text>
   </data-set>
 </chart-ease>
 ```
 
 ```javascript
-const textType = document.querySelector("#textType");
-textType.ondraw = ({ shape, row, index, originalRow }) => {
+const dataSet = document.querySelector("data-set");
+dataSet.ondraw = ({ shape, row, index, originalRow }) => {
   // Position the <text> element over each point
   shape.setAttribute("x", row.x - originalRow.y.toString().length * 2.5);
   shape.setAttribute("y", row.y);
   // Assing the <text> element content from each point values
   shape.innerHTML = originalRow.y;
 };
-textType.data = [0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153];
+dataSet.data = [0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153];
 ```
 
 <iframe src="/samples/markers/labels.html" style={{ width: '250px', height: '250px' }}></iframe>

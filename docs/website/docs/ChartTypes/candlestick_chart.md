@@ -23,7 +23,7 @@ In a Candlestick Chart, each candlestick on the vertical axis represents four di
 By using the `vAxis` attribute with the value **"low,open,close,high"** you configure the vertical axis to display these four price values, allowing you to create Candlestick charts that show the complete price range for each time period.
 
 ```html
-<chart-ease id="candlestick">
+<chart-ease>
   <data-set vAxis="low,open,close,high">
     <line></line>
     <rect></rect>
@@ -32,8 +32,8 @@ By using the `vAxis` attribute with the value **"low,open,close,high"** you conf
 ```
 
 ```javascript
-const chart = document.querySelector("#candlestick");
-chart.ondraw = ({ shape, row }) => {
+const dataSet = document.querySelector("data-set");
+dataSet.ondraw = ({ shape, row }) => {
   const green = row.open < row.close;
   switch (shape.tagName) {
     case "line":
@@ -53,7 +53,7 @@ chart.ondraw = ({ shape, row }) => {
       break;
   }
 };
-chart.data = [
+dataSet.data = [
   { low: 2, open: 5, close: 3, high: 5 },
   { low: 5, open: 6, close: 7, high: 16 },
   { low: 9, open: 9, close: 10, high: 10 },
@@ -70,7 +70,7 @@ chart.data = [
 You can use axes for labeling points price values and understanding the scale of your chart.
 
 ```html
-<chart-ease id="candlestick">
+<chart-ease>
   <data-set vAxis="low,open,close,high">
     <line></line>
     <rect></rect>
@@ -91,8 +91,8 @@ You can use axes for labeling points price values and understanding the scale of
 ```
 
 ```javascript
-const chart = document.querySelector("#candlestick");
-chart.ondraw = ({ shape, row }) => {
+const dataSet = document.querySelector("data-set");
+dataSet.ondraw = ({ shape, row }) => {
   const green = row.open < row.close;
   switch (shape.tagName) {
     case "line":
@@ -112,7 +112,7 @@ chart.ondraw = ({ shape, row }) => {
       break;
   }
 };
-chart.data = [
+dataSet.data = [
   { low: 1100, open: 1100, close: 1200, high: 1300 },
   { low: 1200, open: 1200, close: 1300, high: 1300 },
   { low: 1300, open: 1300, close: 1400, high: 1500 },

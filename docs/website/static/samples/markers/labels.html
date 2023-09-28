@@ -13,23 +13,21 @@
     </style>
   </head>
   <body>
-    <chart-ease id="textType" width="200" height="200">
+    <chart-ease width="200" height="200">
       <data-set>
-        <path path-type stroke="aqua" stroke-width="2.5" fill="none"></path>
+        <path data-drawn-as="edge" stroke="aqua" stroke-width="2.5" fill="none"></path>
         <text x="0" y="15" fill="black" font-size="10px"></text>
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
-      const textType = document.querySelector("#textType");
-      textType.ondraw = ({ shape, row, index, originalRow }) => {
+      const dataSet = document.querySelector("data-set");
+      dataSet.ondraw = ({ shape, row, index, originalRow }) => {
         shape.setAttribute("x", row.x - originalRow.y.toString().length * 2.5);
         shape.setAttribute("y", row.y);
         shape.innerHTML = originalRow.y;
       };
-      textType.data = [
-        0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153,
-      ];
+      dataSet.data = [0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153];
     </script>
   </body>
 </html>

@@ -14,12 +14,12 @@ To create an Area Chart, you can use the `<polyline>` element within the `<data-
 ```html
 <chart-ease width="500" height="400">
   <data-set id="ds1">
-    <path path-type stroke="#ff5b00" fill="none" stroke-width="1"></path>
-    <polyline path-type fill="#ff5b00" opacity="0.9"></polyline>
+    <path data-drawn-as="edge" stroke="#ff5b00" fill="none" stroke-width="1"></path>
+    <polyline data-drawn-as="edge" fill="#ff5b00" opacity="0.9"></polyline>
   </data-set>
   <data-set id="ds2">
-    <path path-type stroke="#A4D8E8" fill="none" stroke-width="1"></path>
-    <polyline path-type fill="#A4D8E8" opacity="0.9"></polyline>
+    <path data-drawn-as="edge" stroke="#A4D8E8" fill="none" stroke-width="1"></path>
+    <polyline data-drawn-as="edge" fill="#A4D8E8" opacity="0.9"></polyline>
   </data-set>
   <left-axis ticks="8" min="0" max="7000" width="30">
     <line axis-line stroke="blue"></line>
@@ -52,11 +52,10 @@ const data2 = [
   { x: 7, y: 3000 },
   { x: 8, y: 0 },
 ];
-//const RedChart = document.querySelector("#RedChart");
 const margin = 25;
 const barWidth = 15;
-ds1.data = data1;
-ds2.data = data2;
+document.getElementById("ds1").data = data1;
+document.getElementById("ds2").data = data2;
 ```
 
 <iframe src="/samples/chart-types/area-chart.html" style={{ width: '600px', height: '450px' }}></iframe>

@@ -42,7 +42,7 @@ path {
 ```html
 <chart-ease width="400" height="100">
   <data-set>
-    <path path-type stroke="red" strok-width="2" fill="none"></path>
+    <path data-drawn-as="edge" stroke="red" strok-width="2" fill="none"></path>
   </data-set>
   <defs>
     <filter id="blurFilter">
@@ -81,7 +81,7 @@ Here's an example of creating a live Line Chart with real-time data updates:
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
   </data-set>
   <left-axis ticks="10" min="0" max="20" width="15">
     <line axis-line stroke="blue"></line>

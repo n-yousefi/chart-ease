@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="bar" width="400" height="200">
+    <chart-ease width="400" height="200">
       <data-set hAxis="x" vAxis="Silver,Gold,Platinum">
         <g>
           <rect for="Silver" fill="red"></rect>
@@ -32,12 +32,12 @@
         { Silver: 9, Gold: 2, Platinum: 2 },
         { Silver: 2, Gold: 9, Platinum: 3 },
       ];
-      const bar = document.querySelector("#bar");
+      const dataSet = document.querySelector("data-set");
       const chartWidth = 400;
       const barGap = 0.25;
       // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
       const barWidth = Math.round(400 / data.length) * 0.25;
-      bar.ondraw = ({ shape, row }) => {
+      dataSet.ondraw = ({ shape, row }) => {
         Array.from(shape.children).forEach((bar, index) => {
           bar.setAttribute("x", row.x + index * barWidth);
           bar.setAttribute("y", 0);
@@ -46,7 +46,7 @@
           bar.setAttribute("height", row[bar.getAttribute("for")]);
         });
       };
-      bar.data = data;
+      dataSet.data = data;
     </script>
   </body>
 </html>

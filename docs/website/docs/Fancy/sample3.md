@@ -6,7 +6,7 @@ sidebar_position: 4
 # Sample 3
 
 ```html
-<chart-ease id="chart" width="500" height="400" margin="40">
+<chart-ease width="500" height="400" margin="40">
   <data-set>
     <rect name="shaddow" fill="#fafafa" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
     <rect fill="#1D46D6" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
@@ -26,12 +26,12 @@ const data = [
   { x: 5, y: 90, label: "2022", color: "#79AEDB" },
 ];
 
-chart = document.querySelector("#chart");
+dataSet = document.querySelector("data-set");
 const margin = 40;
 const clipPath = 30;
 // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
 const barWidth = Math.round(500 / data.length) * 0.6;
-chart.ondraw = ({ shape, row, originalRow }) => {
+dataSet.ondraw = ({ shape, row, originalRow }) => {
   switch (shape.tagName) {
     case "rect":
       shape.setAttribute("width", barWidth);
@@ -58,7 +58,7 @@ chart.ondraw = ({ shape, row, originalRow }) => {
       break;
   }
 };
-chart.data = data;
+dataSet.data = data;
 ```
 
 <iframe src="/samples/fancy/sample3.html" style={{ width: '550px', height: '450px' }}></iframe>

@@ -62,7 +62,8 @@
 
   function drawDataSet(dataset) {
     Array.prototype.slice.call(dataset.children).forEach((element) => {
-      if (element.hasAttribute("path-type")) drawPath(element, dataset);
+      if (element.hasAttribute("data-drawn-as") && element.getAttribute("data-drawn-as") === "edge")
+        drawPath(element, dataset);
       else drawPoints(dataset, element);
     });
   }
@@ -679,13 +680,6 @@
         right: getAxisWidth("right-axis") + getMargin("margin-right"),
       };
       return margin;
-    }
-
-    set ondraw(ondraw) {
-      this.querySelector("data-set").ondraw = ondraw;
-    }
-    set data(data) {
-      this.querySelector("data-set").data = data;
     }
 
     setStyles() {

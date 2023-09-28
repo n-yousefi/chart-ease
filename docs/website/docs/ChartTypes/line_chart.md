@@ -10,7 +10,7 @@ The Line Chart is a fundamental type of chart in Chart Ease that allows you to v
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
   </data-set>
 </chart-ease>
 ```
@@ -18,7 +18,7 @@ The Line Chart is a fundamental type of chart in Chart Ease that allows you to v
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <polyline path-type fill="none" stroke="blue"></polyline>
+    <polyline data-drawn-as="edge" fill="none" stroke="blue"></polyline>
   </data-set>
 </chart-ease>
 ```
@@ -34,7 +34,7 @@ Chart Ease by using SVG, provides various styling options to customize the appea
 ```html
 <chart-ease width="200" height="200">
   <data-set>
-    <path path-type stroke="aqua" fill="none"></path>
+    <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
   </data-set>
 </chart-ease>
 ```

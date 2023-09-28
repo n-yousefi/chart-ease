@@ -35,13 +35,6 @@ export default class ChartEase extends HTMLElement {
     return margin;
   }
 
-  set ondraw(ondraw) {
-    this.querySelector("data-set").ondraw = ondraw;
-  }
-  set data(data) {
-    this.querySelector("data-set").data = data;
-  }
-
   setStyles() {
     this.style.lineHeight = 0;
   }

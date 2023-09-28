@@ -6,7 +6,7 @@ sidebar_position: 2
 # Sample 1
 
 ```html
-<chart-ease id="chart" width="500" height="400" margin="40">
+<chart-ease width="500" height="400" margin="40">
   <data-set>
     <rect fill="#1D46D6"></rect>
     <circle r="20" fill="white" stroke="#1A3495" stroke-width="2"></circle>
@@ -30,11 +30,11 @@ const data = [
   { y: 30, label: "May" },
 ];
 
-chart = document.querySelector("#chart");
+dataSet = document.querySelector("data-set");
 const margin = 40;
 // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
 const barWidth = Math.round(500 / data.length) * 0.6;
-chart.ondraw = ({ shape, row, originalRow }) => {
+dataSet.ondraw = ({ shape, row, originalRow }) => {
   switch (shape.tagName) {
     case "rect":
       shape.setAttribute("width", barWidth);
@@ -62,7 +62,7 @@ chart.ondraw = ({ shape, row, originalRow }) => {
       break;
   }
 };
-chart.data = data;
+dataSet.data = data;
 ```
 
 <iframe src="/samples/fancy/sample1.html" style={{ width: '550px', height: '450px' }}></iframe>

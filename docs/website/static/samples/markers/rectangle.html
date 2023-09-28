@@ -15,13 +15,13 @@
   <body>
     <chart-ease width="200" height="200">
       <data-set>
-        <path path-type stroke="aqua" fill="none"></path>
+        <path data-drawn-as="edge" stroke="aqua" fill="none"></path>
         <rect rx="0" ry="10" width="10" height="10" stroke="aqua" fill="aliceblue" />
       </data-set>
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
-      document.querySelector("chart-ease").data = [6, 4, 0, 3, 5, 2, 7, 3];
+      document.querySelector("data-set").data = [6, 4, 0, 3, 5, 2, 7, 3];
     </script>
   </body>
 </html>

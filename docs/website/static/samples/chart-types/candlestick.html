@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <chart-ease id="candlestick">
+    <chart-ease>
       <data-set vAxis="low,open,close,high">
         <line></line>
         <rect></rect>
@@ -21,8 +21,8 @@
     </chart-ease>
     <script src="../../js/chart-ease.js"></script>
     <script>
-      const chart = document.querySelector("#candlestick");
-      chart.ondraw = ({ shape, row }) => {
+      const dataSet = document.querySelector("data-set");
+      dataSet.ondraw = ({ shape, row }) => {
         const green = row.open < row.close;
         switch (shape.tagName) {
           case "line":
@@ -42,7 +42,7 @@
             break;
         }
       };
-      chart.data = [
+      dataSet.data = [
         { low: 2, open: 5, close: 3, high: 5 },
         { low: 5, open: 6, close: 7, high: 16 },
         { low: 9, open: 9, close: 10, high: 10 },

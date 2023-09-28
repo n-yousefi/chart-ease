@@ -27,14 +27,14 @@ This code sets data for two data sets in the same chart.
 ```html
 <chart-ease width="200" height="200">
   <data-set id="set1">
-    <path path-type stroke="antiquewhite" fill="none"></path>
+    <path data-drawn-as="edge" stroke="antiquewhite" fill="none"></path>
   </data-set>
   <data-set id="set2">
-    <path path-type stroke="blue" fill="none"></path>
+    <path data-drawn-as="edge" stroke="blue" fill="none"></path>
     <rect rx="0" ry="10" width="2" height="2" stroke="aqua" stroke-width="5" />
   </data-set>
   <data-set id="set3">
-    <path path-type stroke-linecap="round" stroke="fuchsia" fill="none"></path>
+    <path data-drawn-as="edge" stroke-linecap="round" stroke="fuchsia" fill="none"></path>
     <circle r="5" fill="fuchsia" fill-opacity=".3" stroke-width="5"></circle>
   </data-set>
 </chart-ease>
