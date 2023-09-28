@@ -46,6 +46,6 @@ To connect the data points in your chart, you can add a `<path>` SVG element or 
 
 Additionally, you can create markers for each data point by adding other SVG elements inside the `<data-set>`. This allows you to customize the appearance of individual data points on the chart.
 
-For more details on drawing connectors and markers, refer to the [Path Types section](path_types) and for reading more about drawing markers, refer to the [Marker section](markers)
+For more details on drawing connectors and markers, refer to the [Path Types section](edge_types) and for reading more about drawing markers, refer to the [Marker section](markers)
 
 In the upcoming sections, we'll explore more advanced features of Chart Ease, such as customization options, interactivity, and additional chart elements. Let's continue building your chart and exploring the possibilities!
