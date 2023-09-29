@@ -1,13 +1,13 @@
 ---
-sidebar_label: "Sample 1"
+sidebar_label: "Value Bar Chart"
 sidebar_position: 2
 ---
 
-# Sample 1
+# Value Bar Chart
 
 ```html
 <chart-ease width="500" height="400" margin="40">
-  <data-set>
+  <data-set id="dsTeams">
     <rect fill="#1D46D6"></rect>
     <circle r="20" fill="white" stroke="#1A3495" stroke-width="2"></circle>
     <text class="value" fill="#1D46D6" font-size="20" font-family="Merriweather,serif"></text>
@@ -23,27 +23,29 @@ sidebar_position: 2
 
 ```javascript
 const data = [
-  { y: 10, label: "Jan" },
-  { y: 40, label: "Feb" },
-  { y: 50, label: "Mar" },
-  { y: 70, label: "Apr" },
-  { y: 30, label: "May" },
+  { y: 10, label: "ARS" },
+  { y: 40, label: "CHE" },
+  { y: 50, label: "MNU" },
+  { y: 70, label: "TOT" },
+  { y: 30, label: "BUR" },
 ];
 
-dataSet = document.querySelector("data-set");
+dsTeams = document.getElementById("dsTeams");
 const margin = 40;
 // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
 const barWidth = Math.round(500 / data.length) * 0.6;
-dataSet.ondraw = ({ shape, row, originalRow }) => {
+dsTeams.ondraw = ({ shape, row, originalRow }) => {
   switch (shape.tagName) {
     case "rect":
-      shape.setAttribute("width", barWidth);
       shape.setAttribute("x", row.x - barWidth / 2);
-
-      shape.setAttribute("height", row.y - margin); // y - margin
       shape.setAttribute("y", margin); // margin
 
-      if (originalRow.y == 70) shape.setAttribute("fill", "#158EF9");
+      shape.setAttribute("width", barWidth);
+      shape.setAttribute("height", row.y - margin); // y - margin
+
+      shape.setAttribute("fill", "#F9158E");
+      if (originalRow.y >= 60) shape.setAttribute("fill", "#8EF915");
+      else if (originalRow.y >= 40) shape.setAttribute("fill", "#158EF9");
       break;
     case "circle":
       if (row.x > 0) shape.setAttribute("cx", row.x);
@@ -62,7 +64,11 @@ dataSet.ondraw = ({ shape, row, originalRow }) => {
       break;
   }
 };
-dataSet.data = data;
+dsTeams.data = data;
 ```
 
 <iframe src="/samples/fancy/sample1.html" style={{ width: '550px', height: '450px' }}></iframe>
+
+You can use it with live data:
+
+<iframe src="/samples/fancy/sample1-animated.html" style={{ width: '550px', height: '450px' }}></iframe>

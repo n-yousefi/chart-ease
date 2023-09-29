@@ -49,6 +49,13 @@
       greenLine.ondraw = onLinesDraw;
 
       setInterval(() => {
+        randomUpdateData(data1, data2);
+        barChart.data = data1.concat(data2);
+        redLine.data = data1;
+        greenLine.data = data2;
+      }, 1000);
+
+      function randomUpdateData(data1, data2) {
         data1.splice(0, 1);
         data1.push(Math.round(Math.random() * 7 + 1));
 
@@ -58,11 +65,7 @@
           newValue = Math.round(Math.random() * 7 + 1);
         } while (data1[data1.length - 1] == newValue);
         data2.push(newValue);
-
-        barChart.data = data1.concat(data2);
-        redLine.data = data1;
-        greenLine.data = data2;
-      }, 1000);
+      }
 
       function onBarsDraw({ shape, row }) {
         shape.setAttribute("x", row.x - barWidth / 2);

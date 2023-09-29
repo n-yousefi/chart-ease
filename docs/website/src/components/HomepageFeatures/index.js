@@ -1,43 +1,46 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import styles from "./styles.module.css";
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: "Simple and Versatile",
+    Svg: require("@site/static/img/img1.svg").default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Chart Ease offers a simple and versatile way to create custom charts and graphs. With minimal setup
+        and just a few lines of HTML and JavaScript, you can easily design and customize various chart types,
+        from bar charts to complex candlestick charts.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: "Highly Customizable",
+    Svg: require("@site/static/img/img2.svg").default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        One of Chart Ease's standout features is its extensive customization options. You have full control
+        over the appearance of your charts. You can easily choose chart elements, such as lines, bars, and
+        axes, to create a beautiful chart that matches your design requirements.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: "Multiplatform Compatibility",
+    Svg: require("@site/static/img/img3.svg").default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Chart Ease, being a web component, can be utilized across a wide range of platforms and technologies.
+        Developers can seamlessly integrate it into their projects, ensuring a consistent and flexible
+        charting solution across different web technologies.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>

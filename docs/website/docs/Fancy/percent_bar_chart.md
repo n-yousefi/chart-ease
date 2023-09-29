@@ -1,13 +1,13 @@
 ---
-sidebar_label: "Sample 3"
+sidebar_label: "Percent Bar Chart"
 sidebar_position: 4
 ---
 
-# Sample 3
+# Percent Bar Chart
 
 ```html
-<chart-ease width="500" height="400" margin="40">
-  <data-set>
+<chart-ease width="500" height="400" margin="45">
+  <data-set id="dsCountries">
     <rect name="shaddow" fill="#fafafa" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
     <rect fill="#1D46D6" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
     <text name="value" fill="white" font-size="20" font-family="tahoma"></text>
@@ -19,19 +19,19 @@ sidebar_position: 4
 
 ```javascript
 const data = [
-  { x: 1, y: 30, label: "2018", color: "#B5E792" },
-  { x: 2, y: 50, label: "2019", color: "#82D897" },
-  { x: 3, y: 70, label: "2020", color: "#6ED2C8" },
-  { x: 4, y: 45, label: "2021", color: "#A4D8E8" },
-  { x: 5, y: 90, label: "2022", color: "#79AEDB" },
+  { x: 1, y: 30, label: "America", color: "#B5E792" },
+  { x: 2, y: 50, label: "Australia", color: "#82D897" },
+  { x: 3, y: 70, label: "Canada", color: "#6ED2C8" },
+  { x: 4, y: 45, label: "Iran", color: "#A4D8E8" },
+  { x: 5, y: 90, label: "Germany", color: "#79AEDB" },
 ];
 
-dataSet = document.querySelector("data-set");
+dsCountries = document.getElementById("dsCountries");
 const margin = 40;
 const clipPath = 30;
 // Note: barWidth = Round(ChartWidth/BarCount) * (Bar to Gap ratio)
 const barWidth = Math.round(500 / data.length) * 0.6;
-dataSet.ondraw = ({ shape, row, originalRow }) => {
+dsCountries.ondraw = ({ shape, row, originalRow }) => {
   switch (shape.tagName) {
     case "rect":
       shape.setAttribute("width", barWidth);
@@ -52,13 +52,17 @@ dataSet.ondraw = ({ shape, row, originalRow }) => {
         shape.setAttribute("y", row.y - margin - clipPath - 30);
       } else {
         shape.innerHTML = originalRow.label;
-        shape.setAttribute("x", row.x - 20);
+        shape.setAttribute("x", row.x - originalRow.label.toString().length * 5);
         shape.setAttribute("y", margin / 2);
       }
       break;
   }
 };
-dataSet.data = data;
+dsCountries.data = data;
 ```
 
 <iframe src="/samples/fancy/sample3.html" style={{ width: '550px', height: '450px' }}></iframe>
+
+You can use it with live data:
+
+<iframe src="/samples/fancy/sample3-animated.html" style={{ width: '550px', height: '450px' }}></iframe>
