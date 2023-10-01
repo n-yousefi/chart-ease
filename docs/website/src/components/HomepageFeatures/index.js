@@ -8,9 +8,8 @@ const FeatureList = [
     Svg: require("@site/static/img/img1.svg").default,
     description: (
       <>
-        Chart Ease offers a simple and versatile way to create custom charts and graphs. With minimal setup
-        and just a few lines of HTML and JavaScript, you can easily design and customize various chart types,
-        from bar charts to complex candlestick charts.
+        A simple and versatile way to create custom charts and graphs. With minimal setup you can easily
+        design and customize various chart types, from bar charts to complex candlestick charts.
       </>
     ),
   },
@@ -19,9 +18,8 @@ const FeatureList = [
     Svg: require("@site/static/img/img2.svg").default,
     description: (
       <>
-        One of Chart Ease's standout features is its extensive customization options. You have full control
-        over the appearance of your charts. You can easily choose chart elements, such as lines, bars, and
-        axes, to create a beautiful chart that matches your design requirements.
+        Chart Ease empowers you to select your preferred SVG elements for various parts of the chart, such as
+        edges, markers, and axes, enabling you to create a chart tailored to your unique design.
       </>
     ),
   },
@@ -30,9 +28,8 @@ const FeatureList = [
     Svg: require("@site/static/img/img3.svg").default,
     description: (
       <>
-        Chart Ease, being a web component, can be utilized across a wide range of platforms and technologies.
-        Developers can seamlessly integrate it into their projects, ensuring a consistent and flexible
-        charting solution across different web technologies.
+        Chart Ease, as a web component, is compatible with various platforms and technologies, allowing
+        developers to integrate it into their projects as a consistent and flexible charting solution.
       </>
     ),
   },
