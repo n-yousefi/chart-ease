@@ -1,5 +1,6 @@
 import cloneSVGElement from "./cloneSVGElement";
 import createSVGElements from "./createSVGElements";
+import drawPath from "./drawPath";
 import { flip } from "./flip";
 
 export default function drawDataSet(dataset) {
@@ -10,28 +11,6 @@ export default function drawDataSet(dataset) {
       drawPath(element, dataset);
     else drawPoints(dataset, element);
   });
-}
-
-function drawPath(pathType, dataset) {
-  if (!pathType) return;
-  const path = cloneSVGElement(pathType);
-  if (path.nodeName === "path") loadPathData(path, dataset);
-  else if (path.nodeName === "polyline") loadPolylineData(path, dataset);
-  dataset.g.appendChild(path);
-}
-
-function loadPathData(path, dataset) {
-  path.setAttribute(
-    "d",
-    dataset.normalizedData
-      .map((point, index) => (index === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`))
-      .join(" ")
-  );
-  path.removeAttribute("is");
-}
-
-function loadPolylineData(node, dataset) {
-  node.setAttribute("points", dataset.normalizedData.map((point) => `${point.x},${point.y}`).join(" "));
 }
 
 function drawPoints(dataset, element) {

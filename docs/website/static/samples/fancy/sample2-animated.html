@@ -14,11 +14,11 @@
   <body>
     <chart-ease width="500" height="400" margin="25">
       <data-set id="redLine">
-        <path data-drawn-as="edge" stroke="#8F96AC" fill="none" stroke-width="15"></path>
+        <path data-drawn-as="edge" data-smoothing=".02" stroke="#8F96AC" fill="none" stroke-width="15"></path>
         <circle fill="#FF6464" r="15"></circle>
       </data-set>
       <data-set id="greenLine">
-        <path data-drawn-as="edge" stroke="#AFB9D2" fill="none" stroke-width="15"></path>
+        <path data-drawn-as="edge" data-smoothing=".02" stroke="#AFB9D2" fill="none" stroke-width="15"></path>
         <circle fill="#C3E678" r="15"></circle>
       </data-set>
       <data-set id="barChart">
@@ -57,12 +57,12 @@
 
       function randomUpdateData(data1, data2) {
         data1.splice(0, 1);
-        data1.push(Math.round(Math.random() * 7 + 1));
+        data1.push(Math.round(Math.random() * 8 + 1));
 
         data2.splice(0, 1);
         let newValue = 0;
         do {
-          newValue = Math.round(Math.random() * 7 + 1);
+          newValue = Math.round(Math.random() * 8 + 1);
         } while (data1[data1.length - 1] == newValue);
         data2.push(newValue);
       }

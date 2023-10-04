@@ -10,6 +10,9 @@ import BottomAxis from "./main/axes/BottomAxis";
 export default class ChartEase extends HTMLElement {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.setStyles();
     createSVG(this);
   }
