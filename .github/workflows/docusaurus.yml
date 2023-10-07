@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy website
 
 on:
   # Runs on pushes targeting the default branch
@@ -31,9 +31,9 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm i
       - name: Build website
-        run: yarn build
+        run: npm run build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
