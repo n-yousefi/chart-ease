@@ -23,7 +23,7 @@ The Line Chart is a fundamental type of chart in Chart Ease that allows you to v
 </chart-ease>
 ```
 
-<iframe src="/samples/edge-types/edge-types.html" style={{ width: '500px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/edge-types/edge-types.html" style={{ width: '500px', height: '250px' }}></iframe>
 
 The above samples demonstrate two ways to create basic Line Charts in Chart Ease. You can choose between using `<path>` or `<polyline>` elements to connect data points.
 
@@ -39,4 +39,4 @@ Chart Ease by using SVG, provides various styling options to customize the appea
 </chart-ease>
 ```
 
-<iframe src="/samples/edge-types/styling.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/edge-types/styling.html" style={{ width: '250px', height: '250px' }}></iframe>

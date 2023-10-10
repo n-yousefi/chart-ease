@@ -28,7 +28,7 @@ Use the `<circle>` element to create circular points.
 document.querySelector("data-set").data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
-<iframe src="/samples/markers/circle.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/markers/circle.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 ### Rectangle
 
@@ -47,7 +47,7 @@ Use the **`<rect>`** element to create rectangular points.
 document.querySelector("data-set").data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
-<iframe src="/samples/markers/rectangle.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/markers/rectangle.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 ### Ellipse
 
@@ -66,7 +66,7 @@ Use the **`<ellipse>`** element to create elliptical points.
 document.querySelector("data-set").data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
-<iframe src="/samples/markers/ellipse.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/markers/ellipse.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 ## Using Multiple Markers
 
@@ -88,7 +88,7 @@ Using markers without a path and incorporating multiple markers in your chart pr
 </chart-ease>
 ```
 
-<iframe src="/samples/markers/no-path.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/markers/no-path.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 :::info Complex Markers
 To draw complex **markers**, you have the option to utilize the `draw` event for creating intricate markers. This provides you with full control over customizing the marker's shape, position, and styles. Further details on this functionality can be found in the [following section](draw).

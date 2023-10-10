@@ -58,6 +58,6 @@ document.getElementById("ds1").data = data1;
 document.getElementById("ds2").data = data2;
 ```
 
-<iframe src="/samples/chart-types/area-chart.html" style={{ width: '600px', height: '450px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/area-chart.html" style={{ width: '600px', height: '450px' }}></iframe>
 
 In the example above, we've created two Area Charts using the `<polyline>` elements within the `<data-set>` elements. Each `<polyline>` element defines the filled area beneath the chart line using the fill attribute. You can customize the colors and opacity to suit your visualization needs.

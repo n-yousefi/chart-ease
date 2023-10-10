@@ -41,7 +41,7 @@ dataSet.data = [
 ];
 ```
 
-<iframe src="/samples/chart-types/bubble-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/bubble-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 In the example above, the `axes` property is utilized to extend dimensions by adding an **r** axis. each circle's position is determined by the **x** and **y** values, while the **r** value represents the radius of the circle. The `ondraw` event handler allows for further customization, such as adjusting opacity based on the radius.
 

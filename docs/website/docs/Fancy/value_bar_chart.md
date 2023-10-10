@@ -67,8 +67,8 @@ dsTeams.ondraw = ({ shape, row, originalRow }) => {
 dsTeams.data = data;
 ```
 
-<iframe src="/samples/fancy/sample1.html" style={{ width: '550px', height: '450px' }}></iframe>
+<iframe src="/chart-ease/samples/fancy/sample1.html" style={{ width: '550px', height: '450px' }}></iframe>
 
 You can use it with live data:
 
-<iframe src="/samples/fancy/sample1-animated.html" style={{ width: '550px', height: '450px' }}></iframe>
+<iframe src="/chart-ease/samples/fancy/sample1-animated.html" style={{ width: '550px', height: '450px' }}></iframe>

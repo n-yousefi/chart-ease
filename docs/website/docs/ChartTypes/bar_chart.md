@@ -32,7 +32,7 @@ dataSet.ondraw = ({ shape, row }) => {
 dataSet.data = data;
 ```
 
-<iframe src="/samples/chart-types/bar-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/bar-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 ## Stacked Bar Chart
 
@@ -75,7 +75,7 @@ dataSet.ondraw = ({ shape, row }) => {
 dataSet.data = data;
 ```
 
-<iframe src="/samples/chart-types/stacked-bar-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/stacked-bar-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 In the this sample, we use three `<rect>` elements for each unit of data, include as **Silver**, **Gold**, and **Platinum**, each with a custom attribute named `for`. This custom attribute plays a crucial role in our `ondraw` event handler. Within the event handler, we dynamically access the data attribute relative to the `for` value, allowing us to precisely position and size each bar segment.
 
@@ -122,7 +122,7 @@ dataSet.ondraw = ({ shape, row }) => {
 dataSet.data = data;
 ```
 
-<iframe src="/samples/chart-types/grouped-bar-chart.html" style={{ width: '500px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/grouped-bar-chart.html" style={{ width: '500px', height: '250px' }}></iframe>
 
 Like the Stacked Bar Chart example, the Grouped Bar Chart sample also utilizes three `<rect>` elements per data category. These elements have been enhanced with a custom attribute named "for," which is employed in the ondraw event.
 
@@ -152,6 +152,6 @@ dataSet.ondraw = ({ shape, row }) => {
 dataSet.data = data;
 ```
 
-<iframe src="/samples/chart-types/bar-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/bar-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 These examples demonstrate how you can create different types of bar charts using Chart Ease. Feel free to explore and customize these chart types according to your data visualization needs.

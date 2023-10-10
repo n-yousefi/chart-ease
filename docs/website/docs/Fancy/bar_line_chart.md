@@ -61,8 +61,8 @@ function onLinesDraw({ shape, row, index }) {
 }
 ```
 
-<iframe src="/samples/fancy/sample2.html" style={{ width: '550px', height: '450px' }}></iframe>
+<iframe src="/chart-ease/samples/fancy/sample2.html" style={{ width: '550px', height: '450px' }}></iframe>
 
 You can use it with live data:
 
-<iframe src="/samples/fancy/sample2-animated.html" style={{ width: '550px', height: '450px' }}></iframe>
+<iframe src="/chart-ease/samples/fancy/sample2-animated.html" style={{ width: '550px', height: '450px' }}></iframe>

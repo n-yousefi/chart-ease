@@ -128,7 +128,7 @@ In this sample, we demonstrate how you can fully customize the appearance of axe
 
 In the above example, you can clearly see how the `ticks` attribute affects the chart axis.
 
-<iframe src="/samples/axes/complete-sample.html" style={{ width: '700px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/axes/complete-sample.html" style={{ width: '700px', height: '250px' }}></iframe>
 
 ## Sample: Using Different Axis Positions
 
@@ -169,6 +169,6 @@ In this sample, we explore the flexibility of Chart Ease in terms of axis positi
 </chart-ease>
 ```
 
-<iframe src="/samples/axes/axis-position.html" style={{ width: '500px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/axes/axis-position.html" style={{ width: '500px', height: '250px' }}></iframe>
 
 By combining these techniques, you can fully customize the appearance of axes in your Chart Ease charts.

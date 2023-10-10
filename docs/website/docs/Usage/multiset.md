@@ -48,4 +48,4 @@ This code sets data for two data sets in the same chart.
 </script>
 ```
 
-<iframe src="/samples/multi.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/multi.html" style={{ width: '250px', height: '250px' }}></iframe>

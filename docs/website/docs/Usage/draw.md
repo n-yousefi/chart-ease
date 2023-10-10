@@ -53,6 +53,6 @@ dataSet.ondraw = ({ shape, row, index, originalRow }) => {
 dataSet.data = [0.6152156, 0.6152154, 0.6152152, 0.6152153, 0.6152155, 0.6152152, 0.6152157, 0.6152153];
 ```
 
-<iframe src="/samples/markers/labels.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/markers/labels.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 By using the ondraw event, you have complete control over how markers are drawn, opening up possibilities for highly customized and interactive charts.

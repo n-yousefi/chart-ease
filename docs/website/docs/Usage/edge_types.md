@@ -34,7 +34,7 @@ const dataSet = document.querySelector("data-set");
 dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
-<iframe src="/samples/edge-types/path.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/edge-types/path.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 In the example above, we've defined a custom SVG **path** using the `data-drawn-as` attribute equal to **edge**. This creates a line connecting data points, providing a visually engaging way to represent the data.
 
@@ -46,7 +46,7 @@ In Chart Ease, you have precise control over the smoothness of edges in your cus
 <path data-drawn-as="edge" data-smoothing="0.2"></path>
 ```
 
-<iframe src="/samples/edge-types/path-smooth.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/edge-types/path-smooth.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 By modifying the `data-smoothing` attribute with different values, you can fine-tune the appearance of your chart edges. Smaller values result in more angular edges, suitable for emphasizing precise data connections, while larger values create smoothly curved edges, enhancing the overall flow and aesthetics of your custom charts. This feature allows you to strike the perfect balance between aesthetics and data representation in your Chart Ease creations.
 
@@ -67,6 +67,6 @@ const dataSet = document.querySelector("data-set");
 dataSet.data = [6, 4, 0, 3, 5, 2, 7, 3];
 ```
 
-<iframe src="/samples/edge-types/polyline.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/edge-types/polyline.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 In this example, we've used the **polyline** type to connect data points with straight line segments. You can adjust the stroke attribute and other styling properties to customize the appearance of the **polyline**.

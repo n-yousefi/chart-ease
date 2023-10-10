@@ -64,7 +64,7 @@ dataSet.data = [
 ];
 ```
 
-<iframe src="/samples/animation/css.html" style={{ width: '500px', height: '150px' }}></iframe>
+<iframe src="/chart-ease/samples/animation/css.html" style={{ width: '500px', height: '150px' }}></iframe>
 
 In this example, we're animating the drawing of the Line Chart to simulate _ECG pulse line_. The **stroke-dasharray** and **stroke-dashoffset** properties control the animation effect. You can adjust the animation duration and timing function to achieve the desired effect.
 
@@ -105,6 +105,6 @@ setInterval(() => {
 }, 500);
 ```
 
-<iframe src="/samples/animation/live-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/animation/live-line-chart.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 In this example, we're updating the data and redrawing the Line Chart every .5 seconds. This creates a dynamic and continuously updating chart.

@@ -65,7 +65,7 @@ dataSet.data = [
 ];
 ```
 
-<iframe src="/samples/chart-types/candlestick.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/chart-types/candlestick.html" style={{ width: '250px', height: '250px' }}></iframe>
 
 You can use axes for labeling points price values and understanding the scale of your chart.
 
@@ -124,4 +124,4 @@ dataSet.data = [
 ];
 ```
 
-<iframe src="/samples/axes/candlestick-axes.html" style={{ width: '250px', height: '250px' }}></iframe>
+<iframe src="/chart-ease/samples/axes/candlestick-axes.html" style={{ width: '250px', height: '250px' }}></iframe>
