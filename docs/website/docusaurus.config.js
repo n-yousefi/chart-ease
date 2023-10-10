@@ -43,7 +43,9 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/n-yousefi/chart-ease",
+          routeBasePath: "/",
         },
+        blog: false,
         // blog: {
         //   showReadingTime: true,
         //   // Please change this to your repo.
@@ -69,12 +71,12 @@ const config = {
           src: "img/logo.svg",
         },
         items: [
-          {
-            type: "docSidebar",
-            sidebarId: "tutorialSidebar",
-            position: "left",
-            label: "Tutorial",
-          },
+          // {
+          //   type: "docSidebar",
+          //   sidebarId: "tutorialSidebar",
+          //   position: "left",
+          //   label: "Tutorial",
+          // },
           // { to: "/blog", label: "Blog", position: "left" },
           {
             href: "https://github.com/n-yousefi/chart-ease",
@@ -99,16 +101,8 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
-              },
-              {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
-              },
-              {
-                label: "Twitter",
-                href: "https://twitter.com/docusaurus",
+                label: "Coming soon",
+                href: "#",
               },
             ],
           },
