@@ -71,12 +71,12 @@ const config = {
           src: "img/logo.svg",
         },
         items: [
-          // {
-          //   type: "docSidebar",
-          //   sidebarId: "tutorialSidebar",
-          //   position: "left",
-          //   label: "Tutorial",
-          // },
+          {
+            type: "docSidebar",
+            sidebarId: "tutorialSidebar",
+            position: "left",
+            label: "Tutorial",
+          },
           // { to: "/blog", label: "Blog", position: "left" },
           {
             href: "https://github.com/n-yousefi/chart-ease",
@@ -93,7 +93,7 @@ const config = {
             items: [
               {
                 label: "Tutorial",
-                to: "/docs/intro",
+                to: "/intro",
               },
             ],
           },
@@ -120,7 +120,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Chart Ease.`,
       },
       prism: {
         theme: lightCodeTheme,
