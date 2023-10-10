@@ -1,10 +1,10 @@
 # `<chart-ease>`
 
-## Customizable and high-performance web component to draw static charts.
+## A Customizable and High-Performance Web Component for Crafting Stunning Charts
 
 <img align="left" width="100" height="100" src="./docs/images/bar-chart.svg" alt="chart-ease" width="200" />
 
-chart-ease is a lightweight and highly customizable web component designed for creating small and precise charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex scatterplot, chart-ease makes it easy to build and display your data in a clear and meaningful way.
+Chart Ease is a versatile web component that simplifies the creation of custom charts and graphs. With just a few lines of HTML and JavaScript, users can design and customize various chart types, from basic bar charts to intricate candlestick charts, all while having complete control over their appearance. This highly customizable tool offers developers and designers a straightforward way to visualize data across different web technologies, ensuring consistency and flexibility in charting solutions. Whether you're a novice or an experienced developer, Chart Ease empowers you to effortlessly craft beautiful and interactive charts for your projects.
 
 ## Documentation
 
