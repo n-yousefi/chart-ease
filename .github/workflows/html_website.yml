@@ -30,13 +30,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm i
+        working-directory: ./docs/website
+
+      - name: Build website
+        run: npm run build
+        working-directory: ./docs/website
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+
         with:
           # Upload entire repository
           path: "./docs/website/build"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
