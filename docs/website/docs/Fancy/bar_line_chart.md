@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Bar Line Chart"
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 # Bar Line Chart

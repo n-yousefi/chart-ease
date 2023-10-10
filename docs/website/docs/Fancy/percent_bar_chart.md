@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Percent Bar Chart"
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 # Percent Bar Chart

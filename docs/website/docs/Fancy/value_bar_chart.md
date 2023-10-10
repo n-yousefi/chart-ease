@@ -1,6 +1,6 @@
 ---
 sidebar_label: "Value Bar Chart"
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Value Bar Chart

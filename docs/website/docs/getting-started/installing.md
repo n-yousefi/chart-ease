@@ -16,9 +16,9 @@ npm install chart-ease
 ### Using cdn
 
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/chart-ease/dist/chart-ease.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart-ease@1.0.0-beta.2/dist/chart-ease.min.js"></script>
 ```
 
 ```javascript
-<script src="https://unpkg.com/chart-ease/dist/chart-ease.min.js"></script>
+<script src="https://unpkg.com/chart-ease@1.0.0-beta.2/dist/chart-ease.min.js"></script>
 ```
