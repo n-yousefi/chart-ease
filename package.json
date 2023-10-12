@@ -1,6 +1,6 @@
 {
   "name": "chart-ease",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta",
   "private": false,
   "summery": "<chart-ease> is a lightweight and highly customizable web component designed for creating small and precise charts. With its ability to normalize data from any range to a specified size, chart-ease makes it easier than ever to represent data in an elegant and effective way. Whether you're creating a simple line graph or a complex bar chart, chart-ease makes it easy to build and display your data in a clear and meaningful way. It leverages Scalable Vector Graphics (SVG) technology to render charts, ensuring optimal performance and high customization for various use cases.",
   "author": "Naser Yousefi",
