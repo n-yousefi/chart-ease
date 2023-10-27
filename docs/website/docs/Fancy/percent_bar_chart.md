@@ -11,7 +11,7 @@ sidebar_position: 2
     <rect name="shaddow" fill="#fafafa" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
     <rect fill="#1D46D6" rx="30" style="clip-path: inset(30px 0px 0px 0)"></rect>
     <text name="value" fill="white" font-size="20" font-family="tahoma"></text>
-    <text name="labels" fill="#1D46D6" font-size="20" font-family="tahoma"></text>
+    <text name="labels" fill="#666" font-size="20" font-family="tahoma"></text>
   </data-set>
   <left-axis ticks="6" min="0" max="80"></left-axis>
 </chart-ease>
